@@ -1,6 +1,5 @@
-import Navbar from "./Navbar";
-import Z from "./Z";
+import Navbar from './Navbar'
+import AdminMenu from './AdminMenu'
+import NewBook from './NewBook'
 
-
-
-export {Navbar}
+export { Navbar, AdminMenu, NewBook }
