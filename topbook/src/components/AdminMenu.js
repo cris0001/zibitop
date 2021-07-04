@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   min-height: 100vh;
   background-color: #0a1d37;
   position: absolute;
+  flex: 1;
 `
 
 export default AdminMenu
