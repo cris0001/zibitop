@@ -1,13 +1,13 @@
 import React from 'react'
-import Nabvar from '../components/Navbar'
-
+import { Navbar, Hero } from '../components'
 
 const Home = () => {
-    return (
-        <div>
-            <Nabvar/>
-        </div>
-    )
+  return (
+    <div>
+      <Navbar />
+      <Hero />
+    </div>
+  )
 }
 
 export default Home
