@@ -59,9 +59,21 @@ const Wrapper = styled.section`
     padding: 0.25rem 0;
   }
 
+  @media (max-width: 440px) {
+    h1 {
+      font-size: 2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+    }
+    .btn {
+      width: 100%;
+    }
+  }
+
   @media (min-width: 800px) {
     h1 {
-      font-size: 2.24rem;
+      font-size: 2.4rem;
     }
 
     h2 {
@@ -91,7 +103,7 @@ const Wrapper = styled.section`
       width: 425px;
     }
     .text {
-      padding: 6rem 0 2rem 0;
+      padding: 3rem 0 0 0;
       text-align: right;
     }
 
@@ -125,10 +137,11 @@ const Wrapper = styled.section`
       padding: 0.3rem;
       font-size: 1.25rem;
       margin-top: 1rem;
+      width: 68%;
     }
 
     .text {
-      padding: 6rem 0 12rem 0;
+      padding: 3.4rem 0 0 0;
       color: var(--main);
       text-align: right;
     }
