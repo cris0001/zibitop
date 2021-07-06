@@ -33,7 +33,7 @@ const Admin = () => {
           <FaBars />
         </button>
       )}
-      <AdminAddBook />
+      <AdminBooksList />
     </Wrapper>
   )
 }

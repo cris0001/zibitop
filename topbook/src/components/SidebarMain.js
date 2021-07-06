@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
+import { links } from '../utils/constans'
 
 const SidebarMain = ({ isOpen, closePanel }) => {
+  const [isAuth, setIsAuth] = useState(true)
   return (
     <Wrapper>
       <aside className={`${isOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
@@ -14,6 +17,21 @@ const SidebarMain = ({ isOpen, closePanel }) => {
             <FaTimes />
           </button>
         </div>
+        <nav className='links'>
+          <ul>
+            {links.map((link) => {
+              const { id, text, icon, url } = link
+              return (
+                <li key={id} className='flex'>
+                  <Link to={url}>
+                    <div className='icon'>{icon}</div>
+                    <div className='text'>{text}</div>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
       </aside>
     </Wrapper>
   )
@@ -26,7 +44,20 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 2.8rem 2.5rem;
+  }
+
+  .links {
+  }
+
+  svg {
+    font-size: 2rem;
+  }
+
+  ul {
+    text-decoration: none;
+    list-style: none;
+    text-align: center;
   }
 
   .sidebar {
@@ -43,6 +74,17 @@ const Wrapper = styled.div`
   }
   .show-sidebar {
     transform: translate(0);
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+  h2 {
+    color: white;
+  }
+  .text {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .close-btn {

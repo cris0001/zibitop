@@ -3,6 +3,7 @@
   --bcgDark: #f3f5f6;
   --bcgLight: #f7f8f9;
   --bcgLight2: #f5f7f8;
+  --input: #ededed;
 }
 
 ::after,
@@ -31,6 +32,11 @@ body {
   width: 90vw;
   margin: 0 auto;
   max-width: 1113px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
 }
 
 h1,

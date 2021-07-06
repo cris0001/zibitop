@@ -1,18 +1,93 @@
+import {
+  FaHome,
+  FaBookOpen,
+  FaPlusSquare,
+  FaListAlt,
+  FaQuestion,
+  FaSignOutAlt,
+} from 'react-icons/fa'
+import AddBook from '../pages/AddBook'
+import { AdminRequest, AdminBooksList, AdminAddBook } from '../components'
+
 export const links = [
   {
     id: 1,
-    text: 'home',
+    text: 'strona główna',
     url: '/',
+    icon: <FaPlusSquare />,
   },
+
   {
     id: 2,
-    text: 'about',
-    url: '/about',
+    text: 'książki',
+    url: '/books',
+    icon: <FaBookOpen />,
   },
   {
     id: 3,
-    text: 'products',
-    url: '/products',
+    text: 'nowa książka',
+    url: '/add',
+    icon: <FaPlusSquare />,
+  },
+]
+
+export const list = [
+  {
+    id: 1,
+    isbn: '123123123',
+    title: '102 metry',
+    author: 'Adam Małysz',
+    addedBy: 'jane@ahonen.com',
+  },
+  {
+    id: 2,
+    isbn: '123123123',
+    title: '102 metry',
+    author: 'Adam Małysz',
+    addedBy: 'jane@ahonen.com',
+  },
+  {
+    id: 3,
+    isbn: '123123123',
+    title: '102 metry',
+    author: 'Adam Małysz',
+    addedBy: 'jane@ahonen.com',
+  },
+]
+
+export const admin = [
+  {
+    id: 1,
+    text: 'dodaj książkę',
+    url: '/admin',
+    icon: <FaPlusSquare />,
+  },
+  {
+    id: 2,
+    text: 'lista książek',
+    url: '/admin/list',
+    icon: <FaListAlt />,
+  },
+  {
+    id: 3,
+    text: 'prośby użytkowników',
+    url: '/admin/request',
+    icon: <FaQuestion />,
+  },
+]
+
+export const login = [
+  {
+    id: 1,
+    text: 'wyloguj',
+    url: '/',
+    icon: <FaSignOutAlt />,
+  },
+  {
+    id: 2,
+    text: 'strona główna',
+    url: '/',
+    icon: <FaHome />,
   },
 ]
 

@@ -5,5 +5,23 @@ import Sidebar from './Sidebar'
 import SidebarMain from './SidebarMain'
 import Hero from './Hero'
 import MainBooks from './MainBooks'
+import MainMap from './MainMap'
+import Footer from './Footer'
+import AdminAddBook from './AdminAddBook'
+import AdminBooksList from './AdminBooksList'
+import AdminRequest from './AdminRequest'
 
-export { Navbar, AdminMenu, NewBook, Sidebar, SidebarMain, Hero, MainBooks }
+export {
+  Navbar,
+  AdminRequest,
+  AdminMenu,
+  AdminBooksList,
+  AdminAddBook,
+  NewBook,
+  Sidebar,
+  SidebarMain,
+  Hero,
+  MainBooks,
+  MainMap,
+  Footer,
+}

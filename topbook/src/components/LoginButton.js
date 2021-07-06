@@ -1,10 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const LoginButton = () => {
   return (
     <Wrapper className='login-btn'>
-      <h2>zaloguj</h2>
+      <Link to='/login'>
+        {' '}
+        <h2>zaloguj</h2>
+      </Link>
     </Wrapper>
   )
 }

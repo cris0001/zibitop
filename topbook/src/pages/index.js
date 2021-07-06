@@ -5,5 +5,17 @@ import Login from './Login'
 import Reg from './Reg'
 import SingleBook from './SingleBook'
 import Admin from './Admin'
+import AdminList from './AdminList'
+import AdminRequest from './AdminRequest'
 
-export { Books, Error, Home, Login, Reg, SingleBook, Admin }
+export {
+  Books,
+  Error,
+  Home,
+  Login,
+  AdminList,
+  AdminRequest,
+  Reg,
+  SingleBook,
+  Admin,
+}
