@@ -34,14 +34,13 @@ const SearchBook = () => {
 }
 
 const Wrapper = styled.div`
-  height: 80vh;
-
+  min-height: 100vh;
   .search {
     padding: 5rem 0;
     text-align: center;
   }
   input {
-    width: 80%;
+    width: 330px;
     border: none;
     background: #e6e7eb;
 
@@ -53,7 +52,7 @@ const Wrapper = styled.div`
 
   .btn {
     margin-top: 2em;
-    width: 100%;
+    width: 330px;
     background: #0a1d37;
     color: white;
     border-radius: 10px;

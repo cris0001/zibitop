@@ -1,34 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { books } from '../utils/constans'
 
-const MainBooks = () => {
+const BooksList = () => {
   return (
     <Wrapper className='section'>
       <div className='section-center'>
-        <h1>Dostępne egzemplarze</h1>
+        <input type='text' placeholder='wyszukaj' />
         <div className='content flex'>
-          {books
-            .map((book) => {
-              const { id, title, author, img } = book
-              return (
-                <article className='item' key={id}>
-                  <div className='img'>
-                    <img src={img} alt='' />
-                  </div>
-                  <div className='info'>
-                    <p>{title}</p>
-                    <p>{author}</p>
-                  </div>
-                </article>
-              )
-            })
-            .slice(0, 4)}
+          {books.map((book) => {
+            const { id, title, author, img } = book
+            return (
+              <article className='item' key={id}>
+                <div className='img'>
+                  <img src={img} alt='' />
+                </div>
+                <div className='info'>
+                  <p>{title}</p>
+                  <p>{author}</p>
+                </div>
+              </article>
+            )
+          })}
         </div>
-        <div className='btn'>
-          <Link to='/books'>Pokaż wszystkie książki</Link>
-        </div>
+        <div className='btn'></div>
       </div>
     </Wrapper>
   )
@@ -38,7 +33,19 @@ const Wrapper = styled.section`
   min-height: 40vh;
   padding-bottom: 5rem;
 
-  background: var(--bcgDark);
+  input {
+    width: 330px;
+    border: none;
+    background: var(--bcgDark);
+    color: var(--main);
+    height: 2.5rem;
+    padding: 0 0 0 1rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+
+  background: var(--bcgLight);
   .flex {
     display: grid;
     grid-template-columns: auto;
@@ -53,7 +60,7 @@ const Wrapper = styled.section`
     align-items: center;
   }
 
-  a {
+  button {
     width: auto;
     background: #0a1d37;
     color: white;
@@ -138,4 +145,4 @@ const Wrapper = styled.section`
   }
 `
 
-export default MainBooks
+export default BooksList

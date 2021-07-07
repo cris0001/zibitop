@@ -11,6 +11,9 @@ import {
   Admin,
   AdminRequest,
   AdminList,
+  User,
+  UserRequests,
+  UserIncRequests,
 } from './pages'
 import SearchBook from './pages/SearchBook'
 import AddBook from './pages/AddBook'
@@ -43,12 +46,21 @@ function App() {
         <Route exact path='/admin/request'>
           <AdminRequest />
         </Route>
+        <Route exact path='/user'>
+          <User />
+        </Route>
+        <Route exact path='/user/inc'>
+          <UserIncRequests />
+        </Route>
+        <Route exact path='/user/request'>
+          <UserRequests />
+        </Route>
         <Route exact path='/searchbook'>
           <SearchBook />
         </Route>
-        <Route exact path='/book/:id'>
+        {/* <Route exact path='/book/:id'>
           <Books />
-        </Route>
+        </Route> */}
         <Route exact path='/single'>
           <SingleBook />
         </Route>

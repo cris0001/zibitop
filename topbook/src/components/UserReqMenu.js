@@ -1,31 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { list } from '../utils/constans'
-import { FaTrash, FaPlusCircle } from 'react-icons/fa'
 
-const AdminRequest = () => {
+import Modal from './Modal'
+
+const UserReqMenu = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    console.log('close')
+  }
+
   return (
     <Wrapper className='section section-center'>
+      <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
         {list.map((item) => {
-          const { isbn, title, author, id } = item
+          const { title, author, id, status } = item
           return (
             <div key={id}>
               <div className='item' key={id}>
                 <div className='info'>
-                  <p>ISBN:</p>
                   <p>Tytuł:</p>
                   <p>Autor:</p>
                 </div>
                 <div className='text'>
-                  <p>{isbn}</p>
                   <p>{title}</p>
                   <p>{author}</p>
                 </div>
 
-                <div className='icons'>
-                  <FaTrash className='red' />
-                  <FaPlusCircle className='green' />
+                <div
+                  className={
+                    status === 'odrzucona' ? 'status red' : 'status green'
+                  }
+                >
+                  {status}
                 </div>
                 <br />
               </div>
@@ -39,6 +49,28 @@ const AdminRequest = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
+
+  .status {
+    font-weight: bold;
+  }
+  .red {
+    color: red;
+  }
+  .green {
+    color: lightgreen;
+  }
+  button {
+    border: none;
+    border: 5px;
+    padding: 0.1rem 0.5rem;
+    font-size: 1rem;
+  }
+  .accept {
+    background: #52e361;
+  }
+  .decline {
+    background: #ee2727;
+  }
 
   .item {
     display: grid;
@@ -103,12 +135,23 @@ const Wrapper = styled.div`
       font-size: 1.75rem;
     }
   }
+
+  @media (min-width: 600px) {
+    button {
+      font-size: 1.5rem;
+    }
+  }
+
   @media (min-width: 905px) {
     .item {
       display: grid;
       grid-template-columns: auto auto auto;
       margin-top: 2rem;
       justify-content: space-between;
+    }
+    .status {
+      font-weight: bold;
+      font-size: 1.5rem;
     }
 
     .icons {
@@ -128,4 +171,4 @@ const Wrapper = styled.div`
   }
 `
 
-export default AdminRequest
+export default UserReqMenu

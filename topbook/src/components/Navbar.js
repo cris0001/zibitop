@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FaTimes } from 'react-icons/fa'
+
 import { FaBars } from 'react-icons/fa'
 import SidebarMain from './SidebarMain'
 import LoginButton from './LoginButton'
@@ -25,7 +25,9 @@ const Navbar = () => {
       <div className='nav-center'>
         <div className='nav-header'>
           <div className='logo'>
-            <h1>TopBook</h1>
+            <Link to='/'>
+              <h1>TopBook</h1>
+            </Link>
           </div>
 
           <button onClick={openPanel} className='nav-toggle' type='button'>
@@ -119,7 +121,7 @@ const Wrapper = styled.nav`
       }
 
       a {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         text-decoration: none;
         color: var(--main);
       }

@@ -5,9 +5,9 @@ import {
   FaListAlt,
   FaQuestion,
   FaSignOutAlt,
+  FaArrowLeft,
+  FaArrowRight,
 } from 'react-icons/fa'
-import AddBook from '../pages/AddBook'
-import { AdminRequest, AdminBooksList, AdminAddBook } from '../components'
 
 export const links = [
   {
@@ -26,7 +26,7 @@ export const links = [
   {
     id: 3,
     text: 'nowa książka',
-    url: '/add',
+    url: '/searchbook',
     icon: <FaPlusSquare />,
   },
 ]
@@ -36,22 +36,28 @@ export const list = [
     id: 1,
     isbn: '123123123',
     title: '102 metry',
+    date: '11.11.2011',
     author: 'Adam Małysz',
     addedBy: 'jane@ahonen.com',
+    status: 'odrzucona',
   },
   {
     id: 2,
     isbn: '123123123',
+    date: '11.11.2011',
     title: '102 metry',
     author: 'Adam Małysz',
     addedBy: 'jane@ahonen.com',
+    status: 'odrzucona',
   },
   {
     id: 3,
     isbn: '123123123',
     title: '102 metry',
+    date: '11.11.2011',
     author: 'Adam Małysz',
     addedBy: 'jane@ahonen.com',
+    status: 'zaakceptowana',
   },
 ]
 
@@ -76,6 +82,27 @@ export const admin = [
   },
 ]
 
+export const user = [
+  {
+    id: 1,
+    text: 'moje książki',
+    url: '/user',
+    icon: <FaListAlt />,
+  },
+  {
+    id: 2,
+    text: 'wysłane prośby',
+    url: '/user/request',
+    icon: <FaArrowRight />,
+  },
+  {
+    id: 3,
+    text: 'otrzymane prośby',
+    url: '/user/inc',
+    icon: <FaArrowLeft />,
+  },
+]
+
 export const login = [
   {
     id: 1,
@@ -94,26 +121,50 @@ export const login = [
 export const books = [
   {
     id: 1,
-    title: 'sadad',
-    author: '/dadasda',
+    title: '102 metry',
+    author: 'Adam Małysz',
     img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
   },
   {
     id: 2,
-    title: 'sdasd',
-    author: '/asdasdasd',
+    title: '102 metry',
+    author: 'Adam Małysz',
     img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
   },
   {
     id: 3,
-    title: 'asdsad',
-    author: 'dasd/',
+    title: '102 metry',
+    author: 'Adam Małysz',
     img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
   },
   {
     id: 4,
-    title: 'asdasd',
-    author: 'asdasd/',
+    title: '102 metry',
+    author: 'Adam Małysz',
+    img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+  },
+  {
+    id: 5,
+    title: '102 metry',
+    author: 'Adam Małysz',
+    img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+  },
+  {
+    id: 6,
+    title: '102 metry',
+    author: 'Adam Małysz',
+    img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+  },
+  {
+    id: 7,
+    title: '102 metry',
+    author: 'Adam Małysz',
+    img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+  },
+  {
+    id: 8,
+    title: '102 metry',
+    author: 'Adam Małysz',
     img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
   },
 ]

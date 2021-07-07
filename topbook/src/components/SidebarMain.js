@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constans'
 
 const SidebarMain = ({ isOpen, closePanel }) => {
-  const [isAuth, setIsAuth] = useState(true)
   return (
     <Wrapper>
       <aside className={`${isOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
@@ -48,6 +47,10 @@ const Wrapper = styled.div`
   }
 
   .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
 
   svg {

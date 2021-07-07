@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Sidebar, AdminRequest } from '../components'
+import {
+  AdminMenu,
+  NewBook,
+  Sidebar,
+  AdminAddBook,
+  AdminRequest,
+  AdminBooksList,
+} from '../components'
 import { FaBars } from 'react-icons/fa'
 
-const Admin = () => {
+const AdminSidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const openSidebar = () => {
@@ -26,7 +33,6 @@ const Admin = () => {
           <FaBars />
         </button>
       )}
-      <AdminRequest />
     </Wrapper>
   )
 }
@@ -42,4 +48,4 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
 `
-export default Admin
+export default AdminSidebar

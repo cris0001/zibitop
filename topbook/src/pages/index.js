@@ -7,10 +7,15 @@ import SingleBook from './SingleBook'
 import Admin from './Admin'
 import AdminList from './AdminList'
 import AdminRequest from './AdminRequest'
+import User from './User'
+import UserRequests from './UserRequests'
+import UserIncRequests from './UserIncRequests'
 
 export {
   Books,
   Error,
+  UserRequests,
+  UserIncRequests,
   Home,
   Login,
   AdminList,
@@ -18,4 +23,5 @@ export {
   Reg,
   SingleBook,
   Admin,
+  User,
 }

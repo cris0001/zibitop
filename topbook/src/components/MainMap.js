@@ -21,11 +21,11 @@ const MainMap = () => {
 }
 
 const Wrapper = styled.div`
-  height: 50vh;
   margin-top: 3rem;
   .grid {
     display: grid;
     grid-template-columns: 1fr auto;
+    margin-bottom: 2rem;
   }
 
   h2 {
@@ -70,6 +70,7 @@ const Wrapper = styled.div`
     .grid {
       display: grid;
       grid-template-columns: 1fr auto;
+      margin-bottom: 3rem;
     }
     .photo {
       display: grid;

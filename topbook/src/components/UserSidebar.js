@@ -2,29 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
-import { admin, login } from '../utils/constans'
+import { user, login } from '../utils/constans'
 
-const Sidebar = ({ closeSidebar, isSidebarOpen }) => {
-  console.log(isSidebarOpen)
-
+const UserSidebar = ({ closeS, open }) => {
   return (
     <Wrapper>
-      <aside
-        className={`${isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}
-      >
+      <aside className={`${open ? 'sidebar show-sidebar' : 'sidebar'}`}>
         <div className='sidebar-header'>
-          <button className='close-btn' onClick={closeSidebar}>
+          <button className='close-btn' onClick={closeS}>
             <FaTimes />
           </button>
         </div>
 
         <div>
-          {admin.map((item) => {
+          {user.map((item) => {
             const { id, url, text, icon } = item
 
             return (
               <div key={id} className='links'>
-                <Link className='item' to={url}>
+                <Link onClick={closeS} className='item' to={url}>
                   <div className='icon'>{icon}</div>
                   <div className='text'>{text}</div>
                 </Link>
@@ -119,4 +115,4 @@ const Wrapper = styled.div`
   }
 `
 
-export default Sidebar
+export default UserSidebar

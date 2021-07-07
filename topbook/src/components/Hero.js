@@ -99,8 +99,8 @@ const Wrapper = styled.section`
     }
 
     img {
-      height: 425px;
-      width: 425px;
+      height: 400px;
+      width: 400px;
     }
     .text {
       padding: 3rem 0 0 0;

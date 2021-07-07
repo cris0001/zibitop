@@ -4,7 +4,7 @@ import { list } from '../utils/constans'
 import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
 
-const AdminBooksList = () => {
+const UserBooksMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
@@ -22,8 +22,8 @@ const AdminBooksList = () => {
         return (
           <div key={item.id} className='content'>
             <div className='grid'>
-              <h2>ISBN:</h2>
-              <h2>{item.isbn}</h2>
+              <h2>ISBN: {item.isbn}</h2>
+              <h2>Data: {item.date}</h2>
               <div className='icon'>
                 <button className='open-btn' onClick={openModal}>
                   <FaEye />
@@ -82,4 +82,4 @@ const Wrapper = styled.div`
   }
 `
 
-export default AdminBooksList
+export default UserBooksMenu

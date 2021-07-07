@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { list } from '../utils/constans'
-import { FaTrash, FaPlusCircle } from 'react-icons/fa'
 
-const AdminRequest = () => {
+import Modal from './Modal'
+
+const UserIncMenu = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    console.log('close')
+  }
+
   return (
     <Wrapper className='section section-center'>
+      <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
         {list.map((item) => {
-          const { isbn, title, author, id } = item
+          const { isbn, title, author, id, date } = item
           return (
             <div key={id}>
               <div className='item' key={id}>
@@ -16,16 +25,18 @@ const AdminRequest = () => {
                   <p>ISBN:</p>
                   <p>Tytuł:</p>
                   <p>Autor:</p>
+                  <p>Data:</p>
                 </div>
                 <div className='text'>
                   <p>{isbn}</p>
                   <p>{title}</p>
                   <p>{author}</p>
+                  <p>{date}</p>
                 </div>
 
-                <div className='icons'>
-                  <FaTrash className='red' />
-                  <FaPlusCircle className='green' />
+                <div className='buttons'>
+                  <button className='accept'>akceptuj</button>
+                  <button className='decline'>odrzuć</button>
                 </div>
                 <br />
               </div>
@@ -39,6 +50,19 @@ const AdminRequest = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
+
+  button {
+    border: none;
+    border: 5px;
+    padding: 0.1rem 0.5rem;
+    font-size: 1rem;
+  }
+  .accept {
+    background: #52e361;
+  }
+  .decline {
+    background: #ee2727;
+  }
 
   .item {
     display: grid;
@@ -103,6 +127,13 @@ const Wrapper = styled.div`
       font-size: 1.75rem;
     }
   }
+
+  @media (min-width: 600px) {
+    button {
+      font-size: 1.5rem;
+    }
+  }
+
   @media (min-width: 905px) {
     .item {
       display: grid;
@@ -128,4 +159,4 @@ const Wrapper = styled.div`
   }
 `
 
-export default AdminRequest
+export default UserIncMenu

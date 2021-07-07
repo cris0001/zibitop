@@ -1,13 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {
-  AdminMenu,
-  NewBook,
-  Sidebar,
-  AdminAddBook,
-  AdminRequest,
-  AdminBooksList,
-} from '../components'
+import { Sidebar, AdminAddBook } from '../components'
 import { FaBars } from 'react-icons/fa'
 
 const Admin = () => {

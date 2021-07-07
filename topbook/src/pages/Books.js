@@ -1,11 +1,14 @@
 import React from 'react'
+import { Navbar, Footer, BooksList } from '../components'
 
 const Books = () => {
-    return (
-        <div>
-            book
-        </div>
-    )
+  return (
+    <div>
+      <Navbar />
+      <BooksList />
+      <Footer />
+    </div>
+  )
 }
 
 export default Books

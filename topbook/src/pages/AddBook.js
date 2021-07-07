@@ -46,6 +46,7 @@ const AddBook = () => {
 }
 
 const Wrapper = styled.section`
+  min-height: 100vh;
   .grid {
     display: grid;
     grid-template-columns: 1fr;

@@ -10,9 +10,19 @@ import Footer from './Footer'
 import AdminAddBook from './AdminAddBook'
 import AdminBooksList from './AdminBooksList'
 import AdminRequest from './AdminRequest'
+import BooksList from './BooksList'
+import UserSidebar from './UserSidebar'
+import UserBooksMenu from './UserBooksMenu'
+import UserReqMenu from './UserReqMenu'
+import UserIncMenu from './UserIncMenu'
 
 export {
   Navbar,
+  UserIncMenu,
+  BooksList,
+  UserBooksMenu,
+  UserReqMenu,
+  UserSidebar,
   AdminRequest,
   AdminMenu,
   AdminBooksList,
