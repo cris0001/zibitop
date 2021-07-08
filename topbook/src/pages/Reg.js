@@ -1,8 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
+import { AuthContext } from '../context/AuthContext'
 
-const Login = () => {
+const Reg = () => {
+  const {
+    password,
+    email,
+    handleSignup,
+    checkEmail,
+    checkPassword,
+    setEmail,
+    setPassword,
+  } = useContext(AuthContext)
+  // const handleSignUp = useCallback(
+  //   async (event) => {
+  //     event.preventDefault()
+  //     const { email, password } = event.target.elements
+  //     try {
+  //       await app
+  //         .auth()
+  //         .createUserWithEmailAndPassword(email.value, password.value)
+  //       history.push('/')
+  //     } catch (error) {
+  //       alert(error)
+  //     }
+  //   },
+  //   [history]
+  // )
+
   return (
     <Wrapper>
       <div className='content'>
@@ -11,17 +37,33 @@ const Login = () => {
             <h1>Załóż konto</h1>
             <div className='input'>
               <p>nazwa użytkownika:</p>
-              <input type='text' />
+              <input
+                type='email'
+                name='email'
+                autoFocus
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <p className='err'>{checkEmail}</p>
             </div>
             <div className='input'>
               <p>hasło:</p>
-              <input type='password' />
+              <input
+                type='password'
+                name='password'
+                autoFocus
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
-            <div className='input'>
+            <p className='err'>{checkPassword}</p>
+            {/* <div className='input'>
               <p>powtórz hasło:</p>
               <input type='password' />
-            </div>
-            <button>Zarejestruj</button>
+            </div> */}
+            <button onClick={handleSignup}>Zarejestruj</button>
           </div>
         </div>
       </div>
@@ -38,6 +80,11 @@ const Wrapper = styled.div`
   background-position: center;
   background-attachment: fixed;
 
+  .err {
+    color: red;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
   button {
     width: 100%;
     background: #0a1d37;
@@ -63,7 +110,7 @@ const Wrapper = styled.div`
     opacity: 0.3;
     height: 2.5rem;
     border-radius: 10px;
-    margin-bottom: 2rem;
+    //margin-bottom: 2rem;
   }
 
   .input {
@@ -124,7 +171,6 @@ const Wrapper = styled.div`
       opacity: 0.3;
       height: 3.3125rem;
       border-radius: 10px;
-      margin-bottom: 2rem;
     }
 
     h1 {
@@ -184,7 +230,6 @@ const Wrapper = styled.div`
       opacity: 0.3;
       height: 3.3125rem;
       border-radius: 10px;
-      margin-bottom: 2rem;
     }
 
     .input {
@@ -220,4 +265,4 @@ const Wrapper = styled.div`
   }
 `
 
-export default Login
+export default Reg

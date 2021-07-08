@@ -17,58 +17,31 @@ import {
 } from './pages'
 import SearchBook from './pages/SearchBook'
 import AddBook from './pages/AddBook'
+import { AuthProvider } from './context/AuthContext'
+import PrivateRoute from './PrivateRoute'
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route exact path='/login'>
-          <Login />
-        </Route>
-        <Route exact path='/add'>
-          <AddBook />
-        </Route>
-        <Route exact path='/reg'>
-          <Reg />
-        </Route>
-        <Route exact path='/books'>
-          <Books />
-        </Route>
-        <Route exact path='/admin'>
-          <Admin />
-        </Route>
-        <Route exact path='/admin/list'>
-          <AdminList />
-        </Route>
-        <Route exact path='/admin/request'>
-          <AdminRequest />
-        </Route>
-        <Route exact path='/user'>
-          <User />
-        </Route>
-        <Route exact path='/user/inc'>
-          <UserIncRequests />
-        </Route>
-        <Route exact path='/user/request'>
-          <UserRequests />
-        </Route>
-        <Route exact path='/searchbook'>
-          <SearchBook />
-        </Route>
-        {/* <Route exact path='/book/:id'>
-          <Books />
-        </Route> */}
-        <Route exact path='/single'>
-          <SingleBook />
-        </Route>
-        <Route path='*'>
-          <Error />
-        </Route>
-      </Switch>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/add' component={AddBook} />
+          <Route exact path='/reg' component={Reg} />
+          <Route exact path='/books' component={Books} />
+          <Route exact path='/admin' component={Admin} />
+          <Route exact path='/admin/list' component={AdminList} />
+          <Route exact path='/admin/request' component={AdminRequest} />
+          <Route path='/user*' component={User} />
+          <Route path='/user/inc' component={UserIncRequests} />
+          <Route path='/user/request' component={UserRequests} />
+          <Route exact path='/searchbook' component={SearchBook} />
+          <Route exact path='/single' component={SingleBook} />
+          <Route path='*' component={Error} />
+        </Switch>
+      </Router>
+    </AuthProvider>
   )
 }
 
