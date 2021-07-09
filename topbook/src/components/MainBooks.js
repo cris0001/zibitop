@@ -1,28 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { books } from '../utils/constans'
+import { BooksContext } from '../context/BooksContext'
+import Book from './Book'
 
 const MainBooks = () => {
+  const { allBooks } = useContext(BooksContext)
   return (
     <Wrapper className='section'>
       <div className='section-center'>
         <h1>Dostępne egzemplarze</h1>
         <div className='content flex'>
-          {books
+          {allBooks
             .map((book) => {
-              const { id, title, author, img } = book
-              return (
-                <article className='item' key={id}>
-                  <div className='img'>
-                    <img src={img} alt='' />
-                  </div>
-                  <div className='info'>
-                    <p>{title}</p>
-                    <p>{author}</p>
-                  </div>
-                </article>
-              )
+              return <Book key={book.id} {...book} />
             })
             .slice(0, 4)}
         </div>
@@ -115,7 +107,7 @@ const Wrapper = styled.section`
 
   @media (min-width: 1170px) {
     .flex {
-      grid-template-columns: auto auto;
+      grid-template-columns: auto auto auto auto;
     }
     .content {
       margin: 0 5rem;
@@ -126,10 +118,6 @@ const Wrapper = styled.section`
     }
 
     @media (min-width: 1170px) {
-      .flex {
-        grid-template-columns: auto auto auto auto;
-      }
-
       img {
         width: 217px;
         height: 257px;

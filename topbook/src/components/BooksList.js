@@ -1,23 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { books } from '../utils/constans'
+import { BooksContext } from '../context/BooksContext'
 
 const BooksList = () => {
+  const { allBooks } = useContext(BooksContext)
+
+  console.log(allBooks)
   return (
     <Wrapper className='section'>
       <div className='section-center'>
         <input type='text' placeholder='wyszukaj' />
         <div className='content flex'>
-          {books.map((book) => {
+          {allBooks.map((book) => {
             const { id, title, author, img } = book
             return (
               <article className='item' key={id}>
                 <div className='img'>
-                  <img src={img} alt='' />
+                  <img src={img.smallThumbnail} alt='' />
                 </div>
                 <div className='info'>
-                  <p>{title}</p>
-                  <p>{author}</p>
+                  <p>{id}</p>
+                  <p>{id}</p>
                 </div>
               </article>
             )

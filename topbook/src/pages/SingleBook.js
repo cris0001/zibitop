@@ -1,11 +1,22 @@
-import React from 'react'
-
+import React, { useContext, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
-import singleBook from '../images/singleBook.jpg'
 import top from '../images/top.jpg'
+import { BooksContext } from '../context/BooksContext'
 
-const SingleBook = () => {
+const SingleBook = ({}) => {
+  const { fetchSingleBook } = useContext(BooksContext)
+  const { id } = useParams()
+  const history = useHistory()
+  console.log('id')
+  console.log(id)
+
+  useEffect(() => {
+    fetchSingleBook(id)
+    console.log('fetch')
+  }, [id])
+
   return (
     <Wrapper>
       <Navbar />
@@ -13,7 +24,7 @@ const SingleBook = () => {
         <div className='content'>
           <div>
             <div className='img'>
-              <img src={singleBook} alt='' className='img' />
+              <img src='' alt='' className='img' />
             </div>
           </div>
 

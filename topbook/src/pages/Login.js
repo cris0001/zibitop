@@ -46,9 +46,8 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <p className='err'>{checkEmail}</p>
+            <p className='err'>{checkPassword}</p>
             <button onClick={handleLogin}>Zaloguj</button>
-
             <h3>
               Nie masz konta? załóż je <Link to='reg'>tutaj!</Link>
             </h3>

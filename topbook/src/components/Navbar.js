@@ -1,14 +1,15 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-
 import { FaBars } from 'react-icons/fa'
 import SidebarMain from './SidebarMain'
 import LoginButton from './LoginButton'
 import { links } from '../utils/constans'
+import { AuthContext } from '../context/AuthContext'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { user } = useContext(AuthContext)
 
   const openPanel = () => {
     setIsOpen(true)
