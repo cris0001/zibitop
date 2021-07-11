@@ -1,57 +1,55 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import app from '../firebase.js'
 
 import { AuthContext } from '../context/AuthContext'
 
-const Login = () => {
-  const {
-    password,
-    email,
-    checkPassword,
-    handleLogout,
-    checkEmail,
-    handleLogin,
-    setEmail,
-    setPassword,
-  } = useContext(AuthContext)
+const Login = ({ history }) => {
+  const { user } = useContext(AuthContext)
+
+  const handleLogin = useCallback(
+    async (event) => {
+      event.preventDefault()
+      const { email, password } = event.target.elements
+      try {
+        await app.auth().signInWithEmailAndPassword(email.value, password.value)
+        history.push('/')
+      } catch (error) {
+        alert(error)
+        console.log('zle')
+      }
+    },
+    [history]
+  )
+
+  if (user) {
+    return <Redirect to='/' />
+  }
 
   return (
     <Wrapper>
       <div className='content'>
         <div className='card'>
           <div className='form'>
-            <h1>Logowanie</h1>
-            <div className='input'>
-              <p>nazwa użytkownika:</p>
-              <input
-                type='email'
-                name='email'
-                autoFocus
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <p className='err'>{checkEmail}</p>
-            <div className='input'>
-              <p>hasło:</p>
-              <input
-                type='password'
-                name='password'
-                autoFocus
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <p className='err'>{checkPassword}</p>
-            <button onClick={handleLogin}>Zaloguj</button>
-            <h3>
-              Nie masz konta? załóż je <Link to='reg'>tutaj!</Link>
-            </h3>
-            <button onClick={handleLogout}>dddds</button>
+            <form onSubmit={handleLogin}>
+              <h1>Logowanie</h1>
+              <div className='input'>
+                <p>nazwa użytkownika:</p>
+                <input name='email' type='email' placeholder='Email' />
+              </div>
+
+              <div className='input'>
+                <p>hasło:</p>
+                <input name='password' type='password' placeholder='Password' />
+              </div>
+
+              <button type='submit'>Zaloguj</button>
+              <h3>
+                Nie masz konta? załóż je <Link to='reg'>tutaj!</Link>
+              </h3>
+            </form>
           </div>
         </div>
       </div>

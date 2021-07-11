@@ -6,6 +6,7 @@ import SidebarMain from './SidebarMain'
 import LoginButton from './LoginButton'
 import { links } from '../utils/constans'
 import { AuthContext } from '../context/AuthContext'
+import app from '../firebase'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -46,7 +47,7 @@ const Navbar = () => {
           })}
         </ul>
         <div className='login'>
-          <LoginButton />
+          <button onClick={() => app.auth().signOut()}>Sign out</button>
         </div>
       </div>
     </Wrapper>

@@ -4,7 +4,6 @@ import { AuthContext } from './context/AuthContext'
 
 const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
   const { user } = useContext(AuthContext)
-
   return (
     <Route
       {...rest}
@@ -14,5 +13,4 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
     />
   )
 }
-
 export default PrivateRoute

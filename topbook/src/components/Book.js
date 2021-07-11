@@ -17,7 +17,7 @@ const Book = ({
   return (
     <Wrapper>
       <div className='container'>
-        <img src={img.medium} alt='' />
+        <img src={img.smallThumbnail} alt='' />
         <Link className='link' to={`books/${id}`}>
           <FaSearch />
         </Link>

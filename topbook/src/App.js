@@ -22,25 +22,27 @@ import PrivateRoute from './PrivateRoute'
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/' component={Home} />
-        <Route exact path='/login' component={Login} />
-        <Route exact path='/add' component={AddBook} />
-        <Route exact path='/reg' component={Reg} />
-        <Route exact path='/books' component={Books} />
-        <Route exact path='/admin' component={Admin} />
-        <Route exact path='/admin/list' component={AdminList} />
-        <Route exact path='/admin/request' component={AdminRequest} />
-        <Route path='/books/:id' children={<SingleBook />} />
-        <Route path='/user' component={User} />
-        <Route path='/user/inc' component={UserIncRequests} />
-        <Route path='/user/request' component={UserRequests} />
-        <Route exact path='/searchbook' component={SearchBook} />
-        <Route exact path='/single' component={SingleBook} />
-        <Route path='*' component={Error} />
-      </Switch>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login' component={Login} />
+          <PrivateRoute exact path='/add' component={AddBook} />
+          <Route exact path='/reg' component={Reg} />
+          <Route exact path='/books' component={Books} />
+          <PrivateRoute exact path='/admin' component={Admin} />
+          <PrivateRoute exact path='/admin/list' component={AdminList} />
+          <PrivateRoute exact path='/admin/request' component={AdminRequest} />
+          <Route path='/books/:id' children={<SingleBook />} />
+          <PrivateRoute path='/user' component={User} />
+          <PrivateRoute path='/user/inc' component={UserIncRequests} />
+          <PrivateRoute path='/user/request' component={UserRequests} />
+          <PrivateRoute exact path='/searchbook' component={SearchBook} />
+          <Route exact path='/single' component={SingleBook} />
+          <Route path='*' component={Error} />
+        </Switch>
+      </Router>
+    </AuthProvider>
   )
 }
 

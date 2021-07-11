@@ -1,69 +1,50 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
+
+import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
 import { AuthContext } from '../context/AuthContext'
+import app from '../firebase'
+import { db } from '../firebase'
 
-const Reg = () => {
-  const {
-    password,
-    email,
-    handleSignup,
-    checkEmail,
-    checkPassword,
-    setEmail,
-    setPassword,
-  } = useContext(AuthContext)
-  // const handleSignUp = useCallback(
-  //   async (event) => {
-  //     event.preventDefault()
-  //     const { email, password } = event.target.elements
-  //     try {
-  //       await app
-  //         .auth()
-  //         .createUserWithEmailAndPassword(email.value, password.value)
-  //       history.push('/')
-  //     } catch (error) {
-  //       alert(error)
-  //     }
-  //   },
-  //   [history]
-  // )
+const Reg = ({ history }) => {
+  const { user } = useContext(AuthContext)
 
+  const handleSignUp = useCallback(
+    async (event) => {
+      event.preventDefault()
+      const { email, password } = event.target.elements
+      try {
+        await app
+          .auth()
+          .createUserWithEmailAndPassword(email.value, password.value)
+        history.push('/')
+      } catch (error) {
+        alert(error)
+      }
+      console.log(user)
+    },
+    [history]
+  )
   return (
     <Wrapper>
       <div className='content'>
         <div className='card'>
           <div className='form'>
-            <h1>Załóż konto</h1>
-            <div className='input'>
-              <p>nazwa użytkownika:</p>
-              <input
-                type='email'
-                name='email'
-                autoFocus
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <p className='err'>{checkEmail}</p>
-            </div>
-            <div className='input'>
-              <p>hasło:</p>
-              <input
-                type='password'
-                name='password'
-                autoFocus
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <p className='err'>{checkPassword}</p>
-            {/* <div className='input'>
-              <p>powtórz hasło:</p>
-              <input type='password' />
-            </div> */}
-            <button onClick={handleSignup}>Zarejestruj</button>
+            <form onSubmit={handleSignUp}>
+              <h1>Załóż konto</h1>
+              <div className='input'>
+                <p>nazwa użytkownika:</p>
+                <input name='email' type='email' placeholder='Email' />
+              </div>
+
+              <div className='input'>
+                <p>hasło:</p>
+                <input name='password' type='password' placeholder='Password' />
+              </div>
+
+              <button type='submit'>Zarejestruj</button>
+            </form>
           </div>
         </div>
       </div>
