@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { db } from '../firebase'
+import { AuthContext } from './AuthContext'
 
 export const BooksContext = React.createContext()
 
@@ -11,6 +12,12 @@ export const BooksProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [allBooks, setAllBooks] = useState([])
+  const [singleBook, setSingleBook] = useState()
+  const [isbnNewRequest, setIsbnNewRequest] = useState('')
+  const [searchStatus, setSearchStatus] = useState('')
+  const [idFromIsbn, setIdFromIsbn] = useState('')
+
+  const { currentUser } = useContext(AuthContext)
 
   const fetchBook = async (url) => {
     console.log('start')
@@ -22,26 +29,18 @@ export const BooksProvider = ({ children }) => {
 
       setLoading(false)
 
-      let types = item.volumeInfo.industryIdentifiers.filter(
-        (item) => item.type !== 'ISBN_10'
+      let types = item.items[0].volumeInfo.industryIdentifiers.filter(
+        (item) => item.type === 'ISBN_13'
       )
       const isbn = types[0].identifier
-      const title = item.volumeInfo.title
-      const author = item.volumeInfo.authors
-      const description = item.volumeInfo.description
-      const publisher = item.volumeInfo.publisher
-      const img = item.volumeInfo.imageLinks
-      const publishedDate = item.volumeInfo.publishedDate
+      const title = item.items[0].volumeInfo.title
+      const author = item.items[0].volumeInfo.authors
+      const description = item.items[0].volumeInfo.description || null
+      const publisher = item.items[0].volumeInfo.publisher || null
+      const img = item.items[0].volumeInfo.imageLinks || null
+      const publishedDate = item.items[0].volumeInfo.publishedDate || null
 
-      console.log(isbn)
-      console.log(title)
-      console.log(author)
-      console.log(description)
-      console.log(publisher)
-      console.log(img)
-      console.log(publishedDate)
-
-      db.collection('books').add({
+      const book = {
         isbn,
         title,
         author,
@@ -49,7 +48,19 @@ export const BooksProvider = ({ children }) => {
         publisher,
         img,
         publishedDate,
-      })
+      }
+
+      //console.log(book)
+
+      // console.log(isbn)
+      // console.log(title)
+      // console.log(author)
+      // console.log(description)
+      // console.log(publisher)
+      // console.log(img)
+      // console.log(publishedDate)
+
+      db.collection('books').add(book)
     } catch (err) {
       console.log(err)
     }
@@ -66,11 +77,54 @@ export const BooksProvider = ({ children }) => {
   const fetchSingleBook = async (id) => {
     const booksRef = db.collection('books').doc(id)
     const doc = await booksRef.get()
+
+    let data = {}
     if (!doc.exists) {
       console.log('No such document!')
     } else {
-      console.log('Document data:', doc.data())
+      data = doc.data()
+      //console.log('Document data:', doc.data())
+      setSingleBook(data)
     }
+  }
+
+  useEffect(() => {
+    console.log(singleBook)
+  }, [singleBook])
+
+  const newIsbnRequest = (isbn) => {
+    db.collection('requestAdmin').add({
+      isbn,
+      status: 'do zatwierdzenia',
+      userID: currentUser.uid,
+    })
+  }
+
+  const searchByIsbn = async (isbn) => {
+    const citiesRef = db.collection('books')
+    const snapshot = await citiesRef.where('isbn', '==', isbn).get()
+    if (snapshot.empty) {
+      console.log('No matching documents.')
+      setSearchStatus(null)
+    }
+
+    snapshot.forEach((doc) => {
+      console.log(doc.id, '=>', doc.data())
+      setSearchStatus(true)
+    })
+  }
+
+  const getIDbyISBN = async (isbn) => {
+    const citiesRef = db.collection('books')
+    const snapshot = await citiesRef.where('isbn', '==', isbn).get()
+    if (snapshot.empty) {
+      return null
+    }
+
+    snapshot.forEach((doc) => {
+      console.log('jjjjjjjjjjjjjjjjjjddddddddddddddd')
+      setIdFromIsbn(doc.id)
+    })
   }
 
   return (
@@ -81,6 +135,15 @@ export const BooksProvider = ({ children }) => {
         loading,
         book,
         allBooks,
+        singleBook,
+        isbnNewRequest,
+        setIsbnNewRequest,
+        newIsbnRequest,
+        searchByIsbn,
+        searchStatus,
+        setSearchStatus,
+        getIDbyISBN,
+        idFromIsbn,
       }}
     >
       {children}

@@ -47,7 +47,11 @@ const Navbar = () => {
           })}
         </ul>
         <div className='login'>
-          <button onClick={() => app.auth().signOut()}>Sign out</button>
+          {user ? (
+            <button onClick={() => app.auth().signOut()}>Sign out</button>
+          ) : (
+            <LoginButton />
+          )}
         </div>
       </div>
     </Wrapper>

@@ -8,6 +8,7 @@ import { AuthContext } from '../context/AuthContext'
 
 const Login = ({ history }) => {
   const { user } = useContext(AuthContext)
+  console.log(user)
 
   const handleLogin = useCallback(
     async (event) => {

@@ -1,44 +1,107 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { useParams } from 'react-router-dom'
+
 import { Navbar, Footer } from '../components'
 import styled from 'styled-components'
+import { db } from '../firebase'
+import { BooksContext } from '../context/BooksContext'
 
 const AddBook = () => {
+  const { isbn } = useParams()
+
+  const { getIDbyISBN, idFromIsbn } = useContext(BooksContext)
+
+  const [name, setName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [email, setEmail] = useState('')
+  const [postCode, setPostCode] = useState('')
+  const [streetNbr, setStreetNbr] = useState('')
+
+  const bookId = getIDbyISBN(isbn)
+
+  const addNotice = (e) => {
+    e.preventDefault()
+
+    db.collection('notices').add({
+      bookId: idFromIsbn,
+      isbn,
+      name,
+      surname,
+      email,
+      postCode,
+      streetNbr,
+    })
+  }
+
+  useEffect(() => {
+    getIDbyISBN(isbn)
+  }, [])
+
   return (
     <Wrapper>
       <Navbar />
       <div className='section section-center'>
-        <div className='content grid'>
-          <div className='info'>
-            <h2>Dane wystawiającego</h2>
-            <div className='input'>
-              <p>Imię:</p>
-              <input type='text' />
-            </div>
-            <div className='input'>
-              <p>Nazwisko:</p>
-              <input type='text' />
-            </div>
-            <div className='input'>
-              <p>email:</p>
-              <input type='text' />
-            </div>
-          </div>
-
-          <div className='place'>
+        <form onSubmit={addNotice}>
+          <div className='content grid'>
             <div className='info'>
-              <h2 className='margin'>Adres odbioru</h2>
+              <h2>Dane wystawiającego</h2>
               <div className='input'>
-                <p>Kod pocztowy:</p>
-                <input type='text' />
+                <p>Imię:</p>
+                <input
+                  type='text'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
               </div>
               <div className='input'>
-                <p>Ulica i numer domu:</p>
-                <input type='text' />
+                <p>Nazwisko:</p>
+                <input
+                  type='text'
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
+                  required
+                />
+              </div>
+              <div className='input'>
+                <p>email:</p>
+                <input
+                  type='text'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className='place'>
+              <div className='info'>
+                <h2 className='margin'>Adres odbioru</h2>
+                <div className='input'>
+                  <p>Kod pocztowy:</p>
+                  <input
+                    type='text'
+                    value={postCode}
+                    onChange={(e) => setPostCode(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className='input'>
+                  <p>Ulica i numer domu:</p>
+                  <input
+                    type='text'
+                    value={streetNbr}
+                    onChange={(e) => setStreetNbr(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <button className='btn'>Dodaj</button>
+          <button type='submit' className='btn'>
+            Dodaj
+          </button>
+        </form>
       </div>
       <Footer />
     </Wrapper>

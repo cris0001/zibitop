@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
+import { BooksContext } from '../context/BooksContext'
+import { Link, Redirect } from 'react-router-dom'
 
 const SearchBook = () => {
+  const {
+    isbnNewRequest,
+    setIsbnNewRequest,
+    searchStatus,
+    searchByIsbn,
+    newIsbnRequest,
+    setSearchStatus,
+  } = useContext(BooksContext)
+
+  const [checkIsbn, setChechIsbn] = useState('')
+
+  useEffect(() => {
+    setSearchStatus(null)
+  }, [])
   return (
     <Wrapper>
       <Navbar />
@@ -10,10 +26,23 @@ const SearchBook = () => {
         <div className='search'>
           <div className='input'>
             <h2>ISBN ksiązki:</h2>
-            <input type='text' />
+            <input
+              type='text'
+              value={checkIsbn}
+              onChange={(e) => setChechIsbn(e.target.value)}
+            />
           </div>
 
-          <button className='btn'> Wyszukaj ksiażkę</button>
+          <div className='buttons'>
+            <button onClick={() => searchByIsbn(checkIsbn)} className='btn'>
+              Wyszukaj ksiażkę
+            </button>
+            {searchStatus && (
+              <Link className='btn btn-2' to={`/searchbook/${checkIsbn}`}>
+                przejdź dalej
+              </Link>
+            )}
+          </div>
         </div>
         <hr />
         <div className='add'>
@@ -23,8 +52,17 @@ const SearchBook = () => {
               <br />
               <strong>Poproś o dodanie</strong>
             </h2>
-            <input type='text' />
-            <button className='btn'>Wyślij prośbę</button>
+            <input
+              type='text'
+              value={isbnNewRequest}
+              onChange={(e) => setIsbnNewRequest(e.target.value)}
+            />
+            <button
+              onClick={() => newIsbnRequest(isbnNewRequest)}
+              className='btn'
+            >
+              Wyślij prośbę
+            </button>
           </div>
         </div>
       </div>
@@ -38,6 +76,10 @@ const Wrapper = styled.div`
   .search {
     padding: 5rem 0;
     text-align: center;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
   }
   input {
     width: 330px;
@@ -60,6 +102,7 @@ const Wrapper = styled.div`
     font-size: 1.5rem;
     border: none;
     padding: 0.1rem 0;
+    justify-self: center;
   }
 
   .search h2 {

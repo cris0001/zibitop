@@ -8,9 +8,11 @@ import { BooksProvider } from './context/BooksContext'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BooksProvider>
-      <App />
-    </BooksProvider>
+    <AuthProvider>
+      <BooksProvider>
+        <App />
+      </BooksProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

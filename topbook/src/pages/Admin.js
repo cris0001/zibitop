@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { Sidebar, AdminAddBook } from '../components'
 import { FaBars } from 'react-icons/fa'
+import { AuthContext } from '../context/AuthContext'
 
 const Admin = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -13,6 +14,8 @@ const Admin = () => {
   const closeSidebar = () => {
     setIsSidebarOpen(false)
   }
+
+  const { adminRequests } = useContext(AuthContext)
 
   return (
     <Wrapper>

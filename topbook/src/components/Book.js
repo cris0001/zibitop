@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { BooksContext } from '../context/BooksContext'
 import { FaSearch } from 'react-icons/fa'
+import defaultImg from '../images/defaultImg.jpg'
 
 const Book = ({
   isbn,
@@ -17,7 +18,7 @@ const Book = ({
   return (
     <Wrapper>
       <div className='container'>
-        <img src={img.smallThumbnail} alt='' />
+        <img src={img ? img.smallThumbnail : defaultImg} alt='' />
         <Link className='link' to={`books/${id}`}>
           <FaSearch />
         </Link>

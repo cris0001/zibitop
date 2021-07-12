@@ -17,7 +17,7 @@ const BooksList = () => {
             return (
               <article className='item' key={id}>
                 <div className='img'>
-                  <img src={img.smallThumbnail} alt='' />
+                  <img src={img} alt='' />
                 </div>
                 <div className='info'>
                   <p>{id}</p>

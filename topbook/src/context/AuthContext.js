@@ -8,7 +8,7 @@ export const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('')
-  const [uid, setUid] = useState('')
+  const [currentUser, setCurrentuser] = useState('')
 
   const [email, setEmail] = useState('22222222222')
   const [password, setPassword] = useState('11111111')
@@ -28,9 +28,14 @@ export const AuthProvider = ({ children }) => {
     app.auth().onAuthStateChanged((user) => {
       setUser(user)
       setPending(false)
+      setCurrentuser(user)
       console.log(user)
     })
   }, [])
+
+  useEffect(() => {
+    currentUser && console.log(currentUser)
+  }, [currentUser])
 
   // const addUser = () => {
   //   if (uid) {
@@ -46,6 +51,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        currentUser,
       }}
     >
       {children}

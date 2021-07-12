@@ -1,21 +1,48 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
+import defaultImg from '../images/defaultImg.jpg'
 import top from '../images/top.jpg'
 import { BooksContext } from '../context/BooksContext'
+import { AuthContext } from '../context/AuthContext'
+import { auth } from '../firebase'
+import { db } from '../firebase'
 
-const SingleBook = ({}) => {
-  const { fetchSingleBook } = useContext(BooksContext)
+const SingleBook = () => {
+  const [singleBook, setSingleBook] = useState({})
+  const {} = useContext(BooksContext)
+  const { user } = useContext(AuthContext)
   const { id } = useParams()
   const history = useHistory()
+
   console.log('id')
   console.log(id)
 
   useEffect(() => {
+    const fetchSingleBook = async (id) => {
+      const booksRef = db.collection('books').doc(id)
+      const doc = await booksRef.get()
+      let data = {}
+      if (!doc.exists) {
+        console.log('No such document!')
+      } else {
+        data = doc.data()
+        setSingleBook(data)
+
+        //console.log('Document data:', doc.data())
+      }
+    }
+
     fetchSingleBook(id)
-    console.log('fetch')
+
+    console.log('single book')
   }, [id])
+
+  useEffect(() => {
+    console.log(singleBook)
+  }, [singleBook])
 
   return (
     <Wrapper>
@@ -23,31 +50,35 @@ const SingleBook = ({}) => {
       <div className='section section-center'>
         <div className='content'>
           <div>
-            <div className='img'>
-              <img src='' alt='' className='img' />
-            </div>
+            <img
+              src={singleBook.img ? singleBook.img.smallThumbnail : defaultImg}
+              alt=''
+              className='img'
+            />
           </div>
 
           <div className='info'>
             <div className='bookInfo'>
               <div className='item'>
                 <p>Tytuł:</p>
-                <h2>102 metry</h2>
+                <h2>{singleBook.title}</h2>
               </div>
               <div className='item'>
                 <p>Autor:</p>
-                <h2>Adam Małysz</h2>
+                <h2>{singleBook.author}</h2>
               </div>
               <div className='item'>
-                <p>Rok wydania:</p>
-                <h2>1997</h2>
+                <p>{singleBook.publishedDate ? 'Data wydania:' : null}</p>
+                <h2>{singleBook.publishedDate}</h2>
               </div>
               <div className='item'>
-                <p>Wydawnictwo:</p>
-                <h2>Sowa</h2>
+                <p>{singleBook.publisher ? 'Wydawnictwo:' : null}</p>
+                <h2>{singleBook.publisher}</h2>
               </div>
             </div>
-            <button className='btn btn2'>Poproś o odbiór</button>
+            {user ? (
+              <button className='btn btn2'>Poproś o odbiór</button>
+            ) : null}
           </div>
         </div>
 

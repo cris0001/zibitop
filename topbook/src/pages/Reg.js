@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
@@ -8,8 +8,6 @@ import app from '../firebase'
 import { db } from '../firebase'
 
 const Reg = ({ history }) => {
-  const { user } = useContext(AuthContext)
-
   const handleSignUp = useCallback(
     async (event) => {
       event.preventDefault()
@@ -18,14 +16,15 @@ const Reg = ({ history }) => {
         await app
           .auth()
           .createUserWithEmailAndPassword(email.value, password.value)
+
         history.push('/')
       } catch (error) {
         alert(error)
       }
-      console.log(user)
     },
     [history]
   )
+
   return (
     <Wrapper>
       <div className='content'>

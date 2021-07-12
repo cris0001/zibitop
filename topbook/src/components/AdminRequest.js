@@ -1,14 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { list } from '../utils/constans'
 import { FaTrash, FaPlusCircle } from 'react-icons/fa'
+import { BooksContext } from '../context/BooksContext'
+import { db } from '../firebase'
 
 const AdminRequest = () => {
+  const [adminRequests, setAdminRequests] = useState([])
+  const { fetchBook } = useContext(BooksContext)
+  const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
+
+  useEffect(() => {
+    const showAdminRequests = () => {
+      return db.collection('requestAdmin').onSnapshot((snapshot) => {
+        const postData = []
+        snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
+        setAdminRequests(postData)
+      })
+    }
+    showAdminRequests()
+  }, [])
+
   return (
     <Wrapper className='section section-center'>
       <div>
-        {list.map((item) => {
-          const { isbn, title, author, id } = item
+        {adminRequests.map((item) => {
+          const { isbn, title, author, id, status } = item
           return (
             <div key={id}>
               <div className='item' key={id}>
@@ -19,13 +36,21 @@ const AdminRequest = () => {
                 </div>
                 <div className='text'>
                   <p>{isbn}</p>
-                  <p>{title}</p>
-                  <p>{author}</p>
+                  <p>--</p>
+                  <p>--</p>
                 </div>
 
                 <div className='icons'>
-                  <FaTrash className='red' />
-                  <FaPlusCircle className='green' />
+                  <FaTrash
+                    onClick={() =>
+                      db.collection('requestAdmin').doc(item.id).delete()
+                    }
+                    className='red'
+                  />
+                  <FaPlusCircle
+                    onClick={() => fetchBook(`${url}${item.isbn}`)}
+                    className='green'
+                  />
                 </div>
                 <br />
               </div>
