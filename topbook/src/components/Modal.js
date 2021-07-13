@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import styled from 'styled-components'
 
-const Modal = ({ closeModal, isModalOpen }) => {
+const Modal = ({ closeModal, isModalOpen, selected }) => {
+  console.log(selected)
+
   return (
     <Wrapper>
       <div
@@ -11,7 +13,9 @@ const Modal = ({ closeModal, isModalOpen }) => {
         }`}
       >
         <div className='modal-container'>
-          <h3>infffffffffo</h3>
+          {/* <h3>{selected.author}</h3>
+          // <h3>{selected.title}</h3>
+          <h3>{selected.id}</h3> */}
           <button className='close-modal-btn' onClick={closeModal}>
             <FaTimes></FaTimes>
           </button>

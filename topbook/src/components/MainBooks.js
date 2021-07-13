@@ -6,15 +6,24 @@ import { BooksContext } from '../context/BooksContext'
 import Book from './Book'
 
 const MainBooks = () => {
-  const { allBooks } = useContext(BooksContext)
+  const { allBooks, notices } = useContext(BooksContext)
   return (
     <Wrapper className='section'>
       <div className='section-center'>
         <h1>Dostępne egzemplarze</h1>
         <div className='content flex'>
-          {allBooks
-            .map((book) => {
-              return <Book key={book.id} {...book} />
+          {notices
+            .map((notice) => {
+              const matchingBook = allBooks.filter(
+                (book) => book.id === notice.bookId
+              )
+              return (
+                <Book
+                  key={notice.id}
+                  notice={notice}
+                  matchingBook={matchingBook[0]}
+                />
+              )
             })
             .slice(0, 4)}
         </div>

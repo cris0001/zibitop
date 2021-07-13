@@ -5,11 +5,13 @@ import { Navbar, Footer } from '../components'
 import styled from 'styled-components'
 import { db } from '../firebase'
 import { BooksContext } from '../context/BooksContext'
+import { AuthContext } from '../context/AuthContext'
 
 const AddBook = () => {
   const { isbn } = useParams()
 
   const { getIDbyISBN, idFromIsbn } = useContext(BooksContext)
+  const { user } = useContext(AuthContext)
 
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
@@ -24,6 +26,7 @@ const AddBook = () => {
 
     db.collection('notices').add({
       bookId: idFromIsbn,
+      userId: user.uid,
       isbn,
       name,
       surname,
@@ -40,6 +43,7 @@ const AddBook = () => {
   return (
     <Wrapper>
       <Navbar />
+
       <div className='section section-center'>
         <form onSubmit={addNotice}>
           <div className='content grid'>

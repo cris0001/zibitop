@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { list } from '../utils/constans'
-import { db } from '../firebase'
+
 import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
 import { BooksContext } from '../context/BooksContext'
 
 const AdminBooksList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selected, setSelected] = useState()
+  const { allBooks } = useContext(BooksContext)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -20,14 +21,21 @@ const AdminBooksList = () => {
 
   return (
     <Wrapper className='section section-center'>
-      {list.map((item) => {
+      {allBooks.map((item) => {
         return (
           <div key={item.id} className='content'>
             <div className='grid'>
               <h2>ISBN:</h2>
               <h2>{item.isbn}</h2>
               <div className='icon'>
-                <button className='open-btn' onClick={openModal}>
+                <button
+                  className='open-btn'
+                  onClick={() => {
+                    setSelected(item)
+
+                    openModal()
+                  }}
+                >
                   <FaEye />
                 </button>
               </div>
@@ -36,7 +44,11 @@ const AdminBooksList = () => {
           </div>
         )
       })}
-      <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
+      <Modal
+        selected={selected}
+        closeModal={closeModal}
+        isModalOpen={isModalOpen}
+      />
     </Wrapper>
   )
 }

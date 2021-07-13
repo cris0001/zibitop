@@ -7,7 +7,7 @@ import { Redirect, withRouter } from 'react-router'
 export const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState('xd')
   const [currentUser, setCurrentuser] = useState('')
 
   const [email, setEmail] = useState('22222222222')
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     app.auth().onAuthStateChanged((user) => {
       setUser(user)
       setPending(false)
-      setCurrentuser(user)
+      //setCurrentuser(user)
       console.log(user)
     })
   }, [])

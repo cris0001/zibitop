@@ -4,22 +4,26 @@ import { Link } from 'react-router-dom'
 import { BooksContext } from '../context/BooksContext'
 import { FaSearch } from 'react-icons/fa'
 import defaultImg from '../images/defaultImg.jpg'
+import { AuthContext } from '../context/AuthContext'
 
-const Book = ({
-  isbn,
-  title,
-  author,
-  description,
-  publisher,
-  img,
-  publishedDate,
-  id,
-}) => {
+const Book = ({ matchingBook, notice }) => {
+  const { title, author, id } = matchingBook
+  const { user } = useContext(AuthContext)
+
   return (
     <Wrapper>
       <div className='container'>
-        <img src={img ? img.smallThumbnail : defaultImg} alt='' />
-        <Link className='link' to={`books/${id}`}>
+        <img
+          src={matchingBook.img ? matchingBook.img.smallThumbnail : defaultImg}
+          alt=''
+        />
+        <p>ogloszenie: {notice.id}</p>
+        <p>ksiazka: {id}</p>
+        <p>kto dodal: {notice.userId}</p>
+        <Link
+          className='link'
+          to={{ pathname: `books/${id}`, state: { userIdTo: notice.userId } }}
+        >
           <FaSearch />
         </Link>
         <div className='text'>

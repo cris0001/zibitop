@@ -16,6 +16,8 @@ export const BooksProvider = ({ children }) => {
   const [isbnNewRequest, setIsbnNewRequest] = useState('')
   const [searchStatus, setSearchStatus] = useState('')
   const [idFromIsbn, setIdFromIsbn] = useState('')
+  const [notices, setNotices] = useState([])
+  const [noticeUserIdTo, setNoticeUserIdTo] = useState()
 
   const { currentUser } = useContext(AuthContext)
 
@@ -50,16 +52,6 @@ export const BooksProvider = ({ children }) => {
         publishedDate,
       }
 
-      //console.log(book)
-
-      // console.log(isbn)
-      // console.log(title)
-      // console.log(author)
-      // console.log(description)
-      // console.log(publisher)
-      // console.log(img)
-      // console.log(publishedDate)
-
       db.collection('books').add(book)
     } catch (err) {
       console.log(err)
@@ -67,12 +59,26 @@ export const BooksProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    return db.collection('books').onSnapshot((snapshot) => {
+    db.collection('books').onSnapshot((snapshot) => {
+      const booskData = []
+      snapshot.forEach((doc) => booskData.push({ ...doc.data(), id: doc.id }))
+      setAllBooks(booskData)
+    })
+    db.collection('notices').onSnapshot((snapshot) => {
       const postData = []
       snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
-      setAllBooks(postData)
+      setNotices(postData)
     })
   }, [])
+
+  // useEffect(() => {
+  //   db.collection('notices').onSnapshot((snapshot) => {
+  //     const postData = []
+  //     snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
+
+  //     setNotices(postData)
+  //   })
+  // }, [])
 
   const fetchSingleBook = async (id) => {
     const booksRef = db.collection('books').doc(id)
@@ -92,13 +98,13 @@ export const BooksProvider = ({ children }) => {
     console.log(singleBook)
   }, [singleBook])
 
-  const newIsbnRequest = (isbn) => {
-    db.collection('requestAdmin').add({
-      isbn,
-      status: 'do zatwierdzenia',
-      userID: currentUser.uid,
-    })
-  }
+  // const newIsbnRequest = (isbn) => {
+  //   db.collection('requestAdmin').add({
+  //     isbn,
+  //     status: 'do zatwierdzenia',
+  //     userID: currentUser.uid,
+  //   })
+  // }
 
   const searchByIsbn = async (isbn) => {
     const citiesRef = db.collection('books')
@@ -122,7 +128,6 @@ export const BooksProvider = ({ children }) => {
     }
 
     snapshot.forEach((doc) => {
-      console.log('jjjjjjjjjjjjjjjjjjddddddddddddddd')
       setIdFromIsbn(doc.id)
     })
   }
@@ -138,12 +143,15 @@ export const BooksProvider = ({ children }) => {
         singleBook,
         isbnNewRequest,
         setIsbnNewRequest,
-        newIsbnRequest,
+
         searchByIsbn,
         searchStatus,
         setSearchStatus,
         getIDbyISBN,
         idFromIsbn,
+        notices,
+        noticeUserIdTo,
+        setNoticeUserIdTo,
       }}
     >
       {children}

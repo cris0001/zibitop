@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import { BooksContext } from '../context/BooksContext'
 import { Link, Redirect } from 'react-router-dom'
+import { db } from '../firebase'
+import { AuthContext } from '../context/AuthContext'
 
 const SearchBook = () => {
   const {
@@ -10,11 +12,22 @@ const SearchBook = () => {
     setIsbnNewRequest,
     searchStatus,
     searchByIsbn,
-    newIsbnRequest,
+
     setSearchStatus,
   } = useContext(BooksContext)
 
   const [checkIsbn, setChechIsbn] = useState('')
+  const [addIsbn, setAddIsbn] = useState('')
+  const { user } = useContext(AuthContext)
+
+  console.log(addIsbn)
+  const newIsbnRequest = () => {
+    db.collection('requestAdmin').add({
+      isbn: addIsbn,
+      status: 'do zatwierdzenia',
+      userID: user.uid,
+    })
+  }
 
   useEffect(() => {
     setSearchStatus(null)
@@ -54,13 +67,10 @@ const SearchBook = () => {
             </h2>
             <input
               type='text'
-              value={isbnNewRequest}
-              onChange={(e) => setIsbnNewRequest(e.target.value)}
+              value={addIsbn}
+              onChange={(e) => setAddIsbn(e.target.value)}
             />
-            <button
-              onClick={() => newIsbnRequest(isbnNewRequest)}
-              className='btn'
-            >
+            <button onClick={() => newIsbnRequest()} className='btn'>
               Wyślij prośbę
             </button>
           </div>

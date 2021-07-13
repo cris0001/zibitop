@@ -2,9 +2,10 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { books } from '../utils/constans'
 import { BooksContext } from '../context/BooksContext'
+import Book from './Book'
 
 const BooksList = () => {
-  const { allBooks } = useContext(BooksContext)
+  const { allBooks, notices } = useContext(BooksContext)
 
   console.log(allBooks)
   return (
@@ -12,18 +13,16 @@ const BooksList = () => {
       <div className='section-center'>
         <input type='text' placeholder='wyszukaj' />
         <div className='content flex'>
-          {allBooks.map((book) => {
-            const { id, title, author, img } = book
+          {notices.map((notice) => {
+            const matchingBook = allBooks.filter(
+              (book) => book.id === notice.bookId
+            )
             return (
-              <article className='item' key={id}>
-                <div className='img'>
-                  <img src={img} alt='' />
-                </div>
-                <div className='info'>
-                  <p>{id}</p>
-                  <p>{id}</p>
-                </div>
-              </article>
+              <Book
+                key={notice.id}
+                notice={notice}
+                matchingBook={matchingBook[0]}
+              />
             )
           })}
         </div>

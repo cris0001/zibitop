@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import defaultImg from '../images/defaultImg.jpg'
 import top from '../images/top.jpg'
 import { BooksContext } from '../context/BooksContext'
 import { AuthContext } from '../context/AuthContext'
-import { auth } from '../firebase'
+
 import { db } from '../firebase'
 
 const SingleBook = () => {
@@ -17,8 +16,29 @@ const SingleBook = () => {
   const { id } = useParams()
   const history = useHistory()
 
-  console.log('id')
-  console.log(id)
+  const userIdTo = history.location.state.userIdTo
+
+  console.log(user.uid)
+  console.log(userIdTo)
+
+  const sendBookRequest = () => {
+    // console.log('xd')
+    // console.log(userIdTo)
+    // console.log('xd2')
+    // console.log(user.uid)
+    // db.collection('requestsUser').add({
+    //   userIdFrom: user.id,
+    //   userIdTo: userIdTo,
+    //   status: 'wysłane',
+    // })
+    db.collection('requestsUser').add({
+      userIdFrom: user.uid,
+      userIdTo: userIdTo,
+      status: 'wysłane',
+      isbn: singleBook.isbn,
+      title: singleBook.title,
+    })
+  }
 
   useEffect(() => {
     const fetchSingleBook = async (id) => {
@@ -77,7 +97,9 @@ const SingleBook = () => {
               </div>
             </div>
             {user ? (
-              <button className='btn btn2'>Poproś o odbiór</button>
+              <button onClick={() => sendBookRequest()} className='btn btn2'>
+                Poproś o odbiór
+              </button>
             ) : null}
           </div>
         </div>

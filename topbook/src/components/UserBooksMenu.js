@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { list } from '../utils/constans'
 import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
+import { AuthContext } from '../context/AuthContext'
+import { db } from '../firebase'
 
 const UserBooksMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useContext(AuthContext)
+  const [usersBooks, setUsersBooks] = useState([])
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -16,14 +20,34 @@ const UserBooksMenu = () => {
     console.log('close')
   }
 
+  const searchBooksByUser = async (id) => {
+    db.collection('notices')
+      .where('userId', '==', user.uid)
+      .onSnapshot((snapshot) => {
+        const postData = []
+        snapshot.forEach((doc) => postData.push(doc.data()))
+        setUsersBooks(postData)
+      })
+
+    //data = snapshot.val()
+  }
+
+  useEffect(() => {
+    searchBooksByUser(user.uid)
+  }, [])
+
+  useEffect(() => {
+    console.log(usersBooks)
+  }, [usersBooks])
+
   return (
     <Wrapper className='section section-center'>
-      {list.map((item) => {
+      {usersBooks.map((item, index) => {
         return (
-          <div key={item.id} className='content'>
+          <div key={index} className='content'>
             <div className='grid'>
               <h2>ISBN: {item.isbn}</h2>
-              <h2>Data: {item.date}</h2>
+              <h2></h2>
               <div className='icon'>
                 <button className='open-btn' onClick={openModal}>
                   <FaEye />
