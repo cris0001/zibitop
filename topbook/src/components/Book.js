@@ -10,29 +10,36 @@ const Book = ({ matchingBook, notice }) => {
   const { title, author, id } = matchingBook
   const { user } = useContext(AuthContext)
 
-  return (
-    <Wrapper>
-      <div className='container'>
-        <img
-          src={matchingBook.img ? matchingBook.img.smallThumbnail : defaultImg}
-          alt=''
-        />
-        <p>ogloszenie: {notice.id}</p>
-        <p>ksiazka: {id}</p>
-        <p>kto dodal: {notice.userId}</p>
-        <Link
-          className='link'
-          to={{ pathname: `books/${id}`, state: { userIdTo: notice.userId } }}
-        >
-          <FaSearch />
-        </Link>
-        <div className='text'>
-          <p>{title}</p>
-          <p>{author}</p>
+  if (notice.status === 'wolna') {
+    return (
+      <Wrapper>
+        <div className='container'>
+          <img
+            src={
+              matchingBook.img ? matchingBook.img.smallThumbnail : defaultImg
+            }
+            alt=''
+          />
+          {/* <p>ogloszenie: {notice.id}</p>
+          <p>ksiazka: {id}</p>
+          <p>kto dodal: {notice.userId}</p> */}
+          <Link
+            className='link'
+            to={{
+              pathname: `books/${id}`,
+              state: { userIdTo: notice.userId, noticeId: notice.id },
+            }}
+          >
+            <FaSearch />
+          </Link>
+          <div className='text'>
+            <p>{title}</p>
+            <p>{author}</p>
+          </div>
         </div>
-      </div>
-    </Wrapper>
-  )
+      </Wrapper>
+    )
+  } else return null
 }
 const Wrapper = styled.section`
   .container {

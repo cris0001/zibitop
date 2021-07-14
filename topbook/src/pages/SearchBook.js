@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Navbar, Footer } from '../components'
+import { Navbar, Footer, Alert } from '../components'
 import { BooksContext } from '../context/BooksContext'
 import { Link, Redirect } from 'react-router-dom'
 import { db } from '../firebase'
@@ -12,8 +12,8 @@ const SearchBook = () => {
     setIsbnNewRequest,
     searchStatus,
     searchByIsbn,
-
     setSearchStatus,
+    msg,
   } = useContext(BooksContext)
 
   const [checkIsbn, setChechIsbn] = useState('')
@@ -32,6 +32,7 @@ const SearchBook = () => {
   useEffect(() => {
     setSearchStatus(null)
   }, [])
+
   return (
     <Wrapper>
       <Navbar />
@@ -40,14 +41,20 @@ const SearchBook = () => {
           <div className='input'>
             <h2>ISBN ksiązki:</h2>
             <input
-              type='text'
+              type='number'
               value={checkIsbn}
               onChange={(e) => setChechIsbn(e.target.value)}
             />
           </div>
-
+          <p>{msg}</p>
           <div className='buttons'>
-            <button onClick={() => searchByIsbn(checkIsbn)} className='btn'>
+            <button
+              onClick={() => {
+                searchByIsbn(checkIsbn)
+                // setChechIsbn('')
+              }}
+              className='btn'
+            >
               Wyszukaj ksiażkę
             </button>
             {searchStatus && (
@@ -66,11 +73,17 @@ const SearchBook = () => {
               <strong>Poproś o dodanie</strong>
             </h2>
             <input
-              type='text'
+              type='number'
               value={addIsbn}
               onChange={(e) => setAddIsbn(e.target.value)}
             />
-            <button onClick={() => newIsbnRequest()} className='btn'>
+            <button
+              onClick={() => {
+                newIsbnRequest()
+                setAddIsbn('')
+              }}
+              className='btn'
+            >
               Wyślij prośbę
             </button>
           </div>
@@ -82,6 +95,11 @@ const SearchBook = () => {
 }
 
 const Wrapper = styled.div`
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   min-height: 100vh;
   .search {
     padding: 5rem 0;
@@ -98,7 +116,7 @@ const Wrapper = styled.div`
 
     height: 2.5rem;
     border-radius: 10px;
-    margin-bottom: 2rem;
+    //margin-bottom: 2rem;
     margin-top: 2rem;
   }
 
@@ -156,7 +174,6 @@ const Wrapper = styled.div`
     }
 
     .btn {
-      margin: 0;
     }
 
     .add h2 {

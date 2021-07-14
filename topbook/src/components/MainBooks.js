@@ -17,6 +17,7 @@ const MainBooks = () => {
               const matchingBook = allBooks.filter(
                 (book) => book.id === notice.bookId
               )
+
               return (
                 <Book
                   key={notice.id}

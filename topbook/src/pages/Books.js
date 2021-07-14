@@ -6,7 +6,7 @@ const Books = () => {
     <div>
       <Navbar />
       <BooksList />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

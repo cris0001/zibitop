@@ -33,9 +33,9 @@ function App() {
         <Route path='/books/:id' children={<SingleBook />} />
         <PrivateRoute exact path='/admin/list' component={AdminList} />
         <PrivateRoute exact path='/admin/request' component={AdminRequest} />
-        <PrivateRoute path='/user' component={User} />
-        <PrivateRoute path='/user/inc' component={UserIncRequests} />
-        <PrivateRoute path='/user/request' component={UserRequests} />
+        <PrivateRoute exact path='/user' component={User} />
+        <PrivateRoute exact path='/user/inc' component={UserIncRequests} />
+        <PrivateRoute exact path='/user/request' component={UserRequests} />
         <PrivateRoute exact path='/searchbook' component={SearchBook} />
         <PrivateRoute exact path='/searchbook/:isbn' component={AddBook} />
 

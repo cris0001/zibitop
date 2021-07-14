@@ -1,33 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { list } from '../utils/constans'
+import { db } from '../firebase'
+import { AuthContext } from '../context/AuthContext'
 
 import Modal from './Modal'
 
 const UserReqMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useContext(AuthContext)
+  const [usersRequests, setUsersRequests] = useState([])
 
   const closeModal = () => {
     setIsModalOpen(false)
     console.log('close')
   }
 
+  const searchUsersRequests = (id) => {
+    db.collection('requestsUser')
+      .where('userIdFrom', '==', id)
+      .onSnapshot((snapshot) => {
+        const postData = []
+        snapshot.forEach((doc) => postData.push(doc.data()))
+        setUsersRequests(postData)
+      })
+  }
+
+  // const searchUsersRequests = async (id) => {
+  //   const citiesRef = db.collection('requestsUser')
+  //   const snapshot = await citiesRef.where('userIdFrom', '==', id).get()
+  //   const postData = []
+  //   snapshot.forEach((doc) => postData.push(doc.data()))
+  //   setUsersRequests(postData)
+  // }
+
+  // useEffect(() => {
+  //   searchUsersRequests(user.uid)
+  // }, [])
+
   return (
     <Wrapper className='section section-center'>
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
-        {list.map((item) => {
-          const { title, author, id, status } = item
+        {/* <button onClick={() => searchUsersRequests(user.uid)}>sada</button> */}
+        {usersRequests.map((item, index) => {
+          const { title, isbn, id, status } = item
           return (
-            <div key={id}>
-              <div className='item' key={id}>
+            <div key={index}>
+              <div className='item'>
                 <div className='info'>
+                  <p>ISBN:</p>
                   <p>Tytuł:</p>
-                  <p>Autor:</p>
                 </div>
                 <div className='text'>
+                  <p>{isbn}</p>
                   <p>{title}</p>
-                  <p>{author}</p>
                 </div>
 
                 <div
@@ -50,14 +77,15 @@ const UserReqMenu = () => {
 const Wrapper = styled.div`
   min-height: 100vh;
 
-  .status {
-    font-weight: bold;
-  }
   .red {
     color: red;
   }
   .green {
     color: lightgreen;
+  }
+
+  .status {
+    font-weight: bold;
   }
   button {
     border: none;

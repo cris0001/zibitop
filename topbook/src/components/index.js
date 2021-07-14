@@ -15,6 +15,8 @@ import UserSidebar from './UserSidebar'
 import UserBooksMenu from './UserBooksMenu'
 import UserReqMenu from './UserReqMenu'
 import UserIncMenu from './UserIncMenu'
+import Loading from './Loading'
+import Alert from './Alert'
 
 export {
   Navbar,
@@ -33,5 +35,7 @@ export {
   Hero,
   MainBooks,
   MainMap,
+  Loading,
   Footer,
+  Alert,
 }

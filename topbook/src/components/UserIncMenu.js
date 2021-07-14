@@ -1,42 +1,110 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { list } from '../utils/constans'
-
 import Modal from './Modal'
+import { db } from '../firebase'
+import { AuthContext } from '../context/AuthContext'
 
 const UserIncMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useContext(AuthContext)
+  const [requestsToUser, setRequestsToUser] = useState([])
+  const [idToChange, setIdToChange] = useState('')
+  console.log(idToChange)
 
   const closeModal = () => {
     setIsModalOpen(false)
     console.log('close')
   }
 
+  const searchUsersRequests = async (id) => {
+    db.collection('requestsUser')
+      .where('userIdTo', '==', user)
+      .onSnapshot((snapshot) => {
+        const postData = []
+        //snapshot.forEach((doc) => postData.push(doc.data()))
+        snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
+
+        console.log(postData)
+        setRequestsToUser(postData)
+      })
+
+    //data = snapshot.val()
+  }
+
+  useEffect(() => {
+    searchUsersRequests(user.uid)
+  }, [])
+
+  useEffect(() => {
+    console.log(requestsToUser)
+  }, [requestsToUser])
+
+  const acceptNoticeStatus = async (noticeId) => {
+    const reqRef = db.collection('notices').doc(noticeId)
+    const res = await reqRef.update({ status: 'potwierdzone' })
+  }
+
+  const declineNoticeStatus = async (noticeId) => {
+    const reqRef = db.collection('notices').doc(noticeId)
+    const res = await reqRef.update({ status: 'wolna' })
+  }
+
+  const acceptRequest = async (id) => {
+    const reqRef = db.collection('requestsUser').doc(id)
+
+    const res = await reqRef.update({ status: 'potwierdzona' })
+  }
+
+  const refuseRequest = async (id) => {
+    const reqRef = db.collection('requestsUser').doc(id)
+
+    const res = await reqRef.update({ status: 'odrzucona' })
+  }
+
   return (
     <Wrapper className='section section-center'>
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
-        {list.map((item) => {
-          const { isbn, title, author, id, date } = item
+        {requestsToUser.map((item, index) => {
+          const { isbn, title, id, status, noticeId } = item
           return (
-            <div key={id}>
-              <div className='item' key={id}>
+            <div key={index}>
+              <div className='item'>
                 <div className='info'>
                   <p>ISBN:</p>
                   <p>Tytuł:</p>
-                  <p>Autor:</p>
-                  <p>Data:</p>
                 </div>
                 <div className='text'>
                   <p>{isbn}</p>
                   <p>{title}</p>
-                  <p>{author}</p>
-                  <p>{date}</p>
                 </div>
 
                 <div className='buttons'>
-                  <button className='accept'>akceptuj</button>
-                  <button className='decline'>odrzuć</button>
+                  <button
+                    onClick={() => {
+                      acceptRequest(id)
+                      acceptNoticeStatus(noticeId)
+                    }}
+                    className={
+                      status === 'odrzucona' ? 'accept hide-accept' : 'accept'
+                    }
+                  >
+                    {status === 'potwierdzona' ? 'potwierdzona' : 'potwierdź'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      refuseRequest(id)
+                      declineNoticeStatus(noticeId)
+                    }}
+                    className={
+                      status === 'potwierdzona'
+                        ? 'decline hide-accept'
+                        : 'decline'
+                    }
+                  >
+                    {status === 'odrzucona' ? 'odrzucona' : 'odrzuć'}
+                  </button>
                 </div>
                 <br />
               </div>
@@ -50,6 +118,10 @@ const UserIncMenu = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
+
+  .hide-accept {
+    display: none;
+  }
 
   button {
     border: none;
@@ -90,7 +162,7 @@ const Wrapper = styled.div`
   @media (min-width: 500px) {
     .item {
       display: grid;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: auto 1fr auto;
       margin-top: 2rem;
       justify-content: space-between;
     }
@@ -137,7 +209,7 @@ const Wrapper = styled.div`
   @media (min-width: 905px) {
     .item {
       display: grid;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: auto 1fr auto;
       margin-top: 2rem;
       justify-content: space-between;
     }

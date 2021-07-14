@@ -5,11 +5,17 @@ import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
 import { AuthContext } from '../context/AuthContext'
 import { db } from '../firebase'
+import { BooksContext } from '../context/BooksContext'
 
 const UserBooksMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { user } = useContext(AuthContext)
+  const { user, currentUser } = useContext(AuthContext)
   const [usersBooks, setUsersBooks] = useState([])
+  const { loading, error } = useContext(BooksContext)
+
+  console.log('---------')
+  console.log(user)
+  console.log('---------')
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -20,7 +26,7 @@ const UserBooksMenu = () => {
     console.log('close')
   }
 
-  const searchBooksByUser = async (id) => {
+  const searchBooksByUser = async () => {
     db.collection('notices')
       .where('userId', '==', user.uid)
       .onSnapshot((snapshot) => {
@@ -32,16 +38,21 @@ const UserBooksMenu = () => {
     //data = snapshot.val()
   }
 
-  useEffect(() => {
-    searchBooksByUser(user.uid)
-  }, [])
+  // useEffect(() => {
+  //   searchBooksByUser()
+  // }, [])
 
-  useEffect(() => {
-    console.log(usersBooks)
-  }, [usersBooks])
+  // useEffect(() => {
+  //   console.log(usersBooks)
+  // }, [usersBooks])
+
+  if (loading) {
+    return <h1>xd</h1>
+  }
 
   return (
     <Wrapper className='section section-center'>
+      <button onClick={() => searchBooksByUser()}>sada</button>
       {usersBooks.map((item, index) => {
         return (
           <div key={index} className='content'>

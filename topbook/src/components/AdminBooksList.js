@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
 import { BooksContext } from '../context/BooksContext'
+import { Loading } from '../components'
 
 const AdminBooksList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selected, setSelected] = useState()
-  const { allBooks } = useContext(BooksContext)
+  const { allBooks, loading, error } = useContext(BooksContext)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -17,6 +18,10 @@ const AdminBooksList = () => {
   const closeModal = () => {
     setIsModalOpen(false)
     console.log('close')
+  }
+
+  if (loading) {
+    return <Loading />
   }
 
   return (

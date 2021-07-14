@@ -27,6 +27,7 @@ const AddBook = () => {
     db.collection('notices').add({
       bookId: idFromIsbn,
       userId: user.uid,
+      status: 'wolna',
       isbn,
       name,
       surname,
@@ -34,6 +35,24 @@ const AddBook = () => {
       postCode,
       streetNbr,
     })
+    // db.collection('notices')
+    //   .add({
+    //     bookId: idFromIsbn,
+    //     userId: user.uid,
+    //     status: 'wolna',
+    //     isbn,
+    //     name,
+    //     surname,
+    //     email,
+    //     postCode,
+    //     streetNbr,
+    //   })
+    //   .then(function (docRef) {
+    //     console.log('Document written with ID: ', docRef.id)
+    //   })
+    //   .catch(function (error) {
+    //     console.error('Error adding document: ', error)
+    //   })
   }
 
   useEffect(() => {
@@ -107,7 +126,7 @@ const AddBook = () => {
           </button>
         </form>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </Wrapper>
   )
 }

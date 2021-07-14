@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
+import { Redirect } from 'react-router-dom'
 import defaultImg from '../images/defaultImg.jpg'
 import top from '../images/top.jpg'
 import { BooksContext } from '../context/BooksContext'
@@ -15,11 +16,12 @@ const SingleBook = () => {
   const { user } = useContext(AuthContext)
   const { id } = useParams()
   const history = useHistory()
+  const [disable, setDisable] = useState(false)
 
   const userIdTo = history.location.state.userIdTo
+  const noticeId = history.location.state.noticeId
 
-  console.log(user.uid)
-  console.log(userIdTo)
+  console.log(noticeId)
 
   const sendBookRequest = () => {
     // console.log('xd')
@@ -32,12 +34,19 @@ const SingleBook = () => {
     //   status: 'wysłane',
     // })
     db.collection('requestsUser').add({
+      id,
+      noticeId,
       userIdFrom: user.uid,
       userIdTo: userIdTo,
       status: 'wysłane',
       isbn: singleBook.isbn,
       title: singleBook.title,
     })
+  }
+
+  const changeNoticeStatus = async () => {
+    const reqRef = db.collection('notices').doc(noticeId)
+    const res = await reqRef.update({ status: 'oczekuje' })
   }
 
   useEffect(() => {
@@ -96,8 +105,16 @@ const SingleBook = () => {
                 <h2>{singleBook.publisher}</h2>
               </div>
             </div>
-            {user ? (
-              <button onClick={() => sendBookRequest()} className='btn btn2'>
+            {user && disable === false ? (
+              <button
+                disabled={disable}
+                onClick={() => {
+                  setDisable(true)
+                  sendBookRequest()
+                  changeNoticeStatus()
+                }}
+                className='btn btn2'
+              >
                 Poproś o odbiór
               </button>
             ) : null}

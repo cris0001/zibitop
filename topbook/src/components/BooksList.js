@@ -33,7 +33,7 @@ const BooksList = () => {
 }
 
 const Wrapper = styled.section`
-  min-height: 40vh;
+  min-height: 100vh;
   padding-bottom: 5rem;
 
   input {

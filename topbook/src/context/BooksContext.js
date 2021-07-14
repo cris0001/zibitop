@@ -9,8 +9,7 @@ export const BooksProvider = ({ children }) => {
   // const url = 'https://www.googleapis.com/books/v1/volumes?q=y8KkDwAAQBAJ'
 
   const [book, setBook] = useState()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+
   const [allBooks, setAllBooks] = useState([])
   const [singleBook, setSingleBook] = useState()
   const [isbnNewRequest, setIsbnNewRequest] = useState('')
@@ -18,18 +17,21 @@ export const BooksProvider = ({ children }) => {
   const [idFromIsbn, setIdFromIsbn] = useState('')
   const [notices, setNotices] = useState([])
   const [noticeUserIdTo, setNoticeUserIdTo] = useState()
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState(false)
+  const [msg, setMsg] = useState(' ')
 
   const { currentUser } = useContext(AuthContext)
 
   const fetchBook = async (url) => {
     console.log('start')
-    setLoading(true)
+    //setLoading(true)
 
     try {
       const response = await axios.get(url)
       const item = response.data
 
-      setLoading(false)
+      // setLoading(false)
 
       let types = item.items[0].volumeInfo.industryIdentifiers.filter(
         (item) => item.type === 'ISBN_13'
@@ -54,16 +56,32 @@ export const BooksProvider = ({ children }) => {
 
       db.collection('books').add(book)
     } catch (err) {
+      //setLoading(false)
       console.log(err)
     }
   }
+  useEffect(() => {
+    const getAllBooks = () => {
+      // setLoading(true)
+      try {
+        db.collection('books').onSnapshot((snapshot) => {
+          const booskData = []
+          snapshot.forEach((doc) =>
+            booskData.push({ ...doc.data(), id: doc.id })
+          )
+          setAllBooks(booskData)
+          // setLoading(false)
+        })
+      } catch (err) {
+        console.log(err)
+        // setError(err)
+        // setLoading(false)
+      }
+    }
+    getAllBooks()
+  }, [])
 
   useEffect(() => {
-    db.collection('books').onSnapshot((snapshot) => {
-      const booskData = []
-      snapshot.forEach((doc) => booskData.push({ ...doc.data(), id: doc.id }))
-      setAllBooks(booskData)
-    })
     db.collection('notices').onSnapshot((snapshot) => {
       const postData = []
       snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
@@ -111,12 +129,11 @@ export const BooksProvider = ({ children }) => {
     const snapshot = await citiesRef.where('isbn', '==', isbn).get()
     if (snapshot.empty) {
       console.log('No matching documents.')
-      setSearchStatus(null)
+      setMsg('brak książki i podanym numerze ISBN')
     }
 
     snapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data())
-      setSearchStatus(true)
     })
   }
 
@@ -137,13 +154,14 @@ export const BooksProvider = ({ children }) => {
       value={{
         fetchSingleBook,
         fetchBook,
-        loading,
+        msg,
         book,
         allBooks,
         singleBook,
         isbnNewRequest,
         setIsbnNewRequest,
-
+        // loading,
+        // error,
         searchByIsbn,
         searchStatus,
         setSearchStatus,
