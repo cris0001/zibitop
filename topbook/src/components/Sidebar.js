@@ -33,16 +33,15 @@ const Sidebar = ({ closeSidebar, isSidebarOpen }) => {
           })}
         </div>
         <div className='login'>
-          {login.map((item) => {
-            const { id, url, text } = item
-            return (
-              <div key={id} className='login-links'>
-                <Link className='login-item' to={url}>
-                  <div className='login-text'>{text}</div>
-                </Link>
-              </div>
-            )
-          })}
+          <div className='login-links'>
+            <button className='login-item'></button>
+            <Link className='login-item' to='/'>
+              Wyloguj
+            </Link>
+            <Link className='login-item' to='/'>
+              Strona Główna
+            </Link>
+          </div>
         </div>
       </aside>
     </Wrapper>

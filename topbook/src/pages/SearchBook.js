@@ -5,6 +5,7 @@ import { BooksContext } from '../context/BooksContext'
 import { Link, Redirect } from 'react-router-dom'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
+import { addNotification } from '../notification'
 
 const SearchBook = () => {
   const {
@@ -14,24 +15,64 @@ const SearchBook = () => {
     searchByIsbn,
     setSearchStatus,
     msg,
+    setMsg,
+    alert2,
+    setAlert2,
+    alert,
+    setAlert,
+    showAlert,
+    showAlert2,
   } = useContext(BooksContext)
 
   const [checkIsbn, setChechIsbn] = useState('')
   const [addIsbn, setAddIsbn] = useState('')
   const { user } = useContext(AuthContext)
 
-  console.log(addIsbn)
-  const newIsbnRequest = () => {
-    db.collection('requestAdmin').add({
+  const newIsbnRequest = async () => {
+    if (addIsbn.length != 13) {
+      setAlert2({ show: true, msg: 'podaj poprawny isbn', type: 'danger' })
+      return null
+    }
+
+    const citiesRef = db.collection('books')
+    const snapshot = await citiesRef.where('isbn', '==', addIsbn).get()
+    if (!snapshot.empty) {
+      addNotification('podana książka już istnieje', 'info')
+      return null
+    }
+
+    const notRef = db.collection('requestAdmin')
+    const snapshot2 = await notRef.where('isbn', '==', addIsbn).get()
+    if (!snapshot2.empty) {
+      addNotification('Ktoś już poprosił o dodanie tej książki', 'default')
+
+      return null
+    }
+
+    await db.collection('requestAdmin').add({
       isbn: addIsbn,
       status: 'do zatwierdzenia',
       userID: user.uid,
     })
+    addNotification('Zgłoszenie wysłane', 'success')
+    //setAlert2({ show: true, msg: 'Zgłoszenie wysłane', type: 'success' })
   }
 
   useEffect(() => {
     setSearchStatus(null)
   }, [])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      showAlert()
+      showAlert2()
+    }, 3000)
+    return () => clearTimeout(timeout)
+  }, [alert, alert2])
+
+  useEffect(() => {
+    setSearchStatus(false)
+  }, [checkIsbn])
 
   return (
     <Wrapper>
@@ -47,19 +88,25 @@ const SearchBook = () => {
             />
           </div>
           <p>{msg}</p>
+          {alert.show && (
+            <Alert {...alert} removeAlert={showAlert} list={msg} />
+          )}
+
           <div className='buttons'>
-            <button
-              onClick={() => {
-                searchByIsbn(checkIsbn)
-                // setChechIsbn('')
-              }}
-              className='btn'
-            >
-              Wyszukaj ksiażkę
-            </button>
+            {searchStatus === false ? (
+              <button
+                onClick={() => {
+                  searchByIsbn(checkIsbn)
+                  // setChechIsbn('')
+                }}
+                className='btn'
+              >
+                Wyszukaj ksiażkę
+              </button>
+            ) : null}
             {searchStatus && (
               <Link className='btn btn-2' to={`/searchbook/${checkIsbn}`}>
-                przejdź dalej
+                Przejdź dalej
               </Link>
             )}
           </div>
@@ -72,11 +119,18 @@ const SearchBook = () => {
               <br />
               <strong>Poproś o dodanie</strong>
             </h2>
+
             <input
               type='number'
               value={addIsbn}
               onChange={(e) => setAddIsbn(e.target.value)}
             />
+            <div className='info'>
+              {alert2.show && (
+                <Alert {...alert2} removeAlert={showAlert2} list={msg} />
+              )}
+            </div>
+
             <button
               onClick={() => {
                 newIsbnRequest()
@@ -89,7 +143,7 @@ const SearchBook = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </Wrapper>
   )
 }
@@ -153,10 +207,15 @@ const Wrapper = styled.div`
   }
 
   @media (min-width: 800px) {
+    .info {
+      width: 300px;
+      margin: auto;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      padding: 15rem 0;
+      padding: 13rem 0;
     }
 
     .search {
@@ -186,6 +245,10 @@ const Wrapper = styled.div`
     @media (min-width: 1023px) {
       input,
       .btn {
+        width: 400px;
+      }
+
+      .info {
         width: 400px;
       }
     }

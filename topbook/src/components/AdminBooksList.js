@@ -26,6 +26,7 @@ const AdminBooksList = () => {
 
   return (
     <Wrapper className='section section-center'>
+      <h1>Lista książek w bazie danych</h1>
       {allBooks.map((item) => {
         return (
           <div key={item.id} className='content'>
@@ -37,7 +38,6 @@ const AdminBooksList = () => {
                   className='open-btn'
                   onClick={() => {
                     setSelected(item)
-
                     openModal()
                   }}
                 >
@@ -59,7 +59,9 @@ const AdminBooksList = () => {
 }
 const Wrapper = styled.div`
   min-height: 80vh;
-
+  h1 {
+    text-align: center;
+  }
   .grid {
     margin-top: 5rem;
     display: grid;

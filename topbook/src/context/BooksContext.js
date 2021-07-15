@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { db } from '../firebase'
 import { AuthContext } from './AuthContext'
+import { addNotification } from '../notification'
 
 export const BooksContext = React.createContext()
 
@@ -19,47 +20,71 @@ export const BooksProvider = ({ children }) => {
   const [noticeUserIdTo, setNoticeUserIdTo] = useState()
   // const [loading, setLoading] = useState(false)
   // const [error, setError] = useState(false)
-  const [msg, setMsg] = useState(' ')
+  const [msg, setMsg] = useState('')
+  const [alert, setAlert] = useState({ show: false, msg: '', type: '' })
+  const [alert2, setAlert2] = useState({ show: false, msg: '', type: '' })
 
   const { currentUser } = useContext(AuthContext)
 
-  const fetchBook = async (url) => {
+  const fetchBook = async (url, isbn) => {
+    console.log(isbn)
+    console.log(url)
     console.log('start')
     //setLoading(true)
 
-    try {
-      const response = await axios.get(url)
-      const item = response.data
+    let xd = `${url}${isbn}`
+    console.log(xd)
 
-      // setLoading(false)
+    if (isbn.length != 13) {
+      addNotification('podany ISBN jest niepoprawny', 'danger')
+      return
+    } else {
+      try {
+        const response = await axios.get(xd)
+        const item = response.data
+        console.log(item.totalItems)
 
-      let types = item.items[0].volumeInfo.industryIdentifiers.filter(
-        (item) => item.type === 'ISBN_13'
-      )
-      const isbn = types[0].identifier
-      const title = item.items[0].volumeInfo.title
-      const author = item.items[0].volumeInfo.authors
-      const description = item.items[0].volumeInfo.description || null
-      const publisher = item.items[0].volumeInfo.publisher || null
-      const img = item.items[0].volumeInfo.imageLinks || null
-      const publishedDate = item.items[0].volumeInfo.publishedDate || null
+        if (item.totalItems != 0) {
+          let types = item.items[0].volumeInfo.industryIdentifiers.filter(
+            (item) => item.type === 'ISBN_13'
+          )
 
-      const book = {
-        isbn,
-        title,
-        author,
-        description,
-        publisher,
-        img,
-        publishedDate,
+          const notRef = db.collection('books')
+          const snapshot2 = await notRef.where('isbn', '==', isbn).get()
+          if (!snapshot2.empty) {
+            addNotification('książka znajduje się już w bazie', 'info')
+            return null
+          } else {
+            const isbn = types[0].identifier
+            const title = item.items[0].volumeInfo.title
+            const author = item.items[0].volumeInfo.authors
+            const description = item.items[0].volumeInfo.description || null
+            const publisher = item.items[0].volumeInfo.publisher || null
+            const img = item.items[0].volumeInfo.imageLinks || null
+            const publishedDate = item.items[0].volumeInfo.publishedDate || null
+
+            const book = {
+              isbn,
+              title,
+              author,
+              description,
+              publisher,
+              img,
+              publishedDate,
+            }
+
+            db.collection('books').add(book)
+            addNotification('dodano pomyślnie do bazy', 'success')
+          }
+        } else {
+          addNotification('brak podanej książki', 'info')
+        }
+      } catch (err) {
+        console.log(err)
       }
-
-      db.collection('books').add(book)
-    } catch (err) {
-      //setLoading(false)
-      console.log(err)
     }
   }
+
   useEffect(() => {
     const getAllBooks = () => {
       // setLoading(true)
@@ -125,15 +150,30 @@ export const BooksProvider = ({ children }) => {
   // }
 
   const searchByIsbn = async (isbn) => {
+    if (isbn.length != 13) {
+      setAlert({ show: true, msg: 'podaj poprawny isbn', type: 'danger' })
+      return null
+    }
+
     const citiesRef = db.collection('books')
     const snapshot = await citiesRef.where('isbn', '==', isbn).get()
     if (snapshot.empty) {
       console.log('No matching documents.')
-      setMsg('brak książki i podanym numerze ISBN')
+      //setMsg('brak książki i podanym numerze ISBN')
+
+      addNotification('Brak ksiażki o podanym numerze ISBN', 'danger')
     }
 
     snapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data())
+      setSearchStatus(true)
+      addNotification('Książka odnaleziona, możesz przejść dalej', 'success')
+
+      // setAlert({
+      //   show: true,
+      //   msg: 'Książka odnaleziona, możesz przejść dalej',
+      //   type: 'success',
+      // })
     })
   }
 
@@ -147,6 +187,13 @@ export const BooksProvider = ({ children }) => {
     snapshot.forEach((doc) => {
       setIdFromIsbn(doc.id)
     })
+  }
+
+  const showAlert = (show = false, type = '', msg = '') => {
+    setAlert({ show, type, msg })
+  }
+  const showAlert2 = (show = false, type = '', msg = '') => {
+    setAlert2({ show, type, msg })
   }
 
   return (
@@ -165,11 +212,18 @@ export const BooksProvider = ({ children }) => {
         searchByIsbn,
         searchStatus,
         setSearchStatus,
+        showAlert2,
         getIDbyISBN,
         idFromIsbn,
         notices,
         noticeUserIdTo,
         setNoticeUserIdTo,
+        setMsg,
+        alert,
+        setAlert,
+        showAlert,
+        alert2,
+        setAlert2,
       }}
     >
       {children}

@@ -1,6 +1,9 @@
 import React from 'react'
 import './index.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import 'react-notifications-component/dist/theme.css'
+import ReactNotification from 'react-notifications-component'
+
 import {
   Books,
   Error,
@@ -23,6 +26,7 @@ import PrivateRoute from './PrivateRoute'
 function App() {
   return (
     <Router>
+      <ReactNotification />
       <Switch>
         <Route exact path='/' component={Home} />
         <PrivateRoute exact path='/admin' component={Admin} />

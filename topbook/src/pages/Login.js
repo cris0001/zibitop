@@ -3,8 +3,11 @@ import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
 import { Link, Redirect } from 'react-router-dom'
 import app from '../firebase.js'
-
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import { AuthContext } from '../context/AuthContext'
+
+console.log(firebase.auth.Auth.Persistence.SESSION)
 
 const Login = ({ history }) => {
   const { user } = useContext(AuthContext)
@@ -14,6 +17,7 @@ const Login = ({ history }) => {
     async (event) => {
       event.preventDefault()
       const { email, password } = event.target.elements
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
       try {
         await app.auth().signInWithEmailAndPassword(email.value, password.value)
         history.push('/')

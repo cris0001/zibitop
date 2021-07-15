@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars } from 'react-icons/fa'
+import { FaBars, FaUserAlt } from 'react-icons/fa'
 import SidebarMain from './SidebarMain'
 import LoginButton from './LoginButton'
 import { links } from '../utils/constans'
@@ -48,7 +48,12 @@ const Navbar = () => {
         </ul>
         <div className='login'>
           {user ? (
-            <button onClick={() => app.auth().signOut()}>Sign out</button>
+            <div className='bb'>
+              <button>
+                <Link to='/user/'>profil</Link>
+              </button>
+              <button onClick={() => app.auth().signOut()}>wyloguj</button>
+            </div>
           ) : (
             <LoginButton />
           )}
@@ -69,6 +74,24 @@ const Wrapper = styled.nav`
     width: 90vw;
     margin: 0 auto;
     max-width: 1113px;
+  }
+  a {
+    text-decoration: none;
+  }
+
+  .bb {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+  }
+  button {
+    background: var(--main);
+    color: white;
+    border-radius: 10px;
+    align-items: center;
+    font-size: 1.1rem;
+    border: none;
+    padding: 0.3rem 0.5rem;
   }
 
   .login {
@@ -122,7 +145,7 @@ const Wrapper = styled.nav`
       li {
         list-style: none;
       }
-      li:not(:last-child) {
+      li {
         margin-right: 5rem;
       }
 

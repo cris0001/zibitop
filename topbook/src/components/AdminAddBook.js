@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { BooksContext } from '../context/BooksContext'
+import { addNotification } from '../notification'
 
 const AdminAddBook = () => {
   const { fetchBook } = useContext(BooksContext)
   const [isbn, setIsbn] = useState('')
   const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
-
-  console.log(`${url}${isbn}`)
 
   return (
     <Wrapper className='section section-center'>
@@ -18,9 +17,7 @@ const AdminAddBook = () => {
           value={isbn}
           onChange={(e) => setIsbn(e.target.value)}
         />
-        <button onClick={() => fetchBook(`${url}${isbn}`)}>
-          Dodaj książkę
-        </button>
+        <button onClick={() => fetchBook(url, isbn)}>Dodaj książkę</button>
       </div>
     </Wrapper>
   )

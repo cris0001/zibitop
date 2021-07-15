@@ -12,14 +12,17 @@ const UserIncMenu = () => {
   const [idToChange, setIdToChange] = useState('')
   console.log(idToChange)
 
+  console.log(user)
+
   const closeModal = () => {
     setIsModalOpen(false)
     console.log('close')
   }
 
   const searchUsersRequests = async (id) => {
+    console.log(id)
     db.collection('requestsUser')
-      .where('userIdTo', '==', user)
+      .where('userIdTo', '==', id)
       .onSnapshot((snapshot) => {
         const postData = []
         //snapshot.forEach((doc) => postData.push(doc.data()))
@@ -52,18 +55,17 @@ const UserIncMenu = () => {
 
   const acceptRequest = async (id) => {
     const reqRef = db.collection('requestsUser').doc(id)
-
     const res = await reqRef.update({ status: 'potwierdzona' })
   }
 
   const refuseRequest = async (id) => {
     const reqRef = db.collection('requestsUser').doc(id)
-
     const res = await reqRef.update({ status: 'odrzucona' })
   }
 
   return (
     <Wrapper className='section section-center'>
+      <h1>Prośby od użytkowników</h1>
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
         {requestsToUser.map((item, index) => {
@@ -118,6 +120,10 @@ const UserIncMenu = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
+  h1 {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
 
   .hide-accept {
     display: none;

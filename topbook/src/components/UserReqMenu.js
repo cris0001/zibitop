@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
+import { FaMapMarkedAlt } from 'react-icons/fa'
 import { list } from '../utils/constans'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
@@ -34,17 +35,18 @@ const UserReqMenu = () => {
   //   setUsersRequests(postData)
   // }
 
-  // useEffect(() => {
-  //   searchUsersRequests(user.uid)
-  // }, [])
+  useEffect(() => {
+    searchUsersRequests(user.uid)
+  }, [])
 
   return (
     <Wrapper className='section section-center'>
+      <h1>Moje prośby</h1>
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
-        {/* <button onClick={() => searchUsersRequests(user.uid)}>sada</button> */}
         {usersRequests.map((item, index) => {
           const { title, isbn, id, status } = item
+          console.log(item)
           return (
             <div key={index}>
               <div className='item'>
@@ -63,6 +65,13 @@ const UserReqMenu = () => {
                   }
                 >
                   {status}
+                  {status === 'potwierdzona' && (
+                    <div className='iconn'>
+                      <button className='map'>
+                        <FaMapMarkedAlt />
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <br />
               </div>
@@ -76,6 +85,15 @@ const UserReqMenu = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
+  h1 {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .map {
+    background: transparent;
+    color: var(--main);
+  }
 
   .red {
     color: red;
@@ -126,7 +144,8 @@ const Wrapper = styled.div`
   @media (min-width: 500px) {
     .item {
       display: grid;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: 1fr 1fr 1fr;
+
       margin-top: 2rem;
       justify-content: space-between;
     }
@@ -149,6 +168,10 @@ const Wrapper = styled.div`
     }
     .info {
       font-size: 1rem;
+      text-align: left;
+    }
+    .status {
+      text-align: right;
     }
   }
 
@@ -173,7 +196,7 @@ const Wrapper = styled.div`
   @media (min-width: 905px) {
     .item {
       display: grid;
-      grid-template-columns: auto auto auto;
+      grid-template-columns: 1fr 1fr 1fr;
       margin-top: 2rem;
       justify-content: space-between;
     }
@@ -195,6 +218,7 @@ const Wrapper = styled.div`
     }
     .info {
       font-size: 1.5rem;
+      text-align: left;
     }
   }
 `

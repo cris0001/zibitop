@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-
+import { addNotification } from '../notification'
 import { Navbar, Footer } from '../components'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { db } from '../firebase'
 import { BooksContext } from '../context/BooksContext'
 import { AuthContext } from '../context/AuthContext'
 
-const AddBook = () => {
+const AddBook = ({ history }) => {
   const { isbn } = useParams()
 
-  const { getIDbyISBN, idFromIsbn } = useContext(BooksContext)
+  const { getIDbyISBN, idFromIsbn, alert, setAlert } = useContext(BooksContext)
   const { user } = useContext(AuthContext)
 
   const [name, setName] = useState('')
@@ -18,41 +19,102 @@ const AddBook = () => {
   const [email, setEmail] = useState('')
   const [postCode, setPostCode] = useState('')
   const [streetNbr, setStreetNbr] = useState('')
+  const [number, setNumber] = useState('')
+
+  const [disable, setDisable] = useState(false)
 
   const bookId = getIDbyISBN(isbn)
 
+  const clearForm = () => {
+    setName('')
+    setSurname('')
+    setEmail('')
+    setPostCode('')
+    setStreetNbr('')
+    setNumber('')
+  }
+
+  const chceckName = () => {
+    const reg = /^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
+    if (!name.match(reg)) {
+      addNotification('podaj poprawne imie', 'danger')
+      return
+    } else return true
+  }
+
+  const checkSurname = () => {
+    const reg = /^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
+    if (!surname.match(reg)) {
+      addNotification('podaj poprawne nazwisko', 'danger')
+      return
+    } else return true
+  }
+
+  const checkEmail = () => {
+    const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if (!email.match(reg)) {
+      addNotification('podaj poprawny email', 'danger')
+      return
+    } else return true
+  }
+
+  const checkPostCode = () => {
+    const reg = /^[0-9]{2}(-[0-9]{3})?$/
+    if (!postCode.match(reg)) {
+      addNotification('podaj poprawny kod pocztowy', 'danger')
+      return
+    } else return true
+  }
+
+  const chceckStreet = () => {
+    if (streetNbr.length < 5) {
+      addNotification('podaj poprawną ulicę', 'danger')
+      return
+    } else return true
+  }
+
+  const checkNumber = () => {
+    const reg = /^[0-9]{1,5}[a-z]{0,1}$/
+    if (!number.match(reg)) {
+      addNotification('podaj poprawny numer domu', 'danger')
+      return
+    } else return true
+  }
+
   const addNotice = (e) => {
     e.preventDefault()
+    setDisable(false)
 
-    db.collection('notices').add({
-      bookId: idFromIsbn,
-      userId: user.uid,
-      status: 'wolna',
-      isbn,
-      name,
-      surname,
-      email,
-      postCode,
-      streetNbr,
-    })
-    // db.collection('notices')
-    //   .add({
-    //     bookId: idFromIsbn,
-    //     userId: user.uid,
-    //     status: 'wolna',
-    //     isbn,
-    //     name,
-    //     surname,
-    //     email,
-    //     postCode,
-    //     streetNbr,
-    //   })
-    //   .then(function (docRef) {
-    //     console.log('Document written with ID: ', docRef.id)
-    //   })
-    //   .catch(function (error) {
-    //     console.error('Error adding document: ', error)
-    //   })
+    if (
+      chceckName(name) &&
+      checkEmail(email) &&
+      chceckStreet(streetNbr) &&
+      checkNumber(number) &&
+      checkPostCode(postCode) &&
+      checkSurname(surname)
+    ) {
+      try {
+        db.collection('notices').add({
+          bookId: idFromIsbn,
+          userId: user.uid,
+          status: 'wolna',
+          isbn,
+          name,
+          surname,
+          email,
+          postCode,
+          streetNbr,
+        })
+        setDisable(true)
+        addNotification('ogłoszenie dodane pomyślnie', 'success')
+        clearForm()
+        setTimeout(() => {
+          history.push('/')
+        }, 1000)
+      } catch (err) {
+        console.log(err)
+      }
+    } else return
   }
 
   useEffect(() => {
@@ -74,7 +136,6 @@ const AddBook = () => {
                   type='text'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  required
                 />
               </div>
               <div className='input'>
@@ -83,7 +144,6 @@ const AddBook = () => {
                   type='text'
                   value={surname}
                   onChange={(e) => setSurname(e.target.value)}
-                  required
                 />
               </div>
               <div className='input'>
@@ -92,7 +152,6 @@ const AddBook = () => {
                   type='text'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                 />
               </div>
             </div>
@@ -106,22 +165,28 @@ const AddBook = () => {
                     type='text'
                     value={postCode}
                     onChange={(e) => setPostCode(e.target.value)}
-                    required
                   />
                 </div>
                 <div className='input'>
-                  <p>Ulica i numer domu:</p>
+                  <p>Ulica:</p>
                   <input
                     type='text'
                     value={streetNbr}
                     onChange={(e) => setStreetNbr(e.target.value)}
-                    required
+                  />
+                </div>
+                <div className='input'>
+                  <p>Numer domu:</p>
+                  <input
+                    type='text'
+                    value={number}
+                    onChange={(e) => setNumber(e.target.value)}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <button type='submit' className='btn'>
+          <button disabled={disable} type='submit' className='btn'>
             Dodaj
           </button>
         </form>

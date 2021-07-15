@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
-import { Redirect } from 'react-router-dom'
 import defaultImg from '../images/defaultImg.jpg'
 import top from '../images/top.jpg'
 import { BooksContext } from '../context/BooksContext'
 import { AuthContext } from '../context/AuthContext'
+import { addNotification } from '../notification'
 
 import { db } from '../firebase'
 
@@ -33,15 +33,22 @@ const SingleBook = () => {
     //   userIdTo: userIdTo,
     //   status: 'wysłane',
     // })
-    db.collection('requestsUser').add({
-      id,
-      noticeId,
-      userIdFrom: user.uid,
-      userIdTo: userIdTo,
-      status: 'wysłane',
-      isbn: singleBook.isbn,
-      title: singleBook.title,
-    })
+    if (user.uid != userIdTo) {
+      db.collection('requestsUser').add({
+        id,
+        noticeId,
+        userIdFrom: user.uid,
+        userIdTo: userIdTo,
+        status: 'wysłane',
+        isbn: singleBook.isbn,
+        title: singleBook.title,
+      })
+      addNotification('wysłano zapytanie', 'success')
+      changeNoticeStatus()
+    } else {
+      addNotification('ta książka należy do Ciebie', 'danger')
+      return null
+    }
   }
 
   const changeNoticeStatus = async () => {
@@ -111,7 +118,6 @@ const SingleBook = () => {
                 onClick={() => {
                   setDisable(true)
                   sendBookRequest()
-                  changeNoticeStatus()
                 }}
                 className='btn btn2'
               >

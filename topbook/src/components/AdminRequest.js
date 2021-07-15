@@ -4,6 +4,7 @@ import { list } from '../utils/constans'
 import { FaTrash, FaPlusCircle } from 'react-icons/fa'
 import { BooksContext } from '../context/BooksContext'
 import { db } from '../firebase'
+import { addNotification } from '../notification'
 
 const AdminRequest = () => {
   const [adminRequests, setAdminRequests] = useState([])
@@ -23,9 +24,11 @@ const AdminRequest = () => {
 
   return (
     <Wrapper className='section section-center'>
+      <h1>Prośby od użytkowników</h1>
       <div>
         {adminRequests.map((item) => {
           const { isbn, title, author, id, status } = item
+          const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
           return (
             <div key={id}>
               <div className='item' key={id}>
@@ -42,13 +45,14 @@ const AdminRequest = () => {
 
                 <div className='icons'>
                   <FaTrash
-                    onClick={() =>
+                    onClick={() => {
                       db.collection('requestAdmin').doc(item.id).delete()
-                    }
+                      addNotification('usunieęto prośbę', 'danger')
+                    }}
                     className='red'
                   />
                   <FaPlusCircle
-                    onClick={() => fetchBook(`${url}${item.isbn}`)}
+                    onClick={() => fetchBook(url, isbn)}
                     className='green'
                   />
                 </div>
@@ -64,7 +68,10 @@ const AdminRequest = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
-
+  h1 {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
   .item {
     display: grid;
     grid-template-columns: auto auto;

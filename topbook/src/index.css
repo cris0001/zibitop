@@ -58,7 +58,8 @@ p {
 }
 
 .alert {
-  margin-bottom: 1rem;
+  position: relative;
+  margin-top: 10px;
   height: 1.25rem;
   display: grid;
   align-items: center;

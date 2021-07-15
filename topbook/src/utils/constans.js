@@ -10,12 +10,12 @@ import {
 } from 'react-icons/fa'
 
 export const links = [
-  {
-    id: 1,
-    text: 'strona główna',
-    url: '/',
-    icon: <FaPlusSquare />,
-  },
+  // {
+  //   id: 1,
+  //   text: 'strona główna',
+  //   url: '/',
+  //   icon: <FaPlusSquare />,
+  // },
 
   {
     id: 2,

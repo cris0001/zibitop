@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react'
-
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
@@ -16,9 +15,8 @@ const Reg = ({ history }) => {
         await app
           .auth()
           .createUserWithEmailAndPassword(email.value, password.value)
-
-        history.push('/')
       } catch (error) {
+        console.log(error)
         alert(error)
       }
     },

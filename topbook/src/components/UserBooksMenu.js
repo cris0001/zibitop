@@ -38,21 +38,17 @@ const UserBooksMenu = () => {
     //data = snapshot.val()
   }
 
-  // useEffect(() => {
-  //   searchBooksByUser()
-  // }, [])
+  useEffect(() => {
+    searchBooksByUser()
+  }, [])
 
   // useEffect(() => {
   //   console.log(usersBooks)
   // }, [usersBooks])
 
-  if (loading) {
-    return <h1>xd</h1>
-  }
-
   return (
     <Wrapper className='section section-center'>
-      <button onClick={() => searchBooksByUser()}>sada</button>
+      <h1>Moje ogłoszenia</h1>
       {usersBooks.map((item, index) => {
         return (
           <div key={index} className='content'>
@@ -61,7 +57,7 @@ const UserBooksMenu = () => {
               <h2></h2>
               <div className='icon'>
                 <button className='open-btn' onClick={openModal}>
-                  <FaEye />
+                  {/* <FaEye /> */}
                 </button>
               </div>
             </div>
@@ -75,6 +71,9 @@ const UserBooksMenu = () => {
 }
 const Wrapper = styled.div`
   min-height: 80vh;
+  h1 {
+    text-align: center;
+  }
 
   .grid {
     margin-top: 5rem;

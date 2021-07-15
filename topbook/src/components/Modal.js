@@ -13,9 +13,13 @@ const Modal = ({ closeModal, isModalOpen, selected }) => {
         }`}
       >
         <div className='modal-container'>
-          {/* <h3>{selected.author}</h3>
-          // <h3>{selected.title}</h3>
-          <h3>{selected.id}</h3> */}
+          {selected ? (
+            <>
+              <h3>{selected.author}</h3>
+              <h3>{selected.title}</h3>
+              <h3>{selected.id}</h3>
+            </>
+          ) : null}
           <button className='close-modal-btn' onClick={closeModal}>
             <FaTimes></FaTimes>
           </button>

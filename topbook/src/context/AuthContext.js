@@ -4,13 +4,14 @@ import { auth } from '../firebase.js'
 import { db } from '../firebase'
 import { Redirect, withRouter } from 'react-router'
 import { Loading } from '../components'
+import { Kolko } from '../components'
 
 export const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('xd')
   const [currentUser, setCurrentuser] = useState('')
-  const [pending, setPending] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   // const getRole = () => {
   //   const help = user.email
@@ -21,12 +22,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     app.auth().onAuthStateChanged((user) => {
       setUser(user)
-
-      console.log('auth context')
-      console.log(user)
-      console.log('auth context')
-      setPending(false)
       setCurrentuser(user)
+      //setLoading(false)
     })
   }, [])
 
@@ -55,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         currentUser,
       }}
     >
-      {children}
+      {loading ? <Kolko /> : children}
     </AuthContext.Provider>
   )
 }
