@@ -50,7 +50,7 @@ const Navbar = () => {
           {user ? (
             <div className='bb'>
               <button>
-                <Link to='/user/'>profil</Link>
+                <Link to='/user'>profil</Link>
               </button>
               <button onClick={() => app.auth().signOut()}>wyloguj</button>
             </div>

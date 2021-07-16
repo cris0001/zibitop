@@ -4,9 +4,20 @@ import { Link } from 'react-router-dom'
 import { books } from '../utils/constans'
 import { BooksContext } from '../context/BooksContext'
 import Book from './Book'
+import { Spiner } from '.'
 
 const MainBooks = () => {
-  const { allBooks, notices } = useContext(BooksContext)
+  const { allBooks, notices, loading } = useContext(BooksContext)
+
+  // if (loading) {
+  //   return (
+  //     <Wrapper className='section'>
+  //       <div className='section-center'>
+  //         <Spiner />
+  //       </div>
+  //     </Wrapper>
+  //   )
+  // }
   return (
     <Wrapper className='section'>
       <div className='section-center'>

@@ -20,7 +20,10 @@ const Login = ({ history }) => {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
       try {
         await app.auth().signInWithEmailAndPassword(email.value, password.value)
-        history.push('/')
+
+        // setTimeout(() => {
+        //   history.push('/admin')
+        // }, 1000)
       } catch (error) {
         alert(error)
         console.log('zle')

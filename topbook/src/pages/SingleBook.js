@@ -1,39 +1,55 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { Navbar, Footer } from '../components'
+import { Navbar, Footer, Spiner } from '../components'
 import defaultImg from '../images/defaultImg.jpg'
 import top from '../images/top.jpg'
 import { BooksContext } from '../context/BooksContext'
 import { AuthContext } from '../context/AuthContext'
 import { addNotification } from '../notification'
-
 import { db } from '../firebase'
+import Geocode from 'react-geocode'
+import Map from '../components/Map'
+import { MapWithAMarker } from '../components/Map'
 
 const SingleBook = () => {
   const [singleBook, setSingleBook] = useState({})
-  const {} = useContext(BooksContext)
+  const [lat, setLat] = useState()
+  const [lng, setLng] = useState()
+  const [showMap, setShowMap] = useState(false)
+  const { loading, setLoading } = useContext(BooksContext)
   const { user } = useContext(AuthContext)
   const { id } = useParams()
   const history = useHistory()
   const [disable, setDisable] = useState(false)
+  console.log(id)
 
   const userIdTo = history.location.state.userIdTo
   const noticeId = history.location.state.noticeId
+  const noticeStreet = history.location.state.noticeStreet
+  const noticeCode = history.location.state.noticeCode
+  const noticeNumber = history.location.state.noticeNumber
+
+  const adres = `${noticeStreet} ${noticeNumber}, ${noticeCode}`
 
   console.log(noticeId)
 
+  Geocode.setApiKey('AIzaSyCnT_oyJjvQLDmRokFP62CuAe7i_btZT6M')
+
+  Geocode.fromAddress(adres).then(
+    (response) => {
+      // const { lat, lng } = response.results[0].geometry.location
+      // console.log(response.results[0].geometry.location)
+      setLat(response.results[0].geometry.location.lat)
+      setLng(response.results[0].geometry.location.lng)
+    },
+    (error) => {
+      console.error(error)
+    }
+  )
+
   const sendBookRequest = () => {
-    // console.log('xd')
-    // console.log(userIdTo)
-    // console.log('xd2')
-    // console.log(user.uid)
-    // db.collection('requestsUser').add({
-    //   userIdFrom: user.id,
-    //   userIdTo: userIdTo,
-    //   status: 'wysłane',
-    // })
-    if (user.uid != userIdTo) {
+    if (user.uid !== userIdTo) {
       db.collection('requestsUser').add({
         id,
         noticeId,
@@ -43,42 +59,54 @@ const SingleBook = () => {
         isbn: singleBook.isbn,
         title: singleBook.title,
       })
-      addNotification('wysłano zapytanie', 'success')
+      addNotification(
+        'Prośba o odbiór książki',
+        'zapytanie zostało wysłane',
+        'success'
+      )
       changeNoticeStatus()
     } else {
-      addNotification('ta książka należy do Ciebie', 'danger')
+      addNotification(
+        'Prośba o odbiór książki',
+        'ta książka należy do Ciebie',
+        'danger'
+      )
       return null
     }
   }
 
   const changeNoticeStatus = async () => {
     const reqRef = db.collection('notices').doc(noticeId)
-    const res = await reqRef.update({ status: 'oczekuje' })
+    await reqRef.update({ status: 'oczekuje' })
   }
 
   useEffect(() => {
     const fetchSingleBook = async (id) => {
+      setLoading(true)
       const booksRef = db.collection('books').doc(id)
       const doc = await booksRef.get()
       let data = {}
       if (!doc.exists) {
         console.log('No such document!')
+        setLoading(false)
       } else {
         data = doc.data()
         setSingleBook(data)
+        setLoading(false)
 
         //console.log('Document data:', doc.data())
       }
     }
-
     fetchSingleBook(id)
-
-    console.log('single book')
-  }, [id])
+  }, [])
 
   useEffect(() => {
     console.log(singleBook)
   }, [singleBook])
+
+  if (loading) {
+    return <Spiner />
+  }
 
   return (
     <Wrapper>
@@ -124,12 +152,20 @@ const SingleBook = () => {
                 Poproś o odbiór
               </button>
             ) : null}
+            {showMap ? null : (
+              <button className='btn2 btn' onClick={() => setShowMap(true)}>
+                pokaż mapę
+              </button>
+            )}
           </div>
         </div>
 
-        <div className='map'>
-          <img className='localization' src={top} alt='' />
-        </div>
+        {showMap ? (
+          <div className='location'>
+            {adres}
+            <Map lat={lat} lng={lng} />
+          </div>
+        ) : null}
       </div>
       <Footer />
     </Wrapper>

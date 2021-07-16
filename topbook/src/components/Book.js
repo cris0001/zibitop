@@ -27,7 +27,13 @@ const Book = ({ matchingBook, notice }) => {
             className='link'
             to={{
               pathname: `books/${id}`,
-              state: { userIdTo: notice.userId, noticeId: notice.id },
+              state: {
+                userIdTo: notice.userId,
+                noticeId: notice.id,
+                noticeStreet: notice.streetNbr,
+                noticeCode: notice.postCode,
+                noticeNumber: notice.number,
+              },
             }}
           >
             <FaSearch />

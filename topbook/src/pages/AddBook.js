@@ -20,7 +20,6 @@ const AddBook = ({ history }) => {
   const [postCode, setPostCode] = useState('')
   const [streetNbr, setStreetNbr] = useState('')
   const [number, setNumber] = useState('')
-
   const [disable, setDisable] = useState(false)
 
   const bookId = getIDbyISBN(isbn)
@@ -37,7 +36,7 @@ const AddBook = ({ history }) => {
   const chceckName = () => {
     const reg = /^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
     if (!name.match(reg)) {
-      addNotification('podaj poprawne imie', 'danger')
+      addNotification('Wprowadzanie danych', 'podaj poprawne imie', 'danger')
       return
     } else return true
   }
@@ -45,7 +44,11 @@ const AddBook = ({ history }) => {
   const checkSurname = () => {
     const reg = /^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
     if (!surname.match(reg)) {
-      addNotification('podaj poprawne nazwisko', 'danger')
+      addNotification(
+        'Wprowadzanie danych',
+        'podaj poprawne nazwisko',
+        'danger'
+      )
       return
     } else return true
   }
@@ -53,7 +56,7 @@ const AddBook = ({ history }) => {
   const checkEmail = () => {
     const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     if (!email.match(reg)) {
-      addNotification('podaj poprawny email', 'danger')
+      addNotification('Wprowadzanie danych', 'podaj poprawny email', 'danger')
       return
     } else return true
   }
@@ -61,14 +64,18 @@ const AddBook = ({ history }) => {
   const checkPostCode = () => {
     const reg = /^[0-9]{2}(-[0-9]{3})?$/
     if (!postCode.match(reg)) {
-      addNotification('podaj poprawny kod pocztowy', 'danger')
+      addNotification(
+        'Wprowadzanie danych',
+        'podaj poprawny kod pocztowy',
+        'danger'
+      )
       return
     } else return true
   }
 
   const chceckStreet = () => {
     if (streetNbr.length < 5) {
-      addNotification('podaj poprawną ulicę', 'danger')
+      addNotification('Wprowadzanie danych', 'podaj poprawną ulicę', 'danger')
       return
     } else return true
   }
@@ -76,7 +83,11 @@ const AddBook = ({ history }) => {
   const checkNumber = () => {
     const reg = /^[0-9]{1,5}[a-z]{0,1}$/
     if (!number.match(reg)) {
-      addNotification('podaj poprawny numer domu', 'danger')
+      addNotification(
+        'Wprowadzanie danych',
+        'podaj poprawny numer domu',
+        'danger'
+      )
       return
     } else return true
   }
@@ -101,12 +112,17 @@ const AddBook = ({ history }) => {
           isbn,
           name,
           surname,
+          number,
           email,
           postCode,
           streetNbr,
         })
         setDisable(true)
-        addNotification('ogłoszenie dodane pomyślnie', 'success')
+        addNotification(
+          'Nowe ogłoszenie',
+          'ogłoszenie dodane pomyślnie',
+          'success'
+        )
         clearForm()
         setTimeout(() => {
           history.push('/')

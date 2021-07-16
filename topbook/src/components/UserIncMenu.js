@@ -1,13 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { list } from '../utils/constans'
 import Modal from './Modal'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
+import { BooksContext } from '../context/BooksContext'
+import { Spiner } from '.'
+import { addNotification } from '../notification'
 
 const UserIncMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useContext(AuthContext)
+  const { loading } = useContext(BooksContext)
   const [requestsToUser, setRequestsToUser] = useState([])
   const [idToChange, setIdToChange] = useState('')
   console.log(idToChange)
@@ -63,6 +66,10 @@ const UserIncMenu = () => {
     const res = await reqRef.update({ status: 'odrzucona' })
   }
 
+  if (loading) {
+    return <Spiner />
+  }
+
   return (
     <Wrapper className='section section-center'>
       <h1>Prośby od użytkowników</h1>
@@ -87,6 +94,11 @@ const UserIncMenu = () => {
                     onClick={() => {
                       acceptRequest(id)
                       acceptNoticeStatus(noticeId)
+                      addNotification(
+                        'Prośba do książkę',
+                        'prośba została pomyślnie zatwierdzona',
+                        'success'
+                      )
                     }}
                     className={
                       status === 'odrzucona' ? 'accept hide-accept' : 'accept'
@@ -98,6 +110,11 @@ const UserIncMenu = () => {
                     onClick={() => {
                       refuseRequest(id)
                       declineNoticeStatus(noticeId)
+                      addNotification(
+                        'Prośba do książkę',
+                        'prośba została odrzucona',
+                        'success'
+                      )
                     }}
                     className={
                       status === 'potwierdzona'
@@ -136,10 +153,14 @@ const Wrapper = styled.div`
     font-size: 1rem;
   }
   .accept {
-    background: #52e361;
+    color: #008000;
+    background: transparent;
+    font-weight: bold;
   }
   .decline {
-    background: #ee2727;
+    font-weight: bold;
+    color: #ee2727;
+    background: transparent;
   }
 
   .item {
@@ -168,11 +189,15 @@ const Wrapper = styled.div`
   @media (min-width: 500px) {
     .item {
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: 1fr 1fr 1fr;
       margin-top: 2rem;
       justify-content: space-between;
+      text-align: left;
     }
 
+    .buttons {
+      text-align: right;
+    }
     .item div:nth-child(3) {
       grid-column: 3;
       grid-row: 1;
@@ -188,6 +213,7 @@ const Wrapper = styled.div`
 
     .text {
       font-size: 1rem;
+      text-align: center;
     }
     .info {
       font-size: 1rem;
@@ -215,7 +241,7 @@ const Wrapper = styled.div`
   @media (min-width: 905px) {
     .item {
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: 1fr 1fr 1fr;
       margin-top: 2rem;
       justify-content: space-between;
     }

@@ -47,7 +47,11 @@ const AdminRequest = () => {
                   <FaTrash
                     onClick={() => {
                       db.collection('requestAdmin').doc(item.id).delete()
-                      addNotification('usunieęto prośbę', 'danger')
+                      addNotification(
+                        'Prośby od użytkowników',
+                        'usunięto prośbę',
+                        'success'
+                      )
                     }}
                     className='red'
                   />

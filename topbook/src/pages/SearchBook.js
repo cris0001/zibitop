@@ -37,14 +37,22 @@ const SearchBook = () => {
     const citiesRef = db.collection('books')
     const snapshot = await citiesRef.where('isbn', '==', addIsbn).get()
     if (!snapshot.empty) {
-      addNotification('podana książka już istnieje', 'info')
+      addNotification(
+        'Prośba do Administratora',
+        'podana książka już istnieje',
+        'info'
+      )
       return null
     }
 
     const notRef = db.collection('requestAdmin')
     const snapshot2 = await notRef.where('isbn', '==', addIsbn).get()
     if (!snapshot2.empty) {
-      addNotification('Ktoś już poprosił o dodanie tej książki', 'default')
+      addNotification(
+        'Prośba do Administratora',
+        'Ktoś już poprosił o dodanie tej książki',
+        'default'
+      )
 
       return null
     }
@@ -54,7 +62,7 @@ const SearchBook = () => {
       status: 'do zatwierdzenia',
       userID: user.uid,
     })
-    addNotification('Zgłoszenie wysłane', 'success')
+    addNotification('Prośba do Administratora', 'Zgłoszenie wysłane', 'success')
     //setAlert2({ show: true, msg: 'Zgłoszenie wysłane', type: 'success' })
   }
 

@@ -4,12 +4,14 @@ import { FaMapMarkedAlt } from 'react-icons/fa'
 import { list } from '../utils/constans'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
-
+import { Spiner } from '.'
 import Modal from './Modal'
-
+import { BooksContext } from '../context/BooksContext'
+import { addNotification } from '../notification'
 const UserReqMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useContext(AuthContext)
+  const { loading } = useContext(BooksContext)
   const [usersRequests, setUsersRequests] = useState([])
 
   const closeModal = () => {
@@ -38,6 +40,10 @@ const UserReqMenu = () => {
   useEffect(() => {
     searchUsersRequests(user.uid)
   }, [])
+
+  if (loading) {
+    return <Spiner />
+  }
 
   return (
     <Wrapper className='section section-center'>

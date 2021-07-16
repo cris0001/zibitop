@@ -3,6 +3,7 @@ import axios from 'axios'
 import { db } from '../firebase'
 import { AuthContext } from './AuthContext'
 import { addNotification } from '../notification'
+import { Spiner } from '../components'
 
 export const BooksContext = React.createContext()
 
@@ -23,20 +24,27 @@ export const BooksProvider = ({ children }) => {
   const [msg, setMsg] = useState('')
   const [alert, setAlert] = useState({ show: false, msg: '', type: '' })
   const [alert2, setAlert2] = useState({ show: false, msg: '', type: '' })
+  const [loading, setLoading] = useState(false)
 
   const { currentUser } = useContext(AuthContext)
 
   const fetchBook = async (url, isbn) => {
+    setLoading(true)
     console.log(isbn)
     console.log(url)
     console.log('start')
-    //setLoading(true)
+    setLoading(true)
 
     let xd = `${url}${isbn}`
     console.log(xd)
 
     if (isbn.length != 13) {
-      addNotification('podany ISBN jest niepoprawny', 'danger')
+      addNotification(
+        'Dodawanie ksiązki',
+        'podany ISBN jest niepoprawny',
+        'danger'
+      )
+      setLoading(false)
       return
     } else {
       try {
@@ -52,7 +60,12 @@ export const BooksProvider = ({ children }) => {
           const notRef = db.collection('books')
           const snapshot2 = await notRef.where('isbn', '==', isbn).get()
           if (!snapshot2.empty) {
-            addNotification('książka znajduje się już w bazie', 'info')
+            addNotification(
+              'Dodawanie ksiązki',
+              'książka znajduje się już w bazie',
+              'info'
+            )
+            setLoading(false)
             return null
           } else {
             const isbn = types[0].identifier
@@ -74,12 +87,19 @@ export const BooksProvider = ({ children }) => {
             }
 
             db.collection('books').add(book)
-            addNotification('dodano pomyślnie do bazy', 'success')
+            addNotification(
+              'Dodawanie ksiązki',
+              'dodano pomyślnie do bazy',
+              'success'
+            )
+            setLoading(false)
           }
         } else {
-          addNotification('brak podanej książki', 'info')
+          addNotification('Dodawanie ksiązki', 'brak podanej książki', 'info')
+          setLoading(false)
         }
       } catch (err) {
+        setLoading(false)
         console.log(err)
       }
     }
@@ -87,7 +107,7 @@ export const BooksProvider = ({ children }) => {
 
   useEffect(() => {
     const getAllBooks = () => {
-      // setLoading(true)
+      setLoading(true)
       try {
         db.collection('books').onSnapshot((snapshot) => {
           const booskData = []
@@ -95,23 +115,30 @@ export const BooksProvider = ({ children }) => {
             booskData.push({ ...doc.data(), id: doc.id })
           )
           setAllBooks(booskData)
-          // setLoading(false)
+          setLoading(false)
         })
       } catch (err) {
         console.log(err)
         // setError(err)
-        // setLoading(false)
+        setLoading(false)
       }
     }
     getAllBooks()
   }, [])
 
   useEffect(() => {
-    db.collection('notices').onSnapshot((snapshot) => {
-      const postData = []
-      snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
-      setNotices(postData)
-    })
+    setLoading(true)
+    try {
+      db.collection('notices').onSnapshot((snapshot) => {
+        const postData = []
+        snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
+        setNotices(postData)
+        setLoading(false)
+      })
+    } catch (err) {
+      console.log(err)
+      setLoading(false)
+    }
   }, [])
 
   // useEffect(() => {
@@ -123,23 +150,26 @@ export const BooksProvider = ({ children }) => {
   //   })
   // }, [])
 
-  const fetchSingleBook = async (id) => {
-    const booksRef = db.collection('books').doc(id)
-    const doc = await booksRef.get()
+  // const fetchSingleBook = async (id) => {
+  //   setLoading(true)
+  //   const booksRef = db.collection('books').doc(id)
+  //   const doc = await booksRef.get()
 
-    let data = {}
-    if (!doc.exists) {
-      console.log('No such document!')
-    } else {
-      data = doc.data()
-      //console.log('Document data:', doc.data())
-      setSingleBook(data)
-    }
-  }
+  //   let data = {}
+  //   if (!doc.exists) {
+  //     console.log('No such document!')
+  //     setLoading(false)
+  //   } else {
+  //     data = doc.data()
+  //     //console.log('Document data:', doc.data())
+  //     setSingleBook(data)
+  //     setLoading(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    console.log(singleBook)
-  }, [singleBook])
+  // useEffect(() => {
+  //   console.log(singleBook)
+  // }, [singleBook])
 
   // const newIsbnRequest = (isbn) => {
   //   db.collection('requestAdmin').add({
@@ -161,13 +191,21 @@ export const BooksProvider = ({ children }) => {
       console.log('No matching documents.')
       //setMsg('brak książki i podanym numerze ISBN')
 
-      addNotification('Brak ksiażki o podanym numerze ISBN', 'danger')
+      addNotification(
+        'Wyszukiwanie książki',
+        'Brak ksiażki o podanym numerze ISBN',
+        'danger'
+      )
     }
 
     snapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data())
       setSearchStatus(true)
-      addNotification('Książka odnaleziona, możesz przejść dalej', 'success')
+      addNotification(
+        'Wyszukiwanie książki',
+        'Książka odnaleziona, możesz przejść dalej',
+        'success'
+      )
 
       // setAlert({
       //   show: true,
@@ -196,10 +234,14 @@ export const BooksProvider = ({ children }) => {
     setAlert2({ show, type, msg })
   }
 
+  // if (loading) {
+  //   return <Spiner />
+  // }
+
   return (
     <BooksContext.Provider
       value={{
-        fetchSingleBook,
+        // fetchSingleBook,
         fetchBook,
         msg,
         book,
@@ -207,7 +249,7 @@ export const BooksProvider = ({ children }) => {
         singleBook,
         isbnNewRequest,
         setIsbnNewRequest,
-        // loading,
+        loading,
         // error,
         searchByIsbn,
         searchStatus,
@@ -224,6 +266,7 @@ export const BooksProvider = ({ children }) => {
         showAlert,
         alert2,
         setAlert2,
+        setLoading,
       }}
     >
       {children}

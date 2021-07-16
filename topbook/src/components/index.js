@@ -17,7 +17,7 @@ import UserReqMenu from './UserReqMenu'
 import UserIncMenu from './UserIncMenu'
 import Loading from './Loading'
 import Alert from './Alert'
-import Kolko from './Kolko'
+import Spiner from './Spiner'
 
 export {
   Navbar,
@@ -39,5 +39,5 @@ export {
   Loading,
   Footer,
   Alert,
-  Kolko,
+  Spiner,
 }

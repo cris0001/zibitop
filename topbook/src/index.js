@@ -7,13 +7,13 @@ import { AuthProvider } from './context/AuthContext'
 import { BooksProvider } from './context/BooksContext'
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <AuthProvider>
       <BooksProvider>
         <App />
       </BooksProvider>
     </AuthProvider>
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root')
 )
 

@@ -4,7 +4,7 @@ import { WindMillLoading } from 'react-loadingg'
 const Kolko = () => {
   return (
     <div>
-      <WindMillLoading />
+      <WindMillLoading size={'large'} color={'#0a1d37'} />
     </div>
   )
 }

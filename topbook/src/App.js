@@ -20,7 +20,6 @@ import {
 } from './pages'
 import SearchBook from './pages/SearchBook'
 import AddBook from './pages/AddBook'
-import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './PrivateRoute'
 
 function App() {

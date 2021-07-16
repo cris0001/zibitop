@@ -6,16 +6,13 @@ import Modal from './Modal'
 import { AuthContext } from '../context/AuthContext'
 import { db } from '../firebase'
 import { BooksContext } from '../context/BooksContext'
+import { Spiner } from '.'
 
 const UserBooksMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user, currentUser } = useContext(AuthContext)
   const [usersBooks, setUsersBooks] = useState([])
   const { loading, error } = useContext(BooksContext)
-
-  console.log('---------')
-  console.log(user)
-  console.log('---------')
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -27,9 +24,10 @@ const UserBooksMenu = () => {
   }
 
   const searchBooksByUser = async () => {
-    db.collection('notices')
-      .where('userId', '==', user.uid)
+    db.collection('requestsUser')
+      .where('userIdTo', '==', user.uid)
       .onSnapshot((snapshot) => {
+        console.log(snapshot)
         const postData = []
         snapshot.forEach((doc) => postData.push(doc.data()))
         setUsersBooks(postData)
@@ -42,9 +40,13 @@ const UserBooksMenu = () => {
     searchBooksByUser()
   }, [])
 
-  // useEffect(() => {
-  //   console.log(usersBooks)
-  // }, [usersBooks])
+  useEffect(() => {
+    console.log(usersBooks)
+  }, [usersBooks])
+
+  if (loading) {
+    return <Spiner />
+  }
 
   return (
     <Wrapper className='section section-center'>
@@ -54,7 +56,7 @@ const UserBooksMenu = () => {
           <div key={index} className='content'>
             <div className='grid'>
               <h2>ISBN: {item.isbn}</h2>
-              <h2></h2>
+              <h2>{item.title}</h2>
               <div className='icon'>
                 <button className='open-btn' onClick={openModal}>
                   {/* <FaEye /> */}
@@ -78,7 +80,7 @@ const Wrapper = styled.div`
   .grid {
     margin-top: 5rem;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     justify-content: space-between;
   }
   .icon {

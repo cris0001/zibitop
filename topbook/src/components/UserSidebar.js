@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
 import { user, login } from '../utils/constans'
+import app from '../firebase'
 
 const UserSidebar = ({ closeS, open }) => {
   return (
@@ -28,17 +29,18 @@ const UserSidebar = ({ closeS, open }) => {
             )
           })}
         </div>
-        <div className='login'>
-          {login.map((item) => {
-            const { id, url, text } = item
-            return (
-              <div key={id} className='login-links'>
-                <Link className='login-item' to={url}>
-                  <div className='login-text'>{text}</div>
-                </Link>
-              </div>
-            )
-          })}
+
+        <div className='login-links login'>
+          <button>
+            <Link className='login-item' to='/'>
+              Strona Główna
+            </Link>
+          </button>
+          <button onClick={() => app.auth().signOut()}>
+            <Link className='login-item' to='/'>
+              Wyloguj
+            </Link>
+          </button>
         </div>
       </aside>
     </Wrapper>
@@ -52,6 +54,15 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1.2rem 3.3rem;
+  }
+  button {
+    background: transparent;
+    border: none;
+  }
+
+  .login-links {
+    display: flex;
+    flex-direction: column;
   }
 
   .links {
