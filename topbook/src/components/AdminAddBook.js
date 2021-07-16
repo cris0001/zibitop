@@ -2,11 +2,16 @@ import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { BooksContext } from '../context/BooksContext'
 import { addNotification } from '../notification'
+import { Spiner } from '.'
 
 const AdminAddBook = () => {
-  const { fetchBook } = useContext(BooksContext)
+  const { fetchBook, loading } = useContext(BooksContext)
   const [isbn, setIsbn] = useState('')
   const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
+
+  // if (loading) {
+  //   return <Spiner />
+  // }
 
   return (
     <Wrapper className='section section-center'>
@@ -64,7 +69,7 @@ const Wrapper = styled.div`
       padding: 12rem 5rem 0 5rem;
     }
     input {
-      width: 90%;
+      width: 100%;
 
       height: 5rem;
 
@@ -72,7 +77,7 @@ const Wrapper = styled.div`
     }
 
     button {
-      width: 90%;
+      width: 100%;
       height: 5rem;
 
       font-size: 1.5rem;
