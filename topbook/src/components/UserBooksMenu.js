@@ -13,6 +13,7 @@ const UserBooksMenu = () => {
   const { user, currentUser } = useContext(AuthContext)
   const [usersBooks, setUsersBooks] = useState([])
   const { loading, error } = useContext(BooksContext)
+  console.log(user)
 
   const openModal = () => {
     setIsModalOpen(true)

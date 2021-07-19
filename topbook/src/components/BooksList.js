@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { books } from '../utils/constans'
 import { BooksContext } from '../context/BooksContext'
@@ -6,12 +6,18 @@ import Book from './Book'
 
 const BooksList = () => {
   const { allBooks, notices } = useContext(BooksContext)
+  const [search, setSearch] = useState('')
 
   console.log(allBooks)
   return (
     <Wrapper className='section'>
       <div className='section-center'>
-        <input type='text' placeholder='wyszukaj' />
+        {/* <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          type='text'
+          placeholder='wyszukaj'
+        /> */}
         <div className='content flex'>
           {notices.map((notice) => {
             const matchingBook = allBooks.filter(

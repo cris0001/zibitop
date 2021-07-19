@@ -45,6 +45,16 @@ const UserReqMenu = () => {
     return <Spiner />
   }
 
+  const getAdress = async (id) => {
+    const cityRef = db.collection('notices').doc(id)
+    const doc = await cityRef.get()
+    if (!doc.exists) {
+      console.log('No such document!')
+    } else {
+      console.log('Document data:', doc.data())
+    }
+  }
+
   return (
     <Wrapper className='section section-center'>
       <h1>Moje prośby</h1>
@@ -73,7 +83,13 @@ const UserReqMenu = () => {
                   {status}
                   {status === 'potwierdzona' && (
                     <div className='iconn'>
-                      <button className='map'>
+                      <button
+                        onClick={() => {
+                          getAdress(item.noticeId)
+                          console.log(item.noticeId)
+                        }}
+                        className='map'
+                      >
                         <FaMapMarkedAlt />
                       </button>
                     </div>

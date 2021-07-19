@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
 import { admin, login } from '../utils/constans'
-
+import app from '../firebase.js'
 const Sidebar = ({ closeSidebar, isSidebarOpen }) => {
   console.log(isSidebarOpen)
 
@@ -32,16 +32,17 @@ const Sidebar = ({ closeSidebar, isSidebarOpen }) => {
             )
           })}
         </div>
-        <div className='login'>
-          <div className='login-links'>
-            <button className='login-item'></button>
-            <Link className='login-item' to='/'>
-              Wyloguj
-            </Link>
+        <div className='login-links login'>
+          <button>
             <Link className='login-item' to='/'>
               Strona Główna
             </Link>
-          </div>
+          </button>
+          <button onClick={() => app.auth().signOut()}>
+            <Link className='login-item' to='/'>
+              Wyloguj
+            </Link>
+          </button>
         </div>
       </aside>
     </Wrapper>
@@ -55,6 +56,28 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1.2rem 3.3rem;
+  }
+  .login-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    gap: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  button {
+    background: transparent;
+    border: none;
+  }
+  .login-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .links {
+    margin-top: 5rem;
   }
 
   .links {

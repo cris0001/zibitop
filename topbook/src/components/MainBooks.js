@@ -40,7 +40,9 @@ const MainBooks = () => {
             .slice(0, 4)}
         </div>
         <div className='btn'>
-          <Link to='/books'>Pokaż wszystkie książki</Link>
+          <Link className='all-books' to='/books'>
+            Pokaż wszystkie książki
+          </Link>
         </div>
       </div>
     </Wrapper>
@@ -66,7 +68,7 @@ const Wrapper = styled.section`
     align-items: center;
   }
 
-  a {
+  .all-books {
     width: auto;
     background: #0a1d37;
     color: white;

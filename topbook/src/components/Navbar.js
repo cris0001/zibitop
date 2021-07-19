@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars, FaUserAlt } from 'react-icons/fa'
+import { FaBars } from 'react-icons/fa'
 import SidebarMain from './SidebarMain'
 import LoginButton from './LoginButton'
 import { links } from '../utils/constans'
@@ -10,7 +10,7 @@ import app from '../firebase'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { user } = useContext(AuthContext)
+  const { user, role } = useContext(AuthContext)
 
   const openPanel = () => {
     setIsOpen(true)
@@ -36,22 +36,32 @@ const Navbar = () => {
             <FaBars />
           </button>
         </div>
+
         <ul className='nav-links'>
-          {links.map((link) => {
-            const { id, text, url } = link
-            return (
-              <li key={id} className='nav'>
-                <Link to={url}>{text}</Link>
+          {role === 'admin' ? null : (
+            <ul className='nav-links'>
+              <li className='nav'>
+                <Link to='/books'>Książki</Link>
               </li>
-            )
-          })}
+              <li className='nav'>
+                <Link to='/searchbook'>Dodaj książkę</Link>
+              </li>
+            </ul>
+          )}
         </ul>
+
         <div className='login'>
           {user ? (
             <div className='bb'>
-              <button>
-                <Link to='/user'>profil</Link>
-              </button>
+              {role === 'user' ? (
+                <button>
+                  <Link to='/user'>profil</Link>
+                </button>
+              ) : (
+                <button>
+                  <Link to='/admin'>admin</Link>
+                </button>
+              )}
               <button onClick={() => app.auth().signOut()}>wyloguj</button>
             </div>
           ) : (
@@ -139,14 +149,10 @@ const Wrapper = styled.nav`
       display: flex;
       justify-content: center;
 
-      ul {
-      }
-
       li {
         list-style: none;
-      }
-      li {
         margin-right: 5rem;
+        text-align: center;
       }
 
       a {

@@ -21,27 +21,32 @@ import {
 import SearchBook from './pages/SearchBook'
 import AddBook from './pages/AddBook'
 import PrivateRoute from './PrivateRoute'
+import AdminRoute from './AdminRoute'
+import AnonRoute from './AnonRoute'
 
 function App() {
   return (
     <Router>
       <ReactNotification />
       <Switch>
+        <AnonRoute exact path='/searchbook' component={SearchBook} />
+        <Route exact path='/searchbook' component={SearchBook} />
         <Route exact path='/' component={Home} />
-        <PrivateRoute exact path='/admin' component={Admin} />
+        <AdminRoute exact path='/admin' component={Admin} />
+        <AdminRoute exact path='/admin/list' component={AdminList} />
+        <AdminRoute exact path='/admin/request' component={AdminRequest} />
         <Route exact path='/login' component={Login} />
         <PrivateRoute exact path='/add' component={AddBook} />
         <Route exact path='/reg' component={Reg} />
         <Route exact path='/books' component={Books} />
+        <Route exact path='/books' component={Books} />
         <Route path='/books/:id' children={<SingleBook />} />
-        <PrivateRoute exact path='/admin/list' component={AdminList} />
-        <PrivateRoute exact path='/admin/request' component={AdminRequest} />
         <PrivateRoute exact path='/user' component={User} />
         <PrivateRoute exact path='/user/inc' component={UserIncRequests} />
         <PrivateRoute exact path='/user/request' component={UserRequests} />
         <PrivateRoute exact path='/searchbook' component={SearchBook} />
-        <PrivateRoute exact path='/searchbook/:isbn' component={AddBook} />
 
+        <PrivateRoute exact path='/searchbook/:isbn' component={AddBook} />
         <Route path='*' component={Error} />
       </Switch>
     </Router>

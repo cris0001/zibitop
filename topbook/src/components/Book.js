@@ -14,12 +14,6 @@ const Book = ({ matchingBook, notice }) => {
     return (
       <Wrapper>
         <div className='container'>
-          <img
-            src={
-              matchingBook.img ? matchingBook.img.smallThumbnail : defaultImg
-            }
-            alt=''
-          />
           {/* <p>ogloszenie: {notice.id}</p>
           <p>ksiazka: {id}</p>
           <p>kto dodal: {notice.userId}</p> */}
@@ -36,7 +30,12 @@ const Book = ({ matchingBook, notice }) => {
               },
             }}
           >
-            <FaSearch />
+            <img
+              src={
+                matchingBook.img ? matchingBook.img.smallThumbnail : defaultImg
+              }
+              alt=''
+            />
           </Link>
           <div className='text'>
             <p>{title}</p>
@@ -54,6 +53,11 @@ const Wrapper = styled.section`
     box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.25);
   }
 
+  .container :hover {
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+  }
+
   p {
     padding: 0.1rem 0;
     text-align: center;
@@ -69,11 +73,11 @@ const Wrapper = styled.section`
     display: block;
     object-fit: cover;
   }
-  .link {
+  /* .link {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    //transform: translate(-50%, -50%);
     background: white;
     display: flex;
     align-items: center;
@@ -83,6 +87,6 @@ const Wrapper = styled.section`
     border-radius: 50%;
     opacity: 0;
     cursor: pointer;
-  }
+  } */
 `
 export default Book

@@ -3,14 +3,13 @@ import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Navbar, Footer, Spiner } from '../components'
 import defaultImg from '../images/defaultImg.jpg'
-import top from '../images/top.jpg'
+
 import { BooksContext } from '../context/BooksContext'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext, role } from '../context/AuthContext'
 import { addNotification } from '../notification'
 import { db } from '../firebase'
 import Geocode from 'react-geocode'
 import Map from '../components/Map'
-import { MapWithAMarker } from '../components/Map'
 
 const SingleBook = () => {
   const [singleBook, setSingleBook] = useState({})
@@ -18,7 +17,7 @@ const SingleBook = () => {
   const [lng, setLng] = useState()
   const [showMap, setShowMap] = useState(false)
   const { loading, setLoading } = useContext(BooksContext)
-  const { user } = useContext(AuthContext)
+  const { user, role } = useContext(AuthContext)
   const { id } = useParams()
   const history = useHistory()
   const [disable, setDisable] = useState(false)
@@ -140,7 +139,7 @@ const SingleBook = () => {
                 <h2>{singleBook.publisher}</h2>
               </div>
             </div>
-            {user && disable === false ? (
+            {user && disable === false && role !== 'admin' ? (
               <button
                 disabled={disable}
                 onClick={() => {

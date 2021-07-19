@@ -34,7 +34,8 @@ const AddBook = ({ history }) => {
   }
 
   const chceckName = () => {
-    const reg = /^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
+    const reg =
+      /^([A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
     if (!name.match(reg)) {
       addNotification('Wprowadzanie danych', 'podaj poprawne imie', 'danger')
       return
@@ -42,7 +43,8 @@ const AddBook = ({ history }) => {
   }
 
   const checkSurname = () => {
-    const reg = /^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
+    const reg =
+      /^([A-Z][a-zA-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/
     if (!surname.match(reg)) {
       addNotification(
         'Wprowadzanie danych',

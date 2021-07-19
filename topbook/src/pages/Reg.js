@@ -11,10 +11,16 @@ const Reg = ({ history }) => {
     async (event) => {
       event.preventDefault()
       const { email, password } = event.target.elements
+
       try {
         await app
           .auth()
           .createUserWithEmailAndPassword(email.value, password.value)
+
+        db.collection('users').add({
+          email: email.value,
+          role: 'user',
+        })
 
         history.push('/')
       } catch (error) {
