@@ -66,13 +66,22 @@ const Wrapper = styled.section`
   .text {
     font-size: 1rem;
     margin-top: 0.5rem;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
   }
 
-  img {
-    width: 200px;
+  .link {
+    min-width: 300px;
+  }
+
+  /* img {
+    width: 100%;
     display: block;
     object-fit: cover;
-  }
+  } */
   /* .link {
     position: absolute;
     top: 0;

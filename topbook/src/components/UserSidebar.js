@@ -67,6 +67,7 @@ const Wrapper = styled.div`
 
   .links {
     margin-top: 5rem;
+    margin-left: 2rem;
   }
   .item {
     display: grid;
@@ -97,9 +98,9 @@ const Wrapper = styled.div`
   }
 
   .sidebar {
-    position: fixed;
+    position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     width: 350px;
     height: 100%;
     background: #0a1d37;
@@ -107,7 +108,7 @@ const Wrapper = styled.div`
     grid-template-rows: auto 1fr auto;
     row-gap: 1rem;
 
-    transform: translate(-100%);
+    transform: translate(100%);
   }
   .show-sidebar {
     transform: translate(0);

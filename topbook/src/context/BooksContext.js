@@ -29,22 +29,22 @@ export const BooksProvider = ({ children }) => {
   const { currentUser } = useContext(AuthContext)
 
   const fetchBook = async (url, isbn) => {
-    setLoading(true)
+    // setLoading(true)
     console.log(isbn)
     console.log(url)
     console.log('start')
-    setLoading(true)
+    // setLoading(true)
 
     let xd = `${url}${isbn}`
     console.log(xd)
 
-    if (isbn.length != 13) {
+    if (isbn.length != 13 && isbn.length != 10) {
       addNotification(
         'Dodawanie ksiązki',
         'podany ISBN jest niepoprawny',
         'danger'
       )
-      setLoading(false)
+      // setLoading(false)
       return
     } else {
       try {
@@ -52,10 +52,25 @@ export const BooksProvider = ({ children }) => {
         const item = response.data
         console.log(item.totalItems)
 
+        // if (item.totalItems != 0) {
+        //   let types = item.items[0].volumeInfo.industryIdentifiers.filter(
+        //     (item) => item.type === 'ISBN_13'
+        //   )
+
         if (item.totalItems != 0) {
-          let types = item.items[0].volumeInfo.industryIdentifiers.filter(
-            (item) => item.type === 'ISBN_13'
-          )
+          let types = ''
+
+          if (isbn.length === 13) {
+            types = item.items[0].volumeInfo.industryIdentifiers.filter(
+              (item) => item.type === 'ISBN_13'
+            )
+          }
+
+          if (isbn.length === 10) {
+            types = item.items[0].volumeInfo.industryIdentifiers.filter(
+              (item) => item.type === 'ISBN_10'
+            )
+          }
 
           const notRef = db.collection('books')
           const snapshot2 = await notRef.where('isbn', '==', isbn).get()
@@ -65,10 +80,11 @@ export const BooksProvider = ({ children }) => {
               'książka znajduje się już w bazie',
               'info'
             )
-            setLoading(false)
+            // setLoading(false)
             return null
           } else {
             const isbn = types[0].identifier
+
             const title = item.items[0].volumeInfo.title
             const author = item.items[0].volumeInfo.authors
             const description = item.items[0].volumeInfo.description || null
@@ -92,14 +108,14 @@ export const BooksProvider = ({ children }) => {
               'dodano pomyślnie do bazy',
               'success'
             )
-            setLoading(false)
+            //setLoading(false)
           }
         } else {
           addNotification('Dodawanie ksiązki', 'brak podanej książki', 'info')
-          setLoading(false)
+          // setLoading(false)
         }
       } catch (err) {
-        setLoading(false)
+        // setLoading(false)
         console.log(err)
       }
     }
@@ -107,7 +123,7 @@ export const BooksProvider = ({ children }) => {
 
   useEffect(() => {
     const getAllBooks = () => {
-      setLoading(true)
+      //setLoading(true)
       try {
         db.collection('books').onSnapshot((snapshot) => {
           const booskData = []
@@ -115,29 +131,29 @@ export const BooksProvider = ({ children }) => {
             booskData.push({ ...doc.data(), id: doc.id })
           )
           setAllBooks(booskData)
-          setLoading(false)
+          // setLoading(false)
         })
       } catch (err) {
         console.log(err)
         // setError(err)
-        setLoading(false)
+        // setLoading(false)
       }
     }
     getAllBooks()
   }, [])
 
   useEffect(() => {
-    setLoading(true)
+    //  setLoading(true)
     try {
       db.collection('notices').onSnapshot((snapshot) => {
         const postData = []
         snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
         setNotices(postData)
-        setLoading(false)
+        //  setLoading(false)
       })
     } catch (err) {
       console.log(err)
-      setLoading(false)
+      // setLoading(false)
     }
   }, [])
 
@@ -180,7 +196,7 @@ export const BooksProvider = ({ children }) => {
   // }
 
   const searchByIsbn = async (isbn) => {
-    if (isbn.length != 13) {
+    if (isbn.length != 13 && isbn.length != 10) {
       setAlert({ show: true, msg: 'podaj poprawny isbn', type: 'danger' })
       return null
     }

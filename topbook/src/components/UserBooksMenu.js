@@ -81,7 +81,7 @@ const Wrapper = styled.div`
   .grid {
     margin-top: 5rem;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     justify-content: space-between;
   }
   .icon {
@@ -100,9 +100,16 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: 700px) {
     .icon {
       font-size: 1.5rem;
+    }
+
+    .grid {
+      margin-top: 5rem;
+      display: grid;
+      grid-template-columns: auto auto;
+      justify-content: space-between;
     }
 
     .icon {

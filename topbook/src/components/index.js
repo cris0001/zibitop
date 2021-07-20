@@ -18,6 +18,8 @@ import UserIncMenu from './UserIncMenu'
 import Loading from './Loading'
 import Alert from './Alert'
 import Spiner from './Spiner'
+import ContactInfo from './ContactInfo'
+import Load from './Load'
 
 export {
   Navbar,
@@ -40,4 +42,6 @@ export {
   Footer,
   Alert,
   Spiner,
+  ContactInfo,
+  Load,
 }

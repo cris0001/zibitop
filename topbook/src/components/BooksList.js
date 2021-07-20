@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { books } from '../utils/constans'
 import { BooksContext } from '../context/BooksContext'
 import Book from './Book'
+import Footer from './Footer'
 
 const BooksList = () => {
   const { allBooks, notices } = useContext(BooksContext)
@@ -25,6 +26,7 @@ const BooksList = () => {
             )
             return (
               <Book
+                className='book'
                 key={notice.id}
                 notice={notice}
                 matchingBook={matchingBook[0]}
@@ -108,10 +110,12 @@ const Wrapper = styled.section`
   @media (min-width: 540px) {
     .flex {
       display: grid;
-      grid-template-columns: auto auto;
+      grid-template-columns: 217px 217px;
       gap: 5rem;
     }
-
+    .book {
+      width: 217px;
+    }
     img {
       background-repeat: cover;
       width: 217px;

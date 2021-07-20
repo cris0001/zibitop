@@ -75,8 +75,16 @@ const AddBook = ({ history }) => {
     } else return true
   }
 
+  // const chceckStreet = () => {
+  //   if (streetNbr.length < 5) {
+  //     addNotification('Wprowadzanie danych', 'podaj poprawną ulicę', 'danger')
+  //     return
+  //   } else return true
+  // }
+
   const chceckStreet = () => {
-    if (streetNbr.length < 5) {
+    const reg = /^\D*$/
+    if (!streetNbr.match(reg)) {
       addNotification('Wprowadzanie danych', 'podaj poprawną ulicę', 'danger')
       return
     } else return true

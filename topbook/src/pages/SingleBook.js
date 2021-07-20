@@ -81,17 +81,17 @@ const SingleBook = () => {
 
   useEffect(() => {
     const fetchSingleBook = async (id) => {
-      setLoading(true)
+      // setLoading(true)
       const booksRef = db.collection('books').doc(id)
       const doc = await booksRef.get()
       let data = {}
       if (!doc.exists) {
         console.log('No such document!')
-        setLoading(false)
+        //  setLoading(false)
       } else {
         data = doc.data()
         setSingleBook(data)
-        setLoading(false)
+        // setLoading(false)
 
         //console.log('Document data:', doc.data())
       }
@@ -166,12 +166,14 @@ const SingleBook = () => {
           </div>
         ) : null}
       </div>
+      <div className='pag'></div>
       <Footer />
     </Wrapper>
   )
 }
 
 const Wrapper = styled.section`
+  position: relative;
   min-height: 100vh;
 
   .map {

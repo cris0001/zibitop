@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constans'
+import app from '../firebase'
 
 const SidebarMain = ({ isOpen, closePanel }) => {
   return (
@@ -30,6 +31,18 @@ const SidebarMain = ({ isOpen, closePanel }) => {
               )
             })}
           </ul>
+          <div className='login-links'>
+            <button>
+              <Link className='login-item' to='/'>
+                Strona Główna
+              </Link>
+            </button>
+            <button onClick={() => app.auth().signOut()}>
+              <Link className='login-item' to='/'>
+                Wyloguj
+              </Link>
+            </button>
+          </div>
         </nav>
       </aside>
     </Wrapper>
@@ -38,6 +51,21 @@ const SidebarMain = ({ isOpen, closePanel }) => {
 
 const Wrapper = styled.div`
   color: white;
+
+  .login-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    gap: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 
   .sidebar-header {
     display: flex;
@@ -61,6 +89,8 @@ const Wrapper = styled.div`
     text-decoration: none;
     list-style: none;
     text-align: center;
+    margin: 0;
+    padding: 0;
   }
 
   .sidebar {

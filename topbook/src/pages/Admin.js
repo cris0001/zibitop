@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import { Sidebar, AdminAddBook } from '../components'
-import { FaBars } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { FaBars, FaArrowLeft, FaHome } from 'react-icons/fa'
 import { AuthContext } from '../context/AuthContext'
 
 const Admin = () => {
@@ -19,6 +20,10 @@ const Admin = () => {
 
   return (
     <Wrapper>
+      <Link className='nav' to='/'>
+        {' '}
+        <FaHome />
+      </Link>
       <Sidebar
         openSidebar={openSidebar}
         closeSidebar={closeSidebar}
@@ -35,10 +40,19 @@ const Admin = () => {
 }
 
 const Wrapper = styled.div`
-  .sidebar-toggle {
+  .nav {
+    color: var(--main);
+    background: transparent;
+    border: none;
     position: fixed;
     top: 2rem;
     left: 3rem;
+    font-size: 2rem;
+  }
+  .sidebar-toggle {
+    position: fixed;
+    top: 2rem;
+    right: 3rem;
     font-size: 2rem;
     background: transparent;
     border-color: transparent;

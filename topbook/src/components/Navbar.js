@@ -41,10 +41,10 @@ const Navbar = () => {
           {role === 'admin' ? null : (
             <ul className='nav-links'>
               <li className='nav'>
-                <Link to='/books'>Książki</Link>
+                <Link to='/books'>książki</Link>
               </li>
               <li className='nav'>
-                <Link to='/searchbook'>Dodaj książkę</Link>
+                <Link to='/searchbook'>dodaj książkę</Link>
               </li>
             </ul>
           )}
@@ -101,7 +101,7 @@ const Wrapper = styled.nav`
     align-items: center;
     font-size: 1.1rem;
     border: none;
-    padding: 0.3rem 0.5rem;
+    padding: 0.3rem 1rem;
   }
 
   .login {
@@ -127,6 +127,7 @@ const Wrapper = styled.nav`
     border: transparent;
     svg {
       font-size: 2rem;
+      color: var(--main);
     }
   }
   .nav-links {

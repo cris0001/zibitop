@@ -77,3 +77,11 @@ p {
   color: #155724;
   background: #d4edda;
 }
+
+#red,
+#blue,
+#blue2,
+#yellow,
+#green {
+  visibility: hidden;
+}

@@ -79,7 +79,7 @@ const UserIncMenu = () => {
           const { isbn, title, id, status, noticeId } = item
           return (
             <div key={index}>
-              <div className='item'>
+              <div className={status === 'odrzucona' ? 'hide' : 'item'}>
                 <div className='info'>
                   <p>ISBN:</p>
                   <p>Tytuł:</p>
@@ -127,7 +127,6 @@ const UserIncMenu = () => {
                 </div>
                 <br />
               </div>
-              <hr></hr>
             </div>
           )
         })}
@@ -140,6 +139,10 @@ const Wrapper = styled.div`
   h1 {
     text-align: center;
     margin-bottom: 5rem;
+  }
+
+  .hide {
+    display: none;
   }
 
   .hide-accept {

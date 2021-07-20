@@ -5,6 +5,7 @@ import { list } from '../utils/constans'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
 import { Spiner } from '.'
+import ContactInfo from './ContactInfo'
 import Modal from './Modal'
 import { BooksContext } from '../context/BooksContext'
 import { addNotification } from '../notification'
@@ -13,9 +14,14 @@ const UserReqMenu = () => {
   const { user } = useContext(AuthContext)
   const { loading } = useContext(BooksContext)
   const [usersRequests, setUsersRequests] = useState([])
-
+  const [info, setInfo] = useState()
   const closeModal = () => {
     setIsModalOpen(false)
+    console.log('close')
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true)
     console.log('close')
   }
 
@@ -46,12 +52,13 @@ const UserReqMenu = () => {
   }
 
   const getAdress = async (id) => {
-    const cityRef = db.collection('notices').doc(id)
-    const doc = await cityRef.get()
+    const noticeRef = db.collection('notices').doc(id)
+    const doc = await noticeRef.get()
     if (!doc.exists) {
       console.log('No such document!')
     } else {
       console.log('Document data:', doc.data())
+      setInfo(doc.data())
     }
   }
 
@@ -61,7 +68,16 @@ const UserReqMenu = () => {
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
         {usersRequests.map((item, index) => {
-          const { title, isbn, id, status } = item
+          const {
+            title,
+            isbn,
+            id,
+            status,
+            streetNbr,
+            number,
+            postCode,
+            phone,
+          } = item
           console.log(item)
           return (
             <div key={index}>
@@ -87,11 +103,18 @@ const UserReqMenu = () => {
                         onClick={() => {
                           getAdress(item.noticeId)
                           console.log(item.noticeId)
+
+                          openModal()
                         }}
                         className='map'
                       >
                         <FaMapMarkedAlt />
                       </button>
+                      <ContactInfo
+                        info={info}
+                        closeModal={closeModal}
+                        isModalOpen={isModalOpen}
+                      />
                     </div>
                   )}
                 </div>
