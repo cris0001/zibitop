@@ -1,19 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { list } from '../utils/constans'
-import { FaEye } from 'react-icons/fa'
+
 import Modal from './Modal'
 import { AuthContext } from '../context/AuthContext'
 import { db } from '../firebase'
 import { BooksContext } from '../context/BooksContext'
-import { Spiner } from '.'
+import { Load } from '.'
 
 const UserBooksMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user, currentUser } = useContext(AuthContext)
   const [usersBooks, setUsersBooks] = useState([])
-  const { loading, error } = useContext(BooksContext)
-  console.log(user)
+  const { loading, allBooks } = useContext(BooksContext)
+  const [title, setTitle] = useState('')
+  const [isbn, setIsbn] = useState('')
+
+  //console.log(user.uid)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -24,9 +26,9 @@ const UserBooksMenu = () => {
     console.log('close')
   }
 
-  const searchBooksByUser = async () => {
-    db.collection('requestsUser')
-      .where('userIdTo', '==', user.uid)
+  const searchBooksByUser = async (id) => {
+    db.collection('notices')
+      .where('userId', '==', id)
       .onSnapshot((snapshot) => {
         console.log(snapshot)
         const postData = []
@@ -37,32 +39,40 @@ const UserBooksMenu = () => {
     //data = snapshot.val()
   }
 
+  const getTitle = async () => {
+    const booksRef = db.collection('books')
+    const snapshot = await booksRef.where('isbn', '==', isbn).get()
+    if (snapshot.empty) {
+      return null
+    }
+
+    snapshot.forEach((doc) => {
+      setTitle(doc.data().title)
+      console.log(doc.data().title)
+    })
+  }
+
   useEffect(() => {
-    searchBooksByUser()
+    searchBooksByUser(user.uid)
+    console.log(usersBooks)
+    getTitle()
   }, [])
 
-  useEffect(() => {
-    console.log(usersBooks)
-  }, [usersBooks])
-
   if (loading) {
-    return <Spiner />
+    return <Load />
   }
 
   return (
     <Wrapper className='section section-center'>
       <h1>Moje ogłoszenia</h1>
       {usersBooks.map((item, index) => {
+        const matchingBook = allBooks.filter((book) => book.isbn === item.isbn)
+        console.log(matchingBook)
         return (
           <div key={index} className='content'>
             <div className='grid'>
               <h2>ISBN: {item.isbn}</h2>
-              <h2>{item.title}</h2>
-              <div className='icon'>
-                <button className='open-btn' onClick={openModal}>
-                  {/* <FaEye /> */}
-                </button>
-              </div>
+              <h2>{matchingBook[0].title}</h2>
             </div>
             <hr />
           </div>

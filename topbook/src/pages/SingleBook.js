@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { Navbar, Footer, Spiner } from '../components'
+import { Link } from 'react-router-dom'
+import { Navbar, Footer, Load } from '../components'
 import defaultImg from '../images/defaultImg.jpg'
-
 import { BooksContext } from '../context/BooksContext'
-import { AuthContext, role } from '../context/AuthContext'
+import { AuthContext } from '../context/AuthContext'
 import { addNotification } from '../notification'
 import { db } from '../firebase'
 import Geocode from 'react-geocode'
@@ -22,16 +22,16 @@ const SingleBook = () => {
   const history = useHistory()
   const [disable, setDisable] = useState(false)
   console.log(id)
+  console.log(singleBook)
 
   const userIdTo = history.location.state.userIdTo
   const noticeId = history.location.state.noticeId
   const noticeStreet = history.location.state.noticeStreet
   const noticeCode = history.location.state.noticeCode
   const noticeNumber = history.location.state.noticeNumber
+  const userId = history.location.state.userId
 
   const adres = `${noticeStreet} ${noticeNumber}, ${noticeCode}`
-
-  console.log(noticeId)
 
   Geocode.setApiKey('AIzaSyCnT_oyJjvQLDmRokFP62CuAe7i_btZT6M')
 
@@ -81,17 +81,17 @@ const SingleBook = () => {
 
   useEffect(() => {
     const fetchSingleBook = async (id) => {
-      // setLoading(true)
+      setLoading(true)
       const booksRef = db.collection('books').doc(id)
       const doc = await booksRef.get()
       let data = {}
       if (!doc.exists) {
         console.log('No such document!')
-        //  setLoading(false)
+        setLoading(false)
       } else {
         data = doc.data()
         setSingleBook(data)
-        // setLoading(false)
+        setLoading(false)
 
         //console.log('Document data:', doc.data())
       }
@@ -104,7 +104,7 @@ const SingleBook = () => {
   }, [singleBook])
 
   if (loading) {
-    return <Spiner />
+    return <Load />
   }
 
   return (
@@ -151,11 +151,28 @@ const SingleBook = () => {
                 Poproś o odbiór
               </button>
             ) : null}
-            {showMap ? null : (
-              <button className='btn2 btn' onClick={() => setShowMap(true)}>
-                pokaż mapę
-              </button>
-            )}
+            <div className='btns'>
+              {showMap ? null : (
+                <button className='btn2 btn' onClick={() => setShowMap(true)}>
+                  pokaż mapę
+                </button>
+              )}
+            </div>
+            <Link
+              className='all-books-link'
+              to={{
+                pathname: `/booksByUser/${userId}`,
+                // state: {
+                //   userIdTo: notice.userId,
+                //   noticeId: notice.id,
+                //   noticeStreet: notice.streetNbr,
+                //   noticeCode: notice.postCode,
+                //   noticeNumber: notice.number,
+                // },
+              }}
+            >
+              Zobacz inne książki tego użytkownika
+            </Link>
           </div>
         </div>
 
@@ -175,6 +192,21 @@ const SingleBook = () => {
 const Wrapper = styled.section`
   position: relative;
   min-height: 100vh;
+
+  .all-books-link {
+    color: var(--main);
+    font-size: 1.1rem;
+    margin-top: 30px;
+    text-decoration: underline;
+  }
+  .btn2 {
+    margin-bottom: 1rem;
+  }
+
+  img {
+    display: flex;
+    justify-content: center;
+  }
 
   .map {
     height: 100%;
@@ -197,17 +229,18 @@ const Wrapper = styled.section`
   }
   .content {
     margin-bottom: 5rem;
+    margin-top: 5rem;
   }
   .btn {
     margin-top: 2rem;
-    width: 200px;
+    width: 300px;
     background: #0a1d37;
     color: white;
     border-radius: 10px;
     align-items: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     border: none;
-    padding: 0.1rem 0;
+    padding: 0.2rem 0;
   }
 
   .info {
@@ -242,6 +275,7 @@ const Wrapper = styled.section`
 
     .btn2 {
       width: 100%;
+      margin-bottom: 1rem;
     }
   }
 
@@ -262,12 +296,12 @@ const Wrapper = styled.section`
       height: 600px;
       //topmargin-top: 3rem;
     }
-    a {
-      text-decoration: none;
-      color: white;
-    }
 
     .info {
+    }
+
+    .btn {
+      margin-top: 1rem;
     }
 
     .item p {

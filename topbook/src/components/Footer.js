@@ -5,7 +5,6 @@ const Footer = () => {
   return (
     <Wrapper>
       <div className='logo'>
-        <h3>TOP S.A.</h3>
         <p>ul. Warneńczyka 3</p>
         <p>Rzeszów 35-612</p>
       </div>
@@ -25,10 +24,11 @@ const Footer = () => {
 const Wrapper = styled.footer`
   position: relative;
   margin-top: 4rem;
+  // bottom: -27px;
   bottom: 0;
   width: 100%;
-  padding: 1.5rem 0;
-  height: 8rem;
+  padding: 2rem 0;
+  height: 14rem;
   background: var(--main);
   text-align: center;
   display: flex;
@@ -39,6 +39,7 @@ const Wrapper = styled.footer`
   line-height: 2;
   @media (min-width: 777px) {
     flex-direction: row;
+    height: 8rem;
   }
 `
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { FaBars, FaArrowLeft, FaHome } from 'react-icons/fa'
+import { FaBars, FaHome } from 'react-icons/fa'
 import { UserSidebar, UserBooksMenu } from '../components'
 
 const User = () => {
@@ -17,22 +17,29 @@ const User = () => {
 
   return (
     <Wrapper>
-      <Link className='nav' to='/'>
-        {' '}
-        <FaHome />
-      </Link>
+      <div className='flex section-center'>
+        <Link className='nav' to='/'>
+          {' '}
+          <FaHome />
+        </Link>
+        {open ? null : (
+          <button className='sidebar-toggle' onClick={openS}>
+            <FaBars />
+          </button>
+        )}{' '}
+      </div>
       <UserSidebar openS={openS} closeS={closeS} open={open} />
-      {open ? null : (
-        <button className='sidebar-toggle' onClick={openS}>
-          <FaBars />
-        </button>
-      )}
       <UserBooksMenu />
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
+  .flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .nav {
     color: var(--main);
     background: transparent;
@@ -43,7 +50,7 @@ const Wrapper = styled.div`
     font-size: 2rem;
   }
   .sidebar-toggle {
-    position: fixed;
+    position: absolute;
     top: 2rem;
     right: 3rem;
     font-size: 2rem;

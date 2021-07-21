@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
-import { user, login } from '../utils/constans'
+import { user } from '../utils/constans'
 import app from '../firebase'
 
 const UserSidebar = ({ closeS, open }) => {
@@ -49,6 +49,7 @@ const UserSidebar = ({ closeS, open }) => {
 
 const Wrapper = styled.div`
   color: white;
+
   .sidebar-header {
     display: flex;
     justify-content: space-between;
@@ -98,7 +99,7 @@ const Wrapper = styled.div`
   }
 
   .sidebar {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     width: 350px;

@@ -28,11 +28,7 @@ const Load = () => {
         { x: '-=350' },
         { duration: 0.25, x: '+=350', autoAlpha: 1 }
       )
-      .fromTo(
-        blue,
-        { x: '+=350' },
-        { duration: 0.25, x: '-=350', autoAlpha: 1 }
-      )
+      .fromTo(blue, { x: '+=350' }, { duration: 0.2, x: '-=350', autoAlpha: 1 })
       .fromTo(
         yellow,
         { x: '-=350' },

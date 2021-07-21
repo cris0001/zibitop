@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Footer, BooksList } from '../components'
+import { Navbar, BooksList } from '../components'
 
 const Books = () => {
   return (

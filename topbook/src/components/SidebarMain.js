@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constans'
 import app from '../firebase'
+import gsap from 'gsap'
 
 const SidebarMain = ({ isOpen, closePanel }) => {
   return (
@@ -34,7 +35,7 @@ const SidebarMain = ({ isOpen, closePanel }) => {
           <div className='login-links'>
             <button>
               <Link className='login-item' to='/'>
-                Strona Główna
+                Profil
               </Link>
             </button>
             <button onClick={() => app.auth().signOut()}>
@@ -61,7 +62,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 1rem;
+
     gap: 2rem;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
@@ -95,6 +96,7 @@ const Wrapper = styled.div`
 
   .sidebar {
     position: fixed;
+    z-index: 111;
     top: 0;
     left: 0;
     width: 100%;

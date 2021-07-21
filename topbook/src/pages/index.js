@@ -10,12 +10,14 @@ import AdminRequest from './AdminRequest'
 import User from './User'
 import UserRequests from './UserRequests'
 import UserIncRequests from './UserIncRequests'
+import AllUserBooks from './AllUserBooks'
 
 export {
   Books,
   Error,
   UserRequests,
   UserIncRequests,
+  AllUserBooks,
   Home,
   Login,
   AdminList,

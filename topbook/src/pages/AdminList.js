@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Sidebar, AdminBooksList } from '../components'
 import { Link } from 'react-router-dom'
-import { FaBars, FaArrowLeft, FaHome } from 'react-icons/fa'
+import { FaBars, FaHome } from 'react-icons/fa'
 
 const Admin = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)

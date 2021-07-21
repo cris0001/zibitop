@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { UserSidebar, UserReqMenu } from '../components'
 import { Link } from 'react-router-dom'
-import { FaBars, FaArrowLeft, FaHome } from 'react-icons/fa'
+import { FaBars, FaHome } from 'react-icons/fa'
 
 const User = () => {
   const [open, setOpen] = useState(false)

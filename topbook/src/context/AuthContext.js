@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import app from '../firebase.js'
-import { Spiner } from '../components'
+
 import { db } from '../firebase'
 import { Load } from '../components'
 
@@ -8,7 +8,7 @@ export const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('')
-  const [currentUser, setCurrentuser] = useState('')
+  //const [currentUser, setCurrentuser] = useState('')
   const [loading, setLoading] = useState(true)
   const [role, setRole] = useState('')
   console.log(user)
@@ -20,7 +20,9 @@ export const AuthProvider = ({ children }) => {
       }
       setUser(user)
       if (!user) {
-        setLoading(false)
+        setTimeout(() => {
+          setLoading(false)
+        }, 1000)
       }
 
       setTimeout(() => {
@@ -70,7 +72,8 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        currentUser,
+        loading,
+        setLoading,
         role,
       }}
     >

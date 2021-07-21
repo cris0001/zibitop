@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
-import { list } from '../utils/constans'
 import { FaTrash, FaPlusCircle } from 'react-icons/fa'
 import { BooksContext } from '../context/BooksContext'
 import { db } from '../firebase'
@@ -9,7 +8,7 @@ import { addNotification } from '../notification'
 const AdminRequest = () => {
   const [adminRequests, setAdminRequests] = useState([])
   const { fetchBook } = useContext(BooksContext)
-  const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
+  // const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 
   useEffect(() => {
     const showAdminRequests = () => {
@@ -27,20 +26,16 @@ const AdminRequest = () => {
       <h1>Prośby od użytkowników</h1>
       <div>
         {adminRequests.map((item) => {
-          const { isbn, title, author, id, status } = item
+          const { isbn, id } = item
           const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
           return (
             <div key={id}>
               <div className='item' key={id}>
                 <div className='info'>
                   <p>ISBN:</p>
-                  <p>Tytuł:</p>
-                  <p>Autor:</p>
                 </div>
                 <div className='text'>
                   <p>{isbn}</p>
-                  <p>--</p>
-                  <p>--</p>
                 </div>
 
                 <div className='icons'>

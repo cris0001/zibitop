@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { addNotification } from '../notification'
-import { Navbar, Footer } from '../components'
-import { Redirect } from 'react-router-dom'
+import { Navbar } from '../components'
+
 import styled from 'styled-components'
 import { db } from '../firebase'
 import { BooksContext } from '../context/BooksContext'
@@ -11,7 +11,7 @@ import { AuthContext } from '../context/AuthContext'
 const AddBook = ({ history }) => {
   const { isbn } = useParams()
 
-  const { getIDbyISBN, idFromIsbn, alert, setAlert } = useContext(BooksContext)
+  const { getIDbyISBN, idFromIsbn } = useContext(BooksContext)
   const { user } = useContext(AuthContext)
 
   const [name, setName] = useState('')
@@ -20,9 +20,8 @@ const AddBook = ({ history }) => {
   const [postCode, setPostCode] = useState('')
   const [streetNbr, setStreetNbr] = useState('')
   const [number, setNumber] = useState('')
+  const [phone, setPhone] = useState('')
   const [disable, setDisable] = useState(false)
-
-  const bookId = getIDbyISBN(isbn)
 
   const clearForm = () => {
     setName('')
@@ -56,7 +55,8 @@ const AddBook = ({ history }) => {
   }
 
   const checkEmail = () => {
-    const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    //const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    const reg = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
     if (!email.match(reg)) {
       addNotification('Wprowadzanie danych', 'podaj poprawny email', 'danger')
       return
@@ -101,6 +101,17 @@ const AddBook = ({ history }) => {
       return
     } else return true
   }
+  const checkPhone = () => {
+    const reg = /^[0-9]{6,15}$/
+    if (!phone.match(reg)) {
+      addNotification(
+        'Wprowadzanie danych',
+        'podaj poprawny numer relefonu',
+        'danger'
+      )
+      return
+    } else return true
+  }
 
   const addNotice = (e) => {
     e.preventDefault()
@@ -112,7 +123,8 @@ const AddBook = ({ history }) => {
       chceckStreet(streetNbr) &&
       checkNumber(number) &&
       checkPostCode(postCode) &&
-      checkSurname(surname)
+      checkSurname(surname) &&
+      checkPhone
     ) {
       try {
         db.collection('notices').add({
@@ -126,6 +138,7 @@ const AddBook = ({ history }) => {
           email,
           postCode,
           streetNbr,
+          phone,
         })
         setDisable(true)
         addNotification(
@@ -178,6 +191,15 @@ const AddBook = ({ history }) => {
                   type='text'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div className='input'>
+                <p>numer telefonu:</p>
+                <input
+                  type='text'
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
             </div>

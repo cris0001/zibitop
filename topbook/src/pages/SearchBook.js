@@ -1,25 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Navbar, Footer, Alert } from '../components'
+import { Navbar, Alert } from '../components'
 import { BooksContext } from '../context/BooksContext'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
 import { addNotification } from '../notification'
 
 const SearchBook = () => {
   const {
-    isbnNewRequest,
-    setIsbnNewRequest,
     searchStatus,
     searchByIsbn,
     setSearchStatus,
     msg,
-    setMsg,
+
     alert2,
     setAlert2,
     alert,
-    setAlert,
+
     showAlert,
     showAlert2,
   } = useContext(BooksContext)
@@ -29,7 +27,7 @@ const SearchBook = () => {
   const { user } = useContext(AuthContext)
 
   const newIsbnRequest = async () => {
-    if (addIsbn.length != 13) {
+    if (addIsbn.length !== 13 && addIsbn.length !== 10) {
       setAlert2({ show: true, msg: 'podaj poprawny isbn', type: 'danger' })
       return null
     }
@@ -151,7 +149,6 @@ const SearchBook = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
     </Wrapper>
   )
 }

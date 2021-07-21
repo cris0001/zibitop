@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
-
 import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
 import { BooksContext } from '../context/BooksContext'
@@ -9,7 +8,7 @@ import { Loading } from '../components'
 const AdminBooksList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selected, setSelected] = useState()
-  const { allBooks, loading, error } = useContext(BooksContext)
+  const { allBooks, loading } = useContext(BooksContext)
 
   const openModal = () => {
     setIsModalOpen(true)

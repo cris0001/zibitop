@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { BooksContext } from '../context/BooksContext'
-import { addNotification } from '../notification'
-import { Spiner } from '.'
 
 const AdminAddBook = () => {
-  const { fetchBook, loading } = useContext(BooksContext)
+  const { fetchBook } = useContext(BooksContext)
   const [isbn, setIsbn] = useState('')
   const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 

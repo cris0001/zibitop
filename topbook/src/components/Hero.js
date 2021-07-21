@@ -1,13 +1,45 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import hero from '../images/hero.svg'
+import { Link } from 'react-router-dom'
+
+import { ReactComponent as Book } from '../images/mainbook.svg'
+import gsap from 'gsap'
 
 const Hero = () => {
+  const wrapper = useRef(null)
+  const wrapper2 = useRef(null)
+  useEffect(() => {
+    const [elements] = wrapper.current.children
+
+    const book = elements.getElementById('book')
+    //const button = elements.getElementById('button')
+
+    gsap.set([book], { autoAlpha: 0 })
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } })
+
+    tl.fromTo(book, { y: '-=650' }, { duration: 1.5, y: '+=650', autoAlpha: 1 })
+  }, [])
+
+  useEffect(() => {
+    const button = wrapper2.current.children
+    console.log(button)
+
+    gsap.set([button], { autoAlpha: 0 })
+
+    const tl = gsap.timeline({ defaults: { ease: 'power4.inOut' } })
+    tl.fromTo(
+      button,
+      { x: '+=150' },
+      { duration: 0.5, x: '-=150', autoAlpha: 1 }
+    )
+  }, [])
+
   return (
     <Wrapper className='section'>
       <div className='section-center flex '>
-        <div className='img'>
-          <img src={hero} alt='' />
+        <div className='img' ref={wrapper}>
+          <Book />
         </div>
         <div className='text'>
           <h1>TopBook</h1>
@@ -16,7 +48,11 @@ const Hero = () => {
             <br />
             podziel się nią z innymi
           </h2>
-          <button className='btn'>Dodaj książkę</button>
+          <div ref={wrapper2}>
+            <button className='btn'>
+              <Link to='/searchbook'>Dodaj książkę</Link>
+            </button>
+          </div>
         </div>
       </div>
     </Wrapper>
@@ -25,7 +61,7 @@ const Hero = () => {
 
 const Wrapper = styled.section`
   background: var(--bcgLight);
-  min-height: 40vh;
+  min-height: 30vh;
   color: var(--main);
 
   .text {
@@ -69,6 +105,10 @@ const Wrapper = styled.section`
     .btn {
       width: 100%;
     }
+    img {
+      height: 300px;
+      width: 300px;
+    }
   }
 
   @media (min-width: 800px) {
@@ -79,7 +119,7 @@ const Wrapper = styled.section`
     h2 {
       font-weight: 300;
       margin-top: 1rem;
-      font-size: 1.5rem;
+      font-size: 1.75rem;
     }
     .flex {
       display: grid;
@@ -95,12 +135,12 @@ const Wrapper = styled.section`
       padding: 0.3rem;
       font-size: 1rem;
       margin-top: 0.7rem;
-      width: 200px;
+      width: 270px;
     }
 
     img {
-      height: 400px;
-      width: 400px;
+      height: 300px;
+      width: 300px;
     }
     .text {
       padding: 3rem 0 0 0;
@@ -111,7 +151,7 @@ const Wrapper = styled.section`
     }
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 900px) {
     .flex {
       display: grid;
       grid-template-columns: 40% auto;
@@ -141,13 +181,13 @@ const Wrapper = styled.section`
     }
 
     .text {
-      padding: 3.4rem 0 0 0;
+      padding: 2rem 0 0 0;
       color: var(--main);
       text-align: right;
     }
     img {
-      height: 522px;
-      width: 515px;
+      height: 444px;
+      width: 444px;
     }
   }
 `

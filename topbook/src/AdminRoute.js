@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { db } from './firebase'
+
 import { AuthContext } from './context/AuthContext'
 
 const AdminRoute = ({ component: RouteComponent, ...rest }) => {
-  const { user, role } = useContext(AuthContext)
+  const { role } = useContext(AuthContext)
 
   console.log(role)
 

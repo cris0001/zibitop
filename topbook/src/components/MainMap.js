@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import map from '../images/map.jpg'
 
 const MainMap = () => {
@@ -10,7 +11,9 @@ const MainMap = () => {
           <h2>
             Dodaj swoją książkę <br /> i wskaż miejsce odbioru
           </h2>
-          <button className='btn'>Dodaj książkę</button>
+          <button className='btn'>
+            <Link to='searchbook'>Dodaj książkę</Link>
+          </button>
         </div>
         <div className='photo'>
           <img src={map} alt='' />

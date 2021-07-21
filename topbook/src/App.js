@@ -17,20 +17,20 @@ import {
   User,
   UserRequests,
   UserIncRequests,
+  AllUserBooks,
 } from './pages'
 import SearchBook from './pages/SearchBook'
 import AddBook from './pages/AddBook'
 import PrivateRoute from './PrivateRoute'
 import AdminRoute from './AdminRoute'
-import AnonRoute from './AnonRoute'
 
 function App() {
   return (
     <Router>
       <ReactNotification />
       <Switch>
-        <AnonRoute exact path='/searchbook' component={SearchBook} />
-        <Route exact path='/searchbook' component={SearchBook} />
+        {/* <AnonRoute exact path='/searchbook' component={SearchBook} /> */}
+        {/* <Route exact path='/searchbook' component={SearchBook} /> */}
         <Route exact path='/' component={Home} />
         <AdminRoute exact path='/admin' component={Admin} />
         <AdminRoute exact path='/admin/list' component={AdminList} />
@@ -47,6 +47,11 @@ function App() {
         <PrivateRoute exact path='/searchbook' component={SearchBook} />
 
         <PrivateRoute exact path='/searchbook/:isbn' component={AddBook} />
+        <PrivateRoute
+          exact
+          path='/booksByUser/:noticeId'
+          component={AllUserBooks}
+        />
         <Route path='*' component={Error} />
       </Switch>
     </Router>

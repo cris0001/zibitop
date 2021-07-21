@@ -1,13 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { books } from '../utils/constans'
 import { BooksContext } from '../context/BooksContext'
 import Book from './Book'
-import Footer from './Footer'
 
 const BooksList = () => {
   const { allBooks, notices } = useContext(BooksContext)
-  const [search, setSearch] = useState('')
 
   console.log(allBooks)
   return (
@@ -111,7 +108,6 @@ const Wrapper = styled.section`
     .flex {
       display: grid;
       grid-template-columns: 217px 217px;
-      gap: 5rem;
     }
     .book {
       width: 217px;

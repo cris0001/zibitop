@@ -6,7 +6,6 @@ import Book from './Book'
 
 const MainBooks = () => {
   const { allBooks, notices, loading } = useContext(BooksContext)
-  console.log(notices)
 
   return (
     <Wrapper className='section'>
@@ -98,7 +97,9 @@ const Wrapper = styled.section`
     .flex {
       display: grid;
       grid-template-columns: auto auto;
-      gap: 5rem;
+    }
+
+    .flex :not(:last-child) {
     }
 
     img {

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react'
-import { withRouter } from 'react-router'
+import React, { useCallback } from 'react'
+
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
-import { AuthContext } from '../context/AuthContext'
+
 import app from '../firebase'
 import { db } from '../firebase'
 

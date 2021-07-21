@@ -1,50 +1,42 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { db } from '../firebase'
-import { AuthContext } from './AuthContext'
+
 import { addNotification } from '../notification'
-import { Spiner } from '../components'
 
 export const BooksContext = React.createContext()
 
 export const BooksProvider = ({ children }) => {
   // const url = 'https://www.googleapis.com/books/v1/volumes?q=y8KkDwAAQBAJ'
 
-  const [book, setBook] = useState()
-
   const [allBooks, setAllBooks] = useState([])
-  const [singleBook, setSingleBook] = useState()
   const [isbnNewRequest, setIsbnNewRequest] = useState('')
   const [searchStatus, setSearchStatus] = useState('')
   const [idFromIsbn, setIdFromIsbn] = useState('')
   const [notices, setNotices] = useState([])
   const [noticeUserIdTo, setNoticeUserIdTo] = useState()
-  // const [loading, setLoading] = useState(false)
-  // const [error, setError] = useState(false)
   const [msg, setMsg] = useState('')
   const [alert, setAlert] = useState({ show: false, msg: '', type: '' })
   const [alert2, setAlert2] = useState({ show: false, msg: '', type: '' })
   const [loading, setLoading] = useState(false)
 
-  const { currentUser } = useContext(AuthContext)
-
   const fetchBook = async (url, isbn) => {
-    // setLoading(true)
+    setLoading(true)
     console.log(isbn)
     console.log(url)
     console.log('start')
-    // setLoading(true)
+    setLoading(true)
 
     let xd = `${url}${isbn}`
     console.log(xd)
 
-    if (isbn.length != 13 && isbn.length != 10) {
+    if (isbn.length !== 13 && isbn.length !== 10) {
       addNotification(
         'Dodawanie ksiązki',
         'podany ISBN jest niepoprawny',
         'danger'
       )
-      // setLoading(false)
+      setLoading(false)
       return
     } else {
       try {
@@ -57,7 +49,7 @@ export const BooksProvider = ({ children }) => {
         //     (item) => item.type === 'ISBN_13'
         //   )
 
-        if (item.totalItems != 0) {
+        if (item.totalItems !== 0) {
           let types = ''
 
           if (isbn.length === 13) {
@@ -80,7 +72,7 @@ export const BooksProvider = ({ children }) => {
               'książka znajduje się już w bazie',
               'info'
             )
-            // setLoading(false)
+            setLoading(false)
             return null
           } else {
             const isbn = types[0].identifier
@@ -108,14 +100,14 @@ export const BooksProvider = ({ children }) => {
               'dodano pomyślnie do bazy',
               'success'
             )
-            //setLoading(false)
+            setLoading(false)
           }
         } else {
           addNotification('Dodawanie ksiązki', 'brak podanej książki', 'info')
           // setLoading(false)
         }
       } catch (err) {
-        // setLoading(false)
+        setLoading(false)
         console.log(err)
       }
     }
@@ -123,7 +115,7 @@ export const BooksProvider = ({ children }) => {
 
   useEffect(() => {
     const getAllBooks = () => {
-      //setLoading(true)
+      setLoading(true)
       try {
         db.collection('books').onSnapshot((snapshot) => {
           const booskData = []
@@ -131,29 +123,29 @@ export const BooksProvider = ({ children }) => {
             booskData.push({ ...doc.data(), id: doc.id })
           )
           setAllBooks(booskData)
-          // setLoading(false)
+          setLoading(false)
         })
       } catch (err) {
         console.log(err)
-        // setError(err)
-        // setLoading(false)
+        //  setError(err)
+        setLoading(false)
       }
     }
     getAllBooks()
   }, [])
 
   useEffect(() => {
-    //  setLoading(true)
+    setLoading(true)
     try {
       db.collection('notices').onSnapshot((snapshot) => {
         const postData = []
         snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
         setNotices(postData)
-        //  setLoading(false)
+        setLoading(false)
       })
     } catch (err) {
       console.log(err)
-      // setLoading(false)
+      setLoading(false)
     }
   }, [])
 
@@ -196,7 +188,7 @@ export const BooksProvider = ({ children }) => {
   // }
 
   const searchByIsbn = async (isbn) => {
-    if (isbn.length != 13 && isbn.length != 10) {
+    if (isbn.length !== 13 && isbn.length !== 10) {
       setAlert({ show: true, msg: 'podaj poprawny isbn', type: 'danger' })
       return null
     }
@@ -260,9 +252,9 @@ export const BooksProvider = ({ children }) => {
         // fetchSingleBook,
         fetchBook,
         msg,
-        book,
+
         allBooks,
-        singleBook,
+
         isbnNewRequest,
         setIsbnNewRequest,
         loading,

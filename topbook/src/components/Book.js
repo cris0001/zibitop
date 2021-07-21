@@ -1,14 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { BooksContext } from '../context/BooksContext'
-import { FaSearch } from 'react-icons/fa'
+
 import defaultImg from '../images/defaultImg.jpg'
-import { AuthContext } from '../context/AuthContext'
 
 const Book = ({ matchingBook, notice }) => {
   const { title, author, id } = matchingBook
-  const { user } = useContext(AuthContext)
 
   if (notice.status === 'wolna') {
     return (
@@ -22,6 +19,7 @@ const Book = ({ matchingBook, notice }) => {
             to={{
               pathname: `books/${id}`,
               state: {
+                userId: notice.userId,
                 userIdTo: notice.userId,
                 noticeId: notice.id,
                 noticeStreet: notice.streetNbr,
@@ -47,10 +45,12 @@ const Book = ({ matchingBook, notice }) => {
   } else return null
 }
 const Wrapper = styled.section`
+  margin-top: 5rem;
   .container {
     position: relative;
     background: white;
     box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.25);
+    margin: 0 2rem 0 2rem;
   }
 
   .container :hover {
@@ -75,6 +75,10 @@ const Wrapper = styled.section`
 
   .link {
     min-width: 300px;
+  }
+
+  @media (min-width: 540px) {
+    margin-top: 0rem;
   }
 
   /* img {

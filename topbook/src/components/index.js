@@ -1,5 +1,5 @@
 import Navbar from './Navbar'
-import AdminMenu from './AdminMenu'
+
 import NewBook from './NewBook'
 import Sidebar from './Sidebar'
 import SidebarMain from './SidebarMain'
@@ -20,16 +20,17 @@ import Alert from './Alert'
 import Spiner from './Spiner'
 import ContactInfo from './ContactInfo'
 import Load from './Load'
+import Book from './Book'
 
 export {
   Navbar,
   UserIncMenu,
   BooksList,
+  Book,
   UserBooksMenu,
   UserReqMenu,
   UserSidebar,
   AdminRequest,
-  AdminMenu,
   AdminBooksList,
   AdminAddBook,
   NewBook,
