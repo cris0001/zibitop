@@ -47,6 +47,10 @@ const SingleBook = () => {
     }
   )
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const sendBookRequest = () => {
     if (user.uid !== userIdTo) {
       db.collection('requestsUser').add({
@@ -130,14 +134,14 @@ const SingleBook = () => {
                 <p>Autor:</p>
                 <h2>{singleBook.author}</h2>
               </div>
-              <div className='item'>
+              {/* <div className='item'>
                 <p>{singleBook.publishedDate ? 'Data wydania:' : null}</p>
                 <h2>{singleBook.publishedDate}</h2>
-              </div>
-              <div className='item'>
+              </div> */}
+              {/* <div className='item'>
                 <p>{singleBook.publisher ? 'Wydawnictwo:' : null}</p>
                 <h2>{singleBook.publisher}</h2>
-              </div>
+              </div> */}
             </div>
             {user && disable === false && role !== 'admin' ? (
               <button
@@ -161,7 +165,7 @@ const SingleBook = () => {
             <Link
               className='all-books-link'
               to={{
-                pathname: `/booksByUser/${userId}`,
+                pathname: `/${userId}`,
                 // state: {
                 //   userIdTo: notice.userId,
                 //   noticeId: notice.id,
@@ -226,14 +230,15 @@ const Wrapper = styled.section`
   .bookInfo {
     text-align: center;
     margin-top: 2rem;
+    margin-bottom: 4rem;
   }
   .content {
     margin-bottom: 5rem;
     margin-top: 5rem;
   }
   .btn {
-    margin-top: 2rem;
-    width: 300px;
+    // margin-top: 2rem;
+    width: 100%;
     background: #0a1d37;
     color: white;
     border-radius: 10px;
@@ -245,6 +250,7 @@ const Wrapper = styled.section`
 
   .info {
     text-align: center;
+    margin-top: 1rem;
   }
 
   @media (min-width: 600px) {

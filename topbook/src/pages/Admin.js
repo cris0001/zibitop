@@ -41,15 +41,15 @@ const Wrapper = styled.div`
     color: var(--main);
     background: transparent;
     border: none;
-    position: fixed;
-    top: 2rem;
-    left: 3rem;
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
     font-size: 2rem;
   }
   .sidebar-toggle {
-    position: fixed;
-    top: 2rem;
-    right: 3rem;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
     font-size: 2rem;
     background: transparent;
     border-color: transparent;

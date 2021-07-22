@@ -1,125 +1,65 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { FaMapMarkedAlt } from 'react-icons/fa'
-
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
 import { Load } from '.'
-import ContactInfo from './ContactInfo'
 import Modal from './Modal'
 import { BooksContext } from '../context/BooksContext'
 
-const UserReqMenu = () => {
+const UserReqAdmin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useContext(AuthContext)
-  const { loading, setLoading } = useContext(BooksContext)
-  const [usersRequests, setUsersRequests] = useState([])
+  const { loading, setLoading, allBooks, addBookStatus } =
+    useContext(BooksContext)
+  const [userReqToAdmin, setUsersReqToAdmin] = useState([])
   const [info, setInfo] = useState()
+  console.log(allBooks)
+  console.log(addBookStatus)
+
+  console.log(user.uid)
+
   const closeModal = () => {
     setIsModalOpen(false)
     console.log('close')
   }
 
-  const openModal = () => {
-    setIsModalOpen(true)
-    console.log('close')
-  }
-
-  const searchUsersRequests = (id) => {
-    db.collection('requestsUser')
-      .where('userIdFrom', '==', id)
+  const searchUsersToAdmin = () => {
+    db.collection('requestAdmin')
+      .where('userID', '==', user.uid)
       .onSnapshot((snapshot) => {
         const postData = []
         snapshot.forEach((doc) => postData.push(doc.data()))
-        setUsersRequests(postData)
+        console.log(postData)
+        setUsersReqToAdmin(postData)
       })
   }
 
-  // const searchUsersRequests = async (id) => {
-  //   const citiesRef = db.collection('requestsUser')
-  //   const snapshot = await citiesRef.where('userIdFrom', '==', id).get()
-  //   const postData = []
-  //   snapshot.forEach((doc) => postData.push(doc.data()))
-  //   setUsersRequests(postData)
-  // }
-
   useEffect(() => {
-    searchUsersRequests(user.uid)
+    searchUsersToAdmin()
   }, [])
 
   if (loading) {
     return <Load />
   }
 
-  const getAdress = async (id) => {
-    setLoading(true)
-    const noticeRef = db.collection('notices').doc(id)
-    const doc = await noticeRef.get()
-    if (!doc.exists) {
-      console.log('No such document!')
-      setLoading(false)
-    } else {
-      console.log('Document data:', doc.data())
-      setInfo(doc.data())
-      setLoading(false)
-    }
-  }
-
   return (
     <Wrapper className='section section-center'>
-      <h1>Moje prośby</h1>
+      <h1>Propozycje książek</h1>
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
-        {usersRequests.map((item, index) => {
-          const {
-            title,
-            isbn,
-            id,
-            status,
-            streetNbr,
-            number,
-            postCode,
-            phone,
-          } = item
+        {userReqToAdmin.map((item, index) => {
+          const { isbn, id, status } = item
           console.log(item)
           return (
             <div key={index}>
               <div className='item'>
                 <div className='info'>
-                  <p>ISBN:</p>
-                  <p>Tytuł:</p>
+                  <p>ISBN: {isbn}</p>
                 </div>
-                <div className='text'>
-                  <p>{isbn}</p>
-                  <p>{title}</p>
-                </div>
-
-                <div
-                  className={
-                    status === 'odrzucona' ? 'status red' : 'status green'
-                  }
-                >
-                  {status}
-                  {status === 'potwierdzona' && (
-                    <div className='iconn'>
-                      <button
-                        onClick={() => {
-                          getAdress(item.noticeId)
-                          console.log(item.noticeId)
-
-                          openModal()
-                        }}
-                        className='map'
-                      >
-                        <FaMapMarkedAlt />
-                      </button>
-                      <ContactInfo
-                        info={info}
-                        closeModal={closeModal}
-                        isModalOpen={isModalOpen}
-                      />
-                    </div>
-                  )}
+                <div>
+                  <p className={status === 'dodana' ? 'text accept' : 'text'}>
+                    {status}
+                  </p>
                 </div>
                 <br />
               </div>
@@ -133,6 +73,7 @@ const UserReqMenu = () => {
 }
 const Wrapper = styled.div`
   min-height: 100vh;
+
   h1 {
     text-align: center;
     margin-bottom: 5rem;
@@ -141,13 +82,6 @@ const Wrapper = styled.div`
   .map {
     background: transparent;
     color: var(--main);
-  }
-
-  .red {
-    color: red;
-  }
-  .green {
-    color: lightgreen;
   }
 
   .status {
@@ -160,7 +94,8 @@ const Wrapper = styled.div`
     font-size: 1rem;
   }
   .accept {
-    background: #52e361;
+    color: #52e361;
+    font-weight: bold;
   }
   .decline {
     background: #ee2727;
@@ -173,12 +108,6 @@ const Wrapper = styled.div`
     margin-top: 4rem;
   }
 
-  .green {
-    color: green;
-  }
-  .red {
-    color: red;
-  }
   .icons {
     font-size: 1.5rem;
   }
@@ -192,7 +121,7 @@ const Wrapper = styled.div`
   @media (min-width: 500px) {
     .item {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
 
       margin-top: 2rem;
       justify-content: space-between;
@@ -213,6 +142,7 @@ const Wrapper = styled.div`
 
     .text {
       font-size: 1rem;
+      text-align: right;
     }
     .info {
       font-size: 1rem;
@@ -244,7 +174,7 @@ const Wrapper = styled.div`
   @media (min-width: 905px) {
     .item {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       margin-top: 2rem;
       justify-content: space-between;
     }
@@ -271,4 +201,4 @@ const Wrapper = styled.div`
   }
 `
 
-export default UserReqMenu
+export default UserReqAdmin

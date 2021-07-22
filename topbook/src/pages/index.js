@@ -11,6 +11,7 @@ import User from './User'
 import UserRequests from './UserRequests'
 import UserIncRequests from './UserIncRequests'
 import AllUserBooks from './AllUserBooks'
+import UsersReqToAdmin from './UsersReqToAdmin'
 
 export {
   Books,
@@ -21,6 +22,7 @@ export {
   Home,
   Login,
   AdminList,
+  UsersReqToAdmin,
   AdminRequest,
   Reg,
   SingleBook,

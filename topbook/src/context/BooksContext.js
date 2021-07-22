@@ -19,11 +19,11 @@ export const BooksProvider = ({ children }) => {
   const [alert, setAlert] = useState({ show: false, msg: '', type: '' })
   const [alert2, setAlert2] = useState({ show: false, msg: '', type: '' })
   const [loading, setLoading] = useState(false)
+  const [addBookStatus, setAddBookStatus] = useState('d')
 
   const fetchBook = async (url, isbn) => {
     setLoading(true)
-    console.log(isbn)
-    console.log(url)
+
     console.log('start')
     setLoading(true)
 
@@ -36,8 +36,9 @@ export const BooksProvider = ({ children }) => {
         'podany ISBN jest niepoprawny',
         'danger'
       )
+
       setLoading(false)
-      return
+      return null
     } else {
       try {
         const response = await axios.get(xd)
@@ -49,7 +50,7 @@ export const BooksProvider = ({ children }) => {
         //     (item) => item.type === 'ISBN_13'
         //   )
 
-        if (item.totalItems !== 0) {
+        if (item.totalItems === 1) {
           let types = ''
 
           if (isbn.length === 13) {
@@ -76,10 +77,9 @@ export const BooksProvider = ({ children }) => {
             return null
           } else {
             const isbn = types[0].identifier
-
             const title = item.items[0].volumeInfo.title
             const author = item.items[0].volumeInfo.authors
-            const description = item.items[0].volumeInfo.description || null
+            //const description = item.items[0].volumeInfo.description || null
             const publisher = item.items[0].volumeInfo.publisher || null
             const img = item.items[0].volumeInfo.imageLinks || null
             const publishedDate = item.items[0].volumeInfo.publishedDate || null
@@ -88,7 +88,7 @@ export const BooksProvider = ({ children }) => {
               isbn,
               title,
               author,
-              description,
+              //description,
               publisher,
               img,
               publishedDate,
@@ -100,15 +100,20 @@ export const BooksProvider = ({ children }) => {
               'dodano pomyślnie do bazy',
               'success'
             )
+            setAddBookStatus('dodano')
             setLoading(false)
+            return 1
           }
         } else {
           addNotification('Dodawanie ksiązki', 'brak podanej książki', 'info')
+          setAddBookStatus('brak podanej książki')
           // setLoading(false)
+          return null
         }
       } catch (err) {
         setLoading(false)
         console.log(err)
+        return null
       }
     }
   }
@@ -135,8 +140,8 @@ export const BooksProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    setLoading(true)
     try {
+      setLoading(true)
       db.collection('notices').onSnapshot((snapshot) => {
         const postData = []
         snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
@@ -242,10 +247,6 @@ export const BooksProvider = ({ children }) => {
     setAlert2({ show, type, msg })
   }
 
-  // if (loading) {
-  //   return <Spiner />
-  // }
-
   return (
     <BooksContext.Provider
       value={{
@@ -254,7 +255,8 @@ export const BooksProvider = ({ children }) => {
         msg,
 
         allBooks,
-
+        loading,
+        setLoading,
         isbnNewRequest,
         setIsbnNewRequest,
         loading,
@@ -275,6 +277,7 @@ export const BooksProvider = ({ children }) => {
         alert2,
         setAlert2,
         setLoading,
+        addBookStatus,
       }}
     >
       {children}

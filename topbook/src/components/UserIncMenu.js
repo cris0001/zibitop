@@ -4,13 +4,13 @@ import Modal from './Modal'
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
 import { BooksContext } from '../context/BooksContext'
-import { Spiner } from '.'
+import { Load } from '.'
 import { addNotification } from '../notification'
 
 const UserIncMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { user } = useContext(AuthContext)
-  const { loading } = useContext(BooksContext)
+  const { user, load } = useContext(AuthContext)
+  const { loading, setLoading } = useContext(BooksContext)
   const [requestsToUser, setRequestsToUser] = useState([])
   const [idToChange, setIdToChange] = useState('')
   console.log(idToChange)
@@ -24,6 +24,7 @@ const UserIncMenu = () => {
 
   const searchUsersRequests = async (id) => {
     console.log(id)
+    setLoading(true)
     db.collection('requestsUser')
       .where('userIdTo', '==', id)
       .onSnapshot((snapshot) => {
@@ -33,6 +34,7 @@ const UserIncMenu = () => {
 
         console.log(postData)
         setRequestsToUser(postData)
+        setLoading(false)
       })
 
     //data = snapshot.val()
@@ -66,8 +68,8 @@ const UserIncMenu = () => {
     const res = await reqRef.update({ status: 'odrzucona' })
   }
 
-  if (loading) {
-    return <Spiner />
+  if (loading || load) {
+    return <Load />
   }
 
   return (

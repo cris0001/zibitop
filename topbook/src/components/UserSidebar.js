@@ -15,7 +15,7 @@ const UserSidebar = ({ closeS, open }) => {
           </button>
         </div>
 
-        <div>
+        <div className='nav-links'>
           {user.map((item) => {
             const { id, url, text, icon } = item
 
@@ -64,10 +64,14 @@ const Wrapper = styled.div`
   .login-links {
     display: flex;
     flex-direction: column;
+    margin-bottom: 4rem;
+  }
+
+  .nav-links {
   }
 
   .links {
-    margin-top: 5rem;
+    margin-top: 3rem;
     margin-left: 2rem;
   }
   .item {

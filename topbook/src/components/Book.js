@@ -37,6 +37,7 @@ const Book = ({ matchingBook, notice }) => {
           </Link>
           <div className='text'>
             <p>{title}</p>
+
             <p>{author}</p>
           </div>
         </div>
@@ -54,13 +55,13 @@ const Wrapper = styled.section`
   }
 
   .container :hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     transition: transform 0.3s ease-in-out;
   }
 
   p {
     padding: 0.1rem 0;
-    text-align: center;
+    margin-left: 1rem;
   }
 
   .text {
@@ -68,6 +69,7 @@ const Wrapper = styled.section`
     margin-top: 0.5rem;
     min-height: 70px;
     display: flex;
+    width: 247px;
     flex-direction: column;
 
     align-items: center;

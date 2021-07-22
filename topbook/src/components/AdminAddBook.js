@@ -20,7 +20,14 @@ const AdminAddBook = () => {
           value={isbn}
           onChange={(e) => setIsbn(e.target.value)}
         />
-        <button onClick={() => fetchBook(url, isbn)}>Dodaj książkę</button>
+        <button
+          onClick={() => {
+            fetchBook(url, isbn)
+            setIsbn('')
+          }}
+        >
+          Dodaj książkę
+        </button>
       </div>
     </Wrapper>
   )
@@ -50,6 +57,7 @@ const Wrapper = styled.div`
     width: 100%;
     border: none;
     background: var(--input);
+    font-size: 2rem;
 
     height: 3rem;
     border-radius: 10px;

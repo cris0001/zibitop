@@ -26,6 +26,10 @@ const SearchBook = () => {
   const [addIsbn, setAddIsbn] = useState('')
   const { user } = useContext(AuthContext)
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const newIsbnRequest = async () => {
     if (addIsbn.length !== 13 && addIsbn.length !== 10) {
       setAlert2({ show: true, msg: 'podaj poprawny isbn', type: 'danger' })
@@ -171,10 +175,10 @@ const Wrapper = styled.div`
     grid-template-columns: 1fr;
   }
   input {
-    width: 330px;
+    width: 100%;
     border: none;
     background: #e6e7eb;
-
+    font-size: 1rem;
     height: 2.5rem;
     border-radius: 10px;
     //margin-bottom: 2rem;
@@ -183,7 +187,7 @@ const Wrapper = styled.div`
 
   .btn {
     margin-top: 2em;
-    width: 330px;
+    width: 100%;
     background: #0a1d37;
     color: white;
     border-radius: 10px;
@@ -209,7 +213,7 @@ const Wrapper = styled.div`
   .add h2 {
     margin-top: 5rem;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 300;
   }
 

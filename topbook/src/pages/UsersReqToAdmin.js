@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { UserSidebar, UsersReqAdmin } from '../components'
 import { Link } from 'react-router-dom'
 import { FaBars, FaHome } from 'react-icons/fa'
-import { UserSidebar, UserBooksMenu } from '../components'
 
-const User = () => {
+const UsersReqToAdmin = () => {
   const [open, setOpen] = useState(false)
 
   const openS = () => {
@@ -17,29 +17,22 @@ const User = () => {
 
   return (
     <Wrapper>
-      <div className='flex section-center'>
-        <Link className='nav' to='/'>
-          {' '}
-          <FaHome />
-        </Link>
-        {open ? null : (
-          <button className='sidebar-toggle' onClick={openS}>
-            <FaBars />
-          </button>
-        )}{' '}
-      </div>
+      <Link className='nav' to='/'>
+        {' '}
+        <FaHome />
+      </Link>
       <UserSidebar openS={openS} closeS={closeS} open={open} />
-      <UserBooksMenu />
+      {open ? null : (
+        <button className='sidebar-toggle' onClick={openS}>
+          <FaBars />
+        </button>
+      )}
+      <UsersReqAdmin />
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  .flex {
-    display: flex;
-    justify-content: space-between;
-  }
-
   .nav {
     color: var(--main);
     background: transparent;
@@ -59,4 +52,4 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
 `
-export default User
+export default UsersReqToAdmin

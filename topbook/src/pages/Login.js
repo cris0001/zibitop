@@ -45,19 +45,35 @@ const Login = ({ history }) => {
               <h1>Logowanie</h1>
               <div className='input'>
                 <p>nazwa użytkownika:</p>
-                <input name='email' type='email' placeholder='Email' />
+                <input
+                  className='form-input'
+                  name='email'
+                  type='email'
+                  placeholder='email'
+                />
               </div>
 
               <div className='input'>
                 <p>hasło:</p>
-                <input name='password' type='password' placeholder='Password' />
+                <input
+                  className='form-input'
+                  name='password'
+                  type='password'
+                  placeholder='hasło'
+                />
               </div>
 
               <button type='submit'>Zaloguj</button>
+
               <h3>
                 Nie masz konta? załóż je <Link to='reg'>tutaj!</Link>
               </h3>
             </form>
+            <h3>
+              <Link className='redirect' to='/'>
+                strona główna
+              </Link>
+            </h3>
           </div>
         </div>
       </div>
@@ -74,6 +90,11 @@ const Wrapper = styled.div`
   background-position: center;
   background-attachment: fixed;
 
+  .redirect {
+    color: black;
+    font-weight: 700;
+  }
+
   button {
     width: 100%;
     background: #0a1d37;
@@ -89,8 +110,12 @@ const Wrapper = styled.div`
     color: blue;
   }
 
+  .form-input {
+    border: none;
+  }
+
   h3 {
-    margin-bottom: 2.5 rem;
+    margin-bottom: 2.5rem;
     font-size: 1rem;
     font-weight: 300;
   }
@@ -102,16 +127,17 @@ const Wrapper = styled.div`
 
   input {
     width: 100%;
-    border: none;
-    background: #c4c4c4;
-    opacity: 0.3;
-    height: 2.5rem;
+
+    background: #eae9e9;
     border-radius: 10px;
+    height: 2.5rem;
+    font-size: 1rem;
+    color: black;
+
     //margin-bottom: 2rem;
   }
 
   .input {
-    width: 200px;
   }
 
   h1 {
@@ -124,6 +150,7 @@ const Wrapper = styled.div`
     text-align: left;
     font-size: 1.125rem;
     margin-bottom: 7px;
+    margin-top: 10px;
   }
 
   .form {
@@ -132,9 +159,9 @@ const Wrapper = styled.div`
 
   .card {
     width: 20rem;
-    min-height: 550px;
+    min-height: 470px;
     background: white;
-    border-radius: 30px;
+    border-radius: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -164,10 +191,9 @@ const Wrapper = styled.div`
     input {
       width: 100%;
       border: none;
-      background: #c4c4c4;
-      opacity: 0.3;
-      height: 3.3125rem;
+      background: #eae9e9;
       border-radius: 10px;
+      height: 3.3125rem;
     }
 
     h1 {
@@ -189,7 +215,7 @@ const Wrapper = styled.div`
     .card {
       width: 28rem;
       background: white;
-      border-radius: 30px;
+
       position: absolute;
       top: 50%;
       left: 50%;
@@ -223,14 +249,14 @@ const Wrapper = styled.div`
     input {
       width: 100%;
       border: none;
-      background: #c4c4c4;
-      opacity: 0.3;
-      height: 3.3125rem;
+      background: #eae9e9;
       border-radius: 10px;
+      height: 3.3125rem;
     }
 
     .input {
       width: 100%;
+      color: black;
     }
 
     h1 {
@@ -252,7 +278,7 @@ const Wrapper = styled.div`
     .card {
       width: 37.5rem;
       background: white;
-      border-radius: 30px;
+
       position: absolute;
       top: 50%;
       left: 50%;

@@ -4,22 +4,33 @@ import { FaTrash, FaPlusCircle } from 'react-icons/fa'
 import { BooksContext } from '../context/BooksContext'
 import { db } from '../firebase'
 import { addNotification } from '../notification'
+import { AllUserBooks } from '../pages'
 
 const AdminRequest = () => {
   const [adminRequests, setAdminRequests] = useState([])
-  const { fetchBook } = useContext(BooksContext)
+  const { fetchBook, allBooks, addBookStatus } = useContext(BooksContext)
   // const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 
   useEffect(() => {
     const showAdminRequests = () => {
-      return db.collection('requestAdmin').onSnapshot((snapshot) => {
-        const postData = []
-        snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
-        setAdminRequests(postData)
-      })
+      return db
+        .collection('requestAdmin')
+        .where('status', '==', 'do zatwierdzenia')
+        .onSnapshot((snapshot) => {
+          const postData = []
+          snapshot.forEach((doc) =>
+            postData.push({ ...doc.data(), id: doc.id })
+          )
+          setAdminRequests(postData)
+        })
     }
     showAdminRequests()
   }, [])
+
+  const changeStatus = async (id, status) => {
+    const reqRef = db.collection('requestAdmin').doc(id)
+    await reqRef.update({ status: status })
+  }
 
   return (
     <Wrapper className='section section-center'>
@@ -27,6 +38,7 @@ const AdminRequest = () => {
       <div>
         {adminRequests.map((item) => {
           const { isbn, id } = item
+
           const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
           return (
             <div key={id}>
@@ -41,17 +53,21 @@ const AdminRequest = () => {
                 <div className='icons'>
                   <FaTrash
                     onClick={() => {
-                      db.collection('requestAdmin').doc(item.id).delete()
-                      addNotification(
-                        'Prośby od użytkowników',
-                        'usunięto prośbę',
-                        'success'
-                      )
+                      changeStatus(id, 'usunieta')
                     }}
                     className='red'
                   />
+
                   <FaPlusCircle
-                    onClick={() => fetchBook(url, isbn)}
+                    onClick={async () => {
+                      const res = await fetchBook(url, isbn)
+                      console.log(res)
+                      {
+                        res === 1
+                          ? changeStatus(id, 'dodano')
+                          : changeStatus(id, 'brak książki')
+                      }
+                    }}
                     className='green'
                   />
                 </div>

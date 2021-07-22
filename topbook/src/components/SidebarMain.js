@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constans'
 import app from '../firebase'
 import gsap from 'gsap'
+import { AuthContext } from '../context/AuthContext'
+import { Redirect } from 'react-router'
 
 const SidebarMain = ({ isOpen, closePanel }) => {
+  const { user, role } = useContext(AuthContext)
   return (
     <Wrapper>
       <aside className={`${isOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
@@ -32,18 +35,38 @@ const SidebarMain = ({ isOpen, closePanel }) => {
               )
             })}
           </ul>
-          <div className='login-links'>
+          {user ? (
+            <div className='login-links'>
+              {role === 'user' ? (
+                <button>
+                  <Link className='login-item' to='/user'>
+                    Profil
+                  </Link>
+                </button>
+              ) : (
+                <button>
+                  <Link className='login-item' to='/admin'>
+                    Admin
+                  </Link>
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  app.auth().signOut()
+                }}
+              >
+                <Link className='login-item' to='/'>
+                  Wyloguj
+                </Link>
+              </button>
+            </div>
+          ) : (
             <button>
-              <Link className='login-item' to='/'>
-                Profil
+              <Link className='login-item' to='/login'>
+                Zaloguj
               </Link>
             </button>
-            <button onClick={() => app.auth().signOut()}>
-              <Link className='login-item' to='/'>
-                Wyloguj
-              </Link>
-            </button>
-          </div>
+          )}
         </nav>
       </aside>
     </Wrapper>
@@ -100,7 +123,7 @@ const Wrapper = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 70%;
+    height: 80%;
     background: #0a1d37;
     display: grid;
     grid-template-rows: auto 1fr auto;

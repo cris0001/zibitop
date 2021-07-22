@@ -9,7 +9,7 @@ export const AuthContext = React.createContext()
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('')
   //const [currentUser, setCurrentuser] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [load, setLoad] = useState(true)
   const [role, setRole] = useState('')
   console.log(user)
 
@@ -21,12 +21,12 @@ export const AuthProvider = ({ children }) => {
       setUser(user)
       if (!user) {
         setTimeout(() => {
-          setLoading(false)
+          setLoad(false)
         }, 1000)
       }
 
       setTimeout(() => {
-        setLoading(false)
+        setLoad(false)
       }, 1000)
     })
   }, [])
@@ -72,12 +72,12 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        loading,
-        setLoading,
+        load,
+        setLoad,
         role,
       }}
     >
-      {loading ? <Load /> : children}
+      {load ? <Load /> : children}
     </AuthContext.Provider>
   )
 }

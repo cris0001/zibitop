@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FaEye } from 'react-icons/fa'
 import Modal from './Modal'
 import { BooksContext } from '../context/BooksContext'
-import { Loading } from '../components'
+import { Load } from '../components'
 
 const AdminBooksList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,7 +20,7 @@ const AdminBooksList = () => {
   }
 
   if (loading) {
-    return <Loading />
+    return <Load />
   }
 
   return (

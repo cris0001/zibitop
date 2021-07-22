@@ -7,6 +7,7 @@ import {
   FaSignOutAlt,
   FaArrowLeft,
   FaArrowRight,
+  FaInfoCircle,
 } from 'react-icons/fa'
 
 export const links = [
@@ -64,15 +65,15 @@ export const list = [
 export const admin = [
   {
     id: 1,
-    text: 'dodaj książkę',
+    text: 'lista książek',
     url: '/admin',
-    icon: <FaPlusSquare />,
+    icon: <FaListAlt />,
   },
   {
     id: 2,
-    text: 'lista książek',
+    text: 'dodaj książkę',
     url: '/admin/list',
-    icon: <FaListAlt />,
+    icon: <FaPlusSquare />,
   },
   {
     id: 3,
@@ -100,6 +101,12 @@ export const user = [
     text: 'otrzymane prośby',
     url: '/user/inc',
     icon: <FaArrowLeft />,
+  },
+  {
+    id: 4,
+    text: 'propozycje książek',
+    url: '/user/adminrq',
+    icon: <FaInfoCircle />,
   },
 ]
 

@@ -26,11 +26,11 @@ const MainBooks = () => {
                 />
               )
             })
-            .slice(0, 4)}
+            .slice(0, 3)}
         </div>
         <div className='btn'>
           <Link className='all-books' to='/books'>
-            Pokaż wszystkie książki
+            Pokaż wszystkie
           </Link>
         </div>
       </div>
@@ -45,6 +45,7 @@ const Wrapper = styled.section`
   background: var(--bcgDark);
   .flex {
     display: grid;
+    gap: 2rem;
     grid-template-columns: auto;
     justify-content: center;
     align-items: center;
@@ -72,7 +73,7 @@ const Wrapper = styled.section`
     font-size: 2.75rem;
     text-align: center;
     font-weight: 300;
-    margin-bottom: 6rem;
+    margin-bottom: 0;
   }
 
   .info {
@@ -97,6 +98,7 @@ const Wrapper = styled.section`
     .flex {
       display: grid;
       grid-template-columns: auto auto;
+      gap: 1rem;
     }
 
     .flex :not(:last-child) {
@@ -104,9 +106,12 @@ const Wrapper = styled.section`
 
     img {
       background-repeat: cover;
-      width: 217px;
-      height: 273px;
+      min-width: 100px;
+      height: 293px;
     }
+  }
+  h1 {
+    margin-bottom: 6rem;
   }
 
   @media (min-width: 800px) {
@@ -126,15 +131,17 @@ const Wrapper = styled.section`
     .content {
       margin: 0 5rem;
     }
-    img {
-      width: 297px;
-      height: 350px;
-    }
 
     @media (min-width: 1170px) {
       img {
-        width: 217px;
-        height: 257px;
+        width: 266px;
+        height: 337px;
+      }
+
+      .text {
+        max-width: 260px;
+
+        text-align: center;
       }
     }
   }

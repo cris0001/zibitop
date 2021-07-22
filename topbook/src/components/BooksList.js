@@ -10,12 +10,6 @@ const BooksList = () => {
   return (
     <Wrapper className='section'>
       <div className='section-center'>
-        {/* <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          type='text'
-          placeholder='wyszukaj'
-        /> */}
         <div className='content flex'>
           {notices.map((notice) => {
             const matchingBook = allBooks.filter(
@@ -56,6 +50,7 @@ const Wrapper = styled.section`
   background: var(--bcgLight);
   .flex {
     display: grid;
+    gap: 3rem;
     grid-template-columns: auto;
     justify-content: center;
     align-items: center;
@@ -104,7 +99,7 @@ const Wrapper = styled.section`
     box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.25);
   }
 
-  @media (min-width: 540px) {
+  /* @media (min-width: 540px) {
     .flex {
       display: grid;
       grid-template-columns: 217px 217px;
@@ -117,7 +112,7 @@ const Wrapper = styled.section`
       width: 217px;
       height: 273px;
     }
-  }
+  } */
 
   @media (min-width: 800px) {
     .flex {
@@ -131,25 +126,17 @@ const Wrapper = styled.section`
 
   @media (min-width: 1170px) {
     .flex {
-      grid-template-columns: auto auto;
+      grid-template-columns: auto auto auto;
+      gap: 2rem;
     }
-    .content {
-      margin: 0 5rem;
-    }
+
     img {
-      width: 297px;
-      height: 350px;
+      width: 260px;
+      height: 307px;
     }
 
-    @media (min-width: 1170px) {
-      .flex {
-        grid-template-columns: auto auto auto auto;
-      }
-
-      img {
-        width: 217px;
-        height: 257px;
-      }
+    .content {
+      margin-top: 5rem;
     }
   }
 `

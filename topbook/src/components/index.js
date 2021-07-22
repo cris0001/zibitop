@@ -17,13 +17,15 @@ import UserReqMenu from './UserReqMenu'
 import UserIncMenu from './UserIncMenu'
 import Loading from './Loading'
 import Alert from './Alert'
-import Spiner from './Spiner'
+
 import ContactInfo from './ContactInfo'
 import Load from './Load'
 import Book from './Book'
+import UsersReqAdmin from './UsersReqAdmin'
 
 export {
   Navbar,
+  UsersReqAdmin,
   UserIncMenu,
   BooksList,
   Book,
@@ -42,7 +44,6 @@ export {
   Loading,
   Footer,
   Alert,
-  Spiner,
   ContactInfo,
   Load,
 }

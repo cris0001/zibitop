@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
+import { Link } from 'react-router-dom'
 
 import app from '../firebase'
 import { db } from '../firebase'
@@ -50,6 +51,11 @@ const Reg = ({ history }) => {
 
               <button type='submit'>Zarejestruj</button>
             </form>
+            <h3>
+              <Link className='redirect' to='/'>
+                strona główna
+              </Link>
+            </h3>
           </div>
         </div>
       </div>
@@ -66,6 +72,11 @@ const Wrapper = styled.div`
   background-position: center;
   background-attachment: fixed;
 
+  .redirect {
+    color: black;
+    font-weight: 700;
+  }
+
   .err {
     color: red;
     margin-bottom: 2rem;
@@ -80,11 +91,11 @@ const Wrapper = styled.div`
     color: white;
     font-size: 1rem;
     margin-top: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   h3 {
-    margin-bottom: 2.5 rem;
+    margin-bottom: 2.5rem;
     font-size: 1rem;
     font-weight: 300;
   }
@@ -92,15 +103,11 @@ const Wrapper = styled.div`
   input {
     width: 100%;
     border: none;
-    background: #c4c4c4;
-    opacity: 0.3;
+    background: #eae9e9;
     height: 2.5rem;
     border-radius: 10px;
     //margin-bottom: 2rem;
-  }
-
-  .input {
-    width: 200px;
+    font-size: 1rem;
   }
 
   h1 {
@@ -112,7 +119,7 @@ const Wrapper = styled.div`
   p {
     text-align: left;
     font-size: 1.125rem;
-    margin-bottom: 7px;
+    margin-top: 10px;
   }
 
   .form {
@@ -121,9 +128,9 @@ const Wrapper = styled.div`
 
   .card {
     width: 20rem;
-    min-height: 550px;
+    min-height: 420px;
     background: white;
-    border-radius: 30px;
+    border-radius: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -153,8 +160,7 @@ const Wrapper = styled.div`
     input {
       width: 100%;
       border: none;
-      background: #c4c4c4;
-      opacity: 0.3;
+      background: #eae9e9;
       height: 3.3125rem;
       border-radius: 10px;
     }
@@ -178,7 +184,8 @@ const Wrapper = styled.div`
     .card {
       width: 28rem;
       background: white;
-      border-radius: 30px;
+
+      min-height: 500px;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -212,8 +219,7 @@ const Wrapper = styled.div`
     input {
       width: 100%;
       border: none;
-      background: #c4c4c4;
-      opacity: 0.3;
+      background: #eae9e9;
       height: 3.3125rem;
       border-radius: 10px;
     }
@@ -241,7 +247,7 @@ const Wrapper = styled.div`
     .card {
       width: 37.5rem;
       background: white;
-      border-radius: 30px;
+
       position: absolute;
       top: 50%;
       left: 50%;

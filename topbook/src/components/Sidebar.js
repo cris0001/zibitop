@@ -86,7 +86,7 @@ const Wrapper = styled.div`
   .item {
     display: grid;
     grid-template-columns: auto 1fr;
-    margin-left: 1rem;
+    margin-left: 2rem;
     gap: 2rem;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;

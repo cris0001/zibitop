@@ -18,6 +18,7 @@ import {
   UserRequests,
   UserIncRequests,
   AllUserBooks,
+  UsersReqToAdmin,
 } from './pages'
 import SearchBook from './pages/SearchBook'
 import AddBook from './pages/AddBook'
@@ -32,8 +33,8 @@ function App() {
         {/* <AnonRoute exact path='/searchbook' component={SearchBook} /> */}
         {/* <Route exact path='/searchbook' component={SearchBook} /> */}
         <Route exact path='/' component={Home} />
-        <AdminRoute exact path='/admin' component={Admin} />
-        <AdminRoute exact path='/admin/list' component={AdminList} />
+        <AdminRoute exact path='/admin' component={AdminList} />
+        <AdminRoute exact path='/admin/list' component={Admin} />
         <AdminRoute exact path='/admin/request' component={AdminRequest} />
         <Route exact path='/login' component={Login} />
         <PrivateRoute exact path='/add' component={AddBook} />
@@ -43,15 +44,12 @@ function App() {
         <Route path='/books/:id' children={<SingleBook />} />
         <PrivateRoute exact path='/user' component={User} />
         <PrivateRoute exact path='/user/inc' component={UserIncRequests} />
+        <PrivateRoute exact path='/user/adminrq' component={UsersReqToAdmin} />
         <PrivateRoute exact path='/user/request' component={UserRequests} />
         <PrivateRoute exact path='/searchbook' component={SearchBook} />
 
         <PrivateRoute exact path='/searchbook/:isbn' component={AddBook} />
-        <PrivateRoute
-          exact
-          path='/booksByUser/:noticeId'
-          component={AllUserBooks}
-        />
+        <Route exact path='/:noticeId' component={AllUserBooks} />
         <Route path='*' component={Error} />
       </Switch>
     </Router>

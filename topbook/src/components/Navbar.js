@@ -62,7 +62,18 @@ const Navbar = () => {
                   <Link to='/admin'>admin</Link>
                 </button>
               )}
-              <button onClick={() => app.auth().signOut()}>wyloguj</button>
+              <button
+                onClick={() =>
+                  app
+                    .auth()
+                    .signOut()
+                    .then(() => {
+                      window.location.href = '/'
+                    })
+                }
+              >
+                wyloguj
+              </button>
             </div>
           ) : (
             <LoginButton />
@@ -87,6 +98,7 @@ const Wrapper = styled.nav`
   }
   a {
     text-decoration: none;
+    text-align: center;
   }
 
   .bb {
@@ -99,7 +111,7 @@ const Wrapper = styled.nav`
     color: white;
     border-radius: 10px;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     border: none;
     padding: 0.3rem 1rem;
   }
@@ -160,6 +172,7 @@ const Wrapper = styled.nav`
         font-size: 1.4rem;
         text-decoration: none;
         color: var(--main);
+        text-align: center;
       }
       a:hover {
         border-bottom: 1px solid black;
