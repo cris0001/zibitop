@@ -9,10 +9,9 @@ import { BooksContext } from '../context/BooksContext'
 const UserReqAdmin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useContext(AuthContext)
-  const { loading, setLoading, allBooks, addBookStatus } =
-    useContext(BooksContext)
+  const { loading, allBooks, addBookStatus } = useContext(BooksContext)
   const [userReqToAdmin, setUsersReqToAdmin] = useState([])
-  const [info, setInfo] = useState()
+
   console.log(allBooks)
   console.log(addBookStatus)
 
@@ -48,7 +47,7 @@ const UserReqAdmin = () => {
       <Modal closeModal={closeModal} isModalOpen={isModalOpen} />
       <div>
         {userReqToAdmin.map((item, index) => {
-          const { isbn, id, status } = item
+          const { isbn, status } = item
           console.log(item)
           return (
             <div key={index}>

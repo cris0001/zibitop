@@ -11,13 +11,10 @@ const Book = ({ matchingBook, notice }) => {
     return (
       <Wrapper>
         <div className='container'>
-          {/* <p>ogloszenie: {notice.id}</p>
-          <p>ksiazka: {id}</p>
-          <p>kto dodal: {notice.userId}</p> */}
           <Link
             className='link'
             to={{
-              pathname: `books/${id}`,
+              pathname: `/books/${id}`,
               state: {
                 userId: notice.userId,
                 userIdTo: notice.userId,
@@ -82,26 +79,5 @@ const Wrapper = styled.section`
   @media (min-width: 540px) {
     margin-top: 0rem;
   }
-
-  /* img {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-  } */
-  /* .link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    //transform: translate(-50%, -50%);
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    opacity: 0;
-    cursor: pointer;
-  } */
 `
 export default Book

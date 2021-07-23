@@ -5,7 +5,7 @@ import { BooksContext } from '../context/BooksContext'
 import Book from './Book'
 
 const MainBooks = () => {
-  const { allBooks, notices, loading } = useContext(BooksContext)
+  const { allBooks, notices } = useContext(BooksContext)
 
   return (
     <Wrapper className='section'>

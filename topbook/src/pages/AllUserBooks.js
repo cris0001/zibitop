@@ -1,40 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Navbar } from '../components'
 import styled from 'styled-components'
-import { useParams, useHistory } from 'react-router-dom'
-import { db } from '../firebase'
+import { useParams } from 'react-router-dom'
 import { Load } from '../components'
 import { BooksContext } from '../context/BooksContext'
-import { AuthContext } from '../context/AuthContext'
 import { Book } from '../components'
-import { login } from '../utils/constans'
 
 const AllUserBooks = () => {
   const userId = useParams()
-  const { allBooks, notices, loading, setLoading } = useContext(BooksContext)
-  const { load, setLoad } = useContext(AuthContext)
-
-  console.log(notices)
-  console.log(allBooks)
+  const { allBooks, notices, loading } = useContext(BooksContext)
 
   const correct = notices.filter((notice) => notice.userId === userId.noticeId)
-
-  console.log(correct)
-
-  // const allUserBooks = async () => {
-  //   db.collection('notices')
-  //     .where('userId', '==', userId.noticeId)
-  //     .onSnapshot((snapshot) => {
-  //       const postData = []
-  //       snapshot.forEach((doc) => postData.push(doc.data()))
-  //       //setNotices(postData)
-  //       setLoading(false)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   allUserBooks()
-  // }, [])
 
   if (loading) {
     return <Load />

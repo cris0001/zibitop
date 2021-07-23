@@ -21,8 +21,6 @@ const SingleBook = () => {
   const { id } = useParams()
   const history = useHistory()
   const [disable, setDisable] = useState(false)
-  console.log(id)
-  console.log(singleBook)
 
   const userIdTo = history.location.state.userIdTo
   const noticeId = history.location.state.noticeId
@@ -33,18 +31,14 @@ const SingleBook = () => {
 
   const adres = `${noticeStreet} ${noticeNumber}, ${noticeCode}`
 
-  Geocode.setApiKey('AIzaSyCnT_oyJjvQLDmRokFP62CuAe7i_btZT6M')
+  Geocode.setApiKey(process.env.REACT_APP_GOOGLEMAPS_KEY)
 
   Geocode.fromAddress(adres).then(
     (response) => {
-      // const { lat, lng } = response.results[0].geometry.location
-      // console.log(response.results[0].geometry.location)
       setLat(response.results[0].geometry.location.lat)
       setLng(response.results[0].geometry.location.lng)
     },
-    (error) => {
-      console.error(error)
-    }
+    (error) => {}
   )
 
   useEffect(() => {
@@ -165,7 +159,7 @@ const SingleBook = () => {
             <Link
               className='all-books-link'
               to={{
-                pathname: `/${userId}`,
+                pathname: `/userbooks/${userId}`,
                 // state: {
                 //   userIdTo: notice.userId,
                 //   noticeId: notice.id,

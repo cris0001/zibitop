@@ -4,14 +4,13 @@ import 'firebase/auth'
 import 'firebase'
 
 const app = firebase.initializeApp({
-  apiKey: 'AIzaSyBNZUoprxx6JCHPMbjSlicQ7-RRU9IqfWc',
-  authDomain: 'topbook-a1b96.firebaseapp.com',
-  databaseURL:
-    'https://topbook-a1b96-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'topbook-a1b96',
-  storageBucket: 'topbook-a1b96.appspot.com',
-  messagingSenderId: '766015274239',
-  appId: '1:766015274239:web:cc76a388757644a0a9e0ca',
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 })
 
 export const auth = app.auth()

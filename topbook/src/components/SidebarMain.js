@@ -4,9 +4,8 @@ import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constans'
 import app from '../firebase'
-import gsap from 'gsap'
+
 import { AuthContext } from '../context/AuthContext'
-import { Redirect } from 'react-router'
 
 const SidebarMain = ({ isOpen, closePanel }) => {
   const { user, role } = useContext(AuthContext)

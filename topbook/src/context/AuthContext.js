@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import app from '../firebase.js'
-
 import { db } from '../firebase'
 import { Load } from '../components'
 
@@ -8,7 +7,6 @@ export const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('')
-  //const [currentUser, setCurrentuser] = useState('')
   const [load, setLoad] = useState(true)
   const [role, setRole] = useState('')
   console.log(user)
@@ -40,33 +38,8 @@ export const AuthProvider = ({ children }) => {
     }
     snapshot.forEach((doc) => {
       setRole(doc.data().role)
-      // console.log(doc.data().role)
-      // setLoading(false)
     })
   }
-
-  // if (user) {
-  //   checkRole(user.email)
-  // }
-
-  // useEffect(() => {
-  //   setRole(checkRole(user.email))
-  // }, [user])
-  // console.log(role)
-
-  // useEffect(() => {
-  //   checkRole('')
-  // }, [])
-
-  // useEffect(() => {
-  //   currentUser && console.log(currentUser)
-  // }, [currentUser])
-
-  // const addUser = () => {
-  //   if (uid) {
-  //     db.collection('users').doc(uid).set({ email, password, role })
-  //   }
-  // }
 
   return (
     <AuthContext.Provider

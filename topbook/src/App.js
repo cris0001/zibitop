@@ -40,16 +40,14 @@ function App() {
         <PrivateRoute exact path='/add' component={AddBook} />
         <Route exact path='/reg' component={Reg} />
         <Route exact path='/books' component={Books} />
-        <Route exact path='/books' component={Books} />
-        <Route path='/books/:id' children={<SingleBook />} />
+        <Route exact path='/books/:id' children={<SingleBook />} />
         <PrivateRoute exact path='/user' component={User} />
         <PrivateRoute exact path='/user/inc' component={UserIncRequests} />
         <PrivateRoute exact path='/user/adminrq' component={UsersReqToAdmin} />
         <PrivateRoute exact path='/user/request' component={UserRequests} />
         <PrivateRoute exact path='/searchbook' component={SearchBook} />
-
         <PrivateRoute exact path='/searchbook/:isbn' component={AddBook} />
-        <Route exact path='/:noticeId' component={AllUserBooks} />
+        <Route exact path='/userbooks/:noticeId' component={AllUserBooks} />
         <Route path='*' component={Error} />
       </Switch>
     </Router>

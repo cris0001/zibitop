@@ -7,10 +7,6 @@ const AdminAddBook = () => {
   const [isbn, setIsbn] = useState('')
   const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 
-  // if (loading) {
-  //   return <Spiner />
-  // }
-
   return (
     <Wrapper className='section section-center'>
       <div className='content'>

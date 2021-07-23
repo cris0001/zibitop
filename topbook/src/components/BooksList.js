@@ -99,21 +99,6 @@ const Wrapper = styled.section`
     box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.25);
   }
 
-  /* @media (min-width: 540px) {
-    .flex {
-      display: grid;
-      grid-template-columns: 217px 217px;
-    }
-    .book {
-      width: 217px;
-    }
-    img {
-      background-repeat: cover;
-      width: 217px;
-      height: 273px;
-    }
-  } */
-
   @media (min-width: 800px) {
     .flex {
       grid-template-columns: auto auto;

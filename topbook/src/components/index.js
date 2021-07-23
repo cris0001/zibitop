@@ -1,6 +1,4 @@
 import Navbar from './Navbar'
-
-import NewBook from './NewBook'
 import Sidebar from './Sidebar'
 import SidebarMain from './SidebarMain'
 import Hero from './Hero'
@@ -15,9 +13,7 @@ import UserSidebar from './UserSidebar'
 import UserBooksMenu from './UserBooksMenu'
 import UserReqMenu from './UserReqMenu'
 import UserIncMenu from './UserIncMenu'
-import Loading from './Loading'
 import Alert from './Alert'
-
 import ContactInfo from './ContactInfo'
 import Load from './Load'
 import Book from './Book'
@@ -35,13 +31,11 @@ export {
   AdminRequest,
   AdminBooksList,
   AdminAddBook,
-  NewBook,
   Sidebar,
   SidebarMain,
   Hero,
   MainBooks,
   MainMap,
-  Loading,
   Footer,
   Alert,
   ContactInfo,

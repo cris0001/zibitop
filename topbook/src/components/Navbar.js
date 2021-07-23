@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
 import SidebarMain from './SidebarMain'
 import LoginButton from './LoginButton'
-import { links } from '../utils/constans'
 import { AuthContext } from '../context/AuthContext'
 import app from '../firebase'
 
@@ -38,16 +37,14 @@ const Navbar = () => {
         </div>
 
         <ul className='nav-links'>
-          {role === 'admin' ? null : (
-            <ul className='nav-links'>
-              <li className='nav'>
-                <Link to='/books'>książki</Link>
-              </li>
-              <li className='nav'>
-                <Link to='/searchbook'>dodaj książkę</Link>
-              </li>
-            </ul>
-          )}
+          <ul className='nav-links'>
+            <li className='nav'>
+              <Link to='/books'>książki</Link>
+            </li>
+            <li className='nav'>
+              <Link to='/searchbook'>dodaj książkę</Link>
+            </li>
+          </ul>
         </ul>
 
         <div className='login'>

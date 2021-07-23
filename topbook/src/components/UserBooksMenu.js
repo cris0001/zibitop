@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
-
 import Modal from './Modal'
 import { AuthContext } from '../context/AuthContext'
 import { db } from '../firebase'
@@ -9,18 +8,12 @@ import { Load } from '.'
 
 const UserBooksMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { user, currentUser } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const [usersBooks, setUsersBooks] = useState([])
   const { loading, allBooks } = useContext(BooksContext)
-  const [title, setTitle] = useState('')
-  const [isbn, setIsbn] = useState('')
 
   //console.log(user.uid)
 
-  const openModal = () => {
-    setIsModalOpen(true)
-    console.log('open')
-  }
   const closeModal = () => {
     setIsModalOpen(false)
     console.log('close')
@@ -39,23 +32,9 @@ const UserBooksMenu = () => {
     //data = snapshot.val()
   }
 
-  const getTitle = async () => {
-    const booksRef = db.collection('books')
-    const snapshot = await booksRef.where('isbn', '==', isbn).get()
-    if (snapshot.empty) {
-      return null
-    }
-
-    snapshot.forEach((doc) => {
-      setTitle(doc.data().title)
-      console.log(doc.data().title)
-    })
-  }
-
   useEffect(() => {
     searchBooksByUser(user.uid)
     console.log(usersBooks)
-    getTitle()
   }, [])
 
   if (loading) {

@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react'
-
 import styled from 'styled-components'
 import bcg from '../images/bcg.jpg'
 import { Link } from 'react-router-dom'
-
 import app from '../firebase'
 import { db } from '../firebase'
 

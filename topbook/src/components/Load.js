@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import gsap from 'gsap'
 import { ReactComponent as Book } from '../images/book.svg'
@@ -8,14 +8,13 @@ const Load = () => {
 
   useEffect(() => {
     const [elements] = wrapper.current.children
-
     const red = elements.getElementById('red')
     const yellow = elements.getElementById('yellow')
     const green = elements.getElementById('green')
     const blue = elements.getElementById('blue')
     const blue2 = elements.getElementById('blue2')
-    gsap.set([red, yellow, green, blue, blue2], { autoAlpha: 0 })
 
+    gsap.set([red, yellow, green, blue, blue2], { autoAlpha: 0 })
     const tl = gsap.timeline({ repeat: -1, defaults: { ease: 'power3.inOut' } })
 
     tl.fromTo(

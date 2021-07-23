@@ -7,8 +7,6 @@ import { addNotification } from '../notification'
 export const BooksContext = React.createContext()
 
 export const BooksProvider = ({ children }) => {
-  // const url = 'https://www.googleapis.com/books/v1/volumes?q=y8KkDwAAQBAJ'
-
   const [allBooks, setAllBooks] = useState([])
   const [isbnNewRequest, setIsbnNewRequest] = useState('')
   const [searchStatus, setSearchStatus] = useState('')
@@ -45,11 +43,6 @@ export const BooksProvider = ({ children }) => {
         const item = response.data
         console.log(item.totalItems)
 
-        // if (item.totalItems != 0) {
-        //   let types = item.items[0].volumeInfo.industryIdentifiers.filter(
-        //     (item) => item.type === 'ISBN_13'
-        //   )
-
         if (item.totalItems === 1) {
           let types = ''
 
@@ -79,7 +72,6 @@ export const BooksProvider = ({ children }) => {
             const isbn = types[0].identifier
             const title = item.items[0].volumeInfo.title
             const author = item.items[0].volumeInfo.authors
-            //const description = item.items[0].volumeInfo.description || null
             const publisher = item.items[0].volumeInfo.publisher || null
             const img = item.items[0].volumeInfo.imageLinks || null
             const publishedDate = item.items[0].volumeInfo.publishedDate || null
@@ -88,7 +80,6 @@ export const BooksProvider = ({ children }) => {
               isbn,
               title,
               author,
-              //description,
               publisher,
               img,
               publishedDate,
@@ -107,11 +98,15 @@ export const BooksProvider = ({ children }) => {
         } else {
           addNotification('Dodawanie ksiązki', 'brak podanej książki', 'info')
           setAddBookStatus('brak podanej książki')
-          // setLoading(false)
           return null
         }
       } catch (err) {
         setLoading(false)
+        addNotification(
+          'Dodawanie ksiązki',
+          'błąd podczas dodawania książki',
+          'danger'
+        )
         console.log(err)
         return null
       }
@@ -132,7 +127,6 @@ export const BooksProvider = ({ children }) => {
         })
       } catch (err) {
         console.log(err)
-        //  setError(err)
         setLoading(false)
       }
     }
@@ -150,47 +144,14 @@ export const BooksProvider = ({ children }) => {
       })
     } catch (err) {
       console.log(err)
+      addNotification(
+        'Pobierane listy ogłoszeń',
+        'Błąd w trakcie pobierania listy ogłoszeń',
+        'danger'
+      )
       setLoading(false)
     }
   }, [])
-
-  // useEffect(() => {
-  //   db.collection('notices').onSnapshot((snapshot) => {
-  //     const postData = []
-  //     snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
-
-  //     setNotices(postData)
-  //   })
-  // }, [])
-
-  // const fetchSingleBook = async (id) => {
-  //   setLoading(true)
-  //   const booksRef = db.collection('books').doc(id)
-  //   const doc = await booksRef.get()
-
-  //   let data = {}
-  //   if (!doc.exists) {
-  //     console.log('No such document!')
-  //     setLoading(false)
-  //   } else {
-  //     data = doc.data()
-  //     //console.log('Document data:', doc.data())
-  //     setSingleBook(data)
-  //     setLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   console.log(singleBook)
-  // }, [singleBook])
-
-  // const newIsbnRequest = (isbn) => {
-  //   db.collection('requestAdmin').add({
-  //     isbn,
-  //     status: 'do zatwierdzenia',
-  //     userID: currentUser.uid,
-  //   })
-  // }
 
   const searchByIsbn = async (isbn) => {
     if (isbn.length !== 13 && isbn.length !== 10) {
@@ -202,8 +163,6 @@ export const BooksProvider = ({ children }) => {
     const snapshot = await citiesRef.where('isbn', '==', isbn).get()
     if (snapshot.empty) {
       console.log('No matching documents.')
-      //setMsg('brak książki i podanym numerze ISBN')
-
       addNotification(
         'Wyszukiwanie książki',
         'Brak ksiażki o podanym numerze ISBN',
@@ -219,12 +178,6 @@ export const BooksProvider = ({ children }) => {
         'Książka odnaleziona, możesz przejść dalej',
         'success'
       )
-
-      // setAlert({
-      //   show: true,
-      //   msg: 'Książka odnaleziona, możesz przejść dalej',
-      //   type: 'success',
-      // })
     })
   }
 
@@ -250,17 +203,14 @@ export const BooksProvider = ({ children }) => {
   return (
     <BooksContext.Provider
       value={{
-        // fetchSingleBook,
         fetchBook,
         msg,
-
         allBooks,
         loading,
         setLoading,
         isbnNewRequest,
         setIsbnNewRequest,
         loading,
-        // error,
         searchByIsbn,
         searchStatus,
         setSearchStatus,

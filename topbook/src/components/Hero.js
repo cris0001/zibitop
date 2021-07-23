@@ -8,16 +8,13 @@ import gsap from 'gsap'
 const Hero = () => {
   const wrapper = useRef(null)
   const wrapper2 = useRef(null)
+
   useEffect(() => {
     const [elements] = wrapper.current.children
-
     const book = elements.getElementById('book')
-    //const button = elements.getElementById('button')
 
     gsap.set([book], { autoAlpha: 0 })
-
     const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } })
-
     tl.fromTo(book, { y: '-=650' }, { duration: 1.5, y: '+=650', autoAlpha: 1 })
   }, [])
 

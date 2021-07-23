@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { FaMapMarkedAlt } from 'react-icons/fa'
-
 import { db } from '../firebase'
 import { AuthContext } from '../context/AuthContext'
 import { Load } from '.'
@@ -25,16 +24,6 @@ const UserReqMenu = () => {
     console.log('close')
   }
 
-  const searchUsersRequests = (id) => {
-    db.collection('requestsUser')
-      .where('userIdFrom', '==', id)
-      .onSnapshot((snapshot) => {
-        const postData = []
-        snapshot.forEach((doc) => postData.push(doc.data()))
-        setUsersRequests(postData)
-      })
-  }
-
   // const searchUsersRequests = async (id) => {
   //   const citiesRef = db.collection('requestsUser')
   //   const snapshot = await citiesRef.where('userIdFrom', '==', id).get()
@@ -44,6 +33,15 @@ const UserReqMenu = () => {
   // }
 
   useEffect(() => {
+    const searchUsersRequests = (id) => {
+      db.collection('requestsUser')
+        .where('userIdFrom', '==', id)
+        .onSnapshot((snapshot) => {
+          const postData = []
+          snapshot.forEach((doc) => postData.push(doc.data()))
+          setUsersRequests(postData)
+        })
+    }
     searchUsersRequests(user.uid)
   }, [])
 
@@ -74,12 +72,8 @@ const UserReqMenu = () => {
           const {
             title,
             isbn,
-            id,
+
             status,
-            streetNbr,
-            number,
-            postCode,
-            phone,
           } = item
           console.log(item)
           return (

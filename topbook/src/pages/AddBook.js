@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { addNotification } from '../notification'
 import { Navbar } from '../components'
-
 import styled from 'styled-components'
 import { db } from '../firebase'
 import { BooksContext } from '../context/BooksContext'
@@ -74,13 +73,6 @@ const AddBook = ({ history }) => {
       return
     } else return true
   }
-
-  // const chceckStreet = () => {
-  //   if (streetNbr.length < 5) {
-  //     addNotification('Wprowadzanie danych', 'podaj poprawną ulicę', 'danger')
-  //     return
-  //   } else return true
-  // }
 
   const chceckStreet = () => {
     const reg = /^\D*$/
@@ -239,7 +231,6 @@ const AddBook = ({ history }) => {
           </button>
         </form>
       </div>
-      {/* <Footer /> */}
     </Wrapper>
   )
 }

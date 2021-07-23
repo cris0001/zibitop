@@ -13,11 +13,9 @@ const SearchBook = () => {
     searchByIsbn,
     setSearchStatus,
     msg,
-
     alert2,
     setAlert2,
     alert,
-
     showAlert,
     showAlert2,
   } = useContext(BooksContext)
@@ -65,7 +63,6 @@ const SearchBook = () => {
       userID: user.uid,
     })
     addNotification('Prośba do Administratora', 'Zgłoszenie wysłane', 'success')
-    //setAlert2({ show: true, msg: 'Zgłoszenie wysłane', type: 'success' })
   }
 
   useEffect(() => {
@@ -107,7 +104,6 @@ const SearchBook = () => {
               <button
                 onClick={() => {
                   searchByIsbn(checkIsbn)
-                  // setChechIsbn('')
                 }}
                 className='btn'
               >

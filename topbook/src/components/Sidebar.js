@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
-import { admin, login } from '../utils/constans'
+import { admin } from '../utils/constans'
 import app from '../firebase.js'
 const Sidebar = ({ closeSidebar, isSidebarOpen }) => {
   console.log(isSidebarOpen)
